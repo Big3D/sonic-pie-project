@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- title of game -->
+    <title>Super Sonic Meow</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <script src="js/script.js" defer></script>
+    <script src="js/leaderboard.js" defer></script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- The width and height here is for aspect ratio of the canvas -->
+        <div class="canvas-container">
+            <div style ="font-size:30px;text-align: center ;color:black;" id="countdown" ></div>
+            <canvas id="menu_canvas" width="700" height="500"></canvas>
+            <div id="start-button">
+                <button type="button" onclick="onTimer()">Start</button>
+            </div>
+            <div id="leaderboard-button">
+                <button type="button">Leaderboard</button>
+            </div>
+
+            <div id="currentScore">
+                score:
+            </div>
+
+            
+
+        </div>
+
+        <!-- Dont think we need multiple canvas elements -->
+        <!-- <canvas id="main_logo" width="350" height="275"></canvas>
+        <canvas id="btn_play" width="120" height="30"></canvas>
+        <canvas id="btn_options" width="120" height="30"></canvas> -->
+    </div>
+</body>
+
+</html>

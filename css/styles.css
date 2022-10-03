@@ -1,0 +1,83 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    width: 100vw;
+    height: 100vh;
+}
+
+.container{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.canvas-container{
+    position: relative;
+}
+
+#start-button {
+    position: absolute;
+    top: 404px;
+    left: 110px;
+}
+
+#leaderboard-button {
+    position: absolute;
+    top: 404px;
+    left: 519px;
+}
+
+#menu_canvas {
+    border:1px solid #000000;
+    width: 700px;
+    height: 500px;
+    /* margin: auto;
+    position: absolute;
+    top: 7%;
+    left:30%; */
+}
+/* #main_logo{
+    border:1px solid #000000;  
+    margin: auto;
+    position: absolute;
+    top: 14%;
+    left:42%;
+}
+#btn_play{
+    border:1px solid #000000;  
+    margin: auto;
+    position: absolute;
+    top: 67%;
+    left:50%;
+}
+#btn_options{
+    border:1px solid #000000;  
+    margin: auto;
+    position: absolute;
+    top: 60%;
+    left:50%;
+} */
+/* tsi */
+/* #canvas{
+    border:5px solid black;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    width: 700px;
+    height: 500px;    
+} */
+
+
+
+/* SCORE DIV */
+#currentScore{
+    position: absolute;
+    top: 0%;
+    right: 10%;
+}
