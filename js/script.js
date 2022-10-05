@@ -1,3 +1,6 @@
+// const titleBG = document.createElement('img')
+const titleBG = "../img/Castle_bkg_TEST_1.png";
+
 //adds click event listener to the start button
 document.getElementById("start-button").addEventListener("click", startGame);
 
@@ -55,7 +58,7 @@ canvas.height = innerHeight;
 // gravity
 const gravity = 0.5;
 //SCORE
-let score = 0
+let score = 0;
 // player class
 class Player {
   constructor() {
@@ -112,10 +115,10 @@ function animate() {
 
   if (keys.right.pressed) {
     sonic.velocity.x = 5;
-    // SHOW SCORE 
+    // SHOW SCORE
     //
-    score = sonic.position.x
-    document.getElementById('currentScore').innerHTML = `Score: ${score}`
+    score = sonic.position.x;
+    document.getElementById("currentScore").innerHTML = `Score: ${score}`;
   } else if (keys.left.pressed) {
     sonic.velocity.x = -5;
   } else {
@@ -154,21 +157,43 @@ addEventListener("keyup", ({ keyCode }) => {
       break;
   }
 });
-// Timer 
-        i = 60;
-        function onTimer() {
-            
-            document.getElementById("countdown").innerHTML = i;
-            i--;
-            if (i < 0) {
-            
-                clearInterval(i);
-                if(i===0) {
-                    alert("Game Over!");   
-                    }
-            }
-            else {
-                setTimeout(onTimer, 1000);
-            }
-        }
-   
+
+// Timer
+i = 60;
+function onTimer() {
+  document.getElementById("countdown").innerHTML = i;
+  i--;
+  if (i < 0) {
+    clearInterval(i);
+    if (i === 0) {
+      alert("Game Over!");
+    }
+  } else {
+    setTimeout(onTimer, 1000);
+  }
+}
+
+// Title page
+let image = new Image()
+image.src = titleBG;
+
+class TitleBackground {
+  constructor({ x, y, image}) {
+    
+    this.position = {
+      x, y
+    }
+
+    this.image = image.src
+    this.width = Menu_Canvas.width
+    this.height = Menu_Canvas.height
+    console.log(this.image)
+  }
+  
+  draw(){
+    mtx.drawImage(this.image, this.position.x, this.position.y)
+  }
+  
+}
+console.log(titleBG)
+const titleScreen = new TitleBackground({x:500, y:300, image})
