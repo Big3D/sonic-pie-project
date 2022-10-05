@@ -47,15 +47,13 @@ const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 canvas.width = innerWidth;
 canvas.height = innerHeight;
-// const box_width = 30;
-// const box_height = 30;
-// let startX = 30;
-// let startY = 450;
+
 
 // gravity
 const gravity = 0.5;
 //SCORE
-let score = 0
+let score = 0;
+
 // player class
 class Player {
   constructor() {
@@ -74,6 +72,7 @@ class Player {
 
   // render player
   draw() {
+    ctx.fillStyle = "blue";
     ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
   }
 
@@ -91,8 +90,90 @@ class Player {
   }
 }
 
+// obstacle class
+class Obstacle {
+  constructor({ position, velocity, distance }) {
+    this.position = {
+      x: position.x,
+      y: position.y,
+    };
+    this.velocity = {
+      x: velocity.x,
+      y: velocity.y,
+    };
+    this.width = 30;
+    this.height = 30;
+
+    this.distance = distance;
+  }
+
+  draw() {
+    ctx.fillStyle = "red";
+    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+  }
+
+  update() {
+    this.draw();
+    this.position.x += this.velocity.x;
+    this.position.y += this.velocity.y;
+
+    // sets obstacle "y" position to bottom of canvas
+    if (this.position.y + this.height + this.velocity.y <= canvas.height) {
+      this.velocity.y += gravity;
+    } else {
+      this.velocity.y = 0;
+    }
+
+    // makes obstacle go back and forth
+    this.distance.traveled += Math.abs(this.velocity.x);
+
+    if (this.distance.traveled > this.distance.limit) {
+      this.distance.traveled = 0;
+      this.velocity.x = -this.velocity.x;
+    }
+  }
+}
+
 // new instance - sonic
 const sonic = new Player();
+
+// health bar
+let health = 100;
+
+// new moving obstacles
+let obstacles = [];
+
+obstacles = [
+  new Obstacle({
+    position: {
+      x: 400,
+      y: 400,
+    },
+    velocity: {
+      x: -0.5,
+      y: 0,
+    },
+    distance: {
+      limit: 100,
+      traveled: 0,
+    },
+  }),
+
+  new Obstacle({
+    position: {
+      x: 800,
+      y: 400,
+    },
+    velocity: {
+      x: -0.5,
+      y: 0,
+    },
+    distance: {
+      limit: 100,
+      traveled: 0,
+    },
+  }),
+];
 
 const keys = {
   right: {
@@ -103,19 +184,44 @@ const keys = {
   },
 };
 
-sonic.update();
-
 function animate() {
   requestAnimationFrame(animate);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // updates each obstacle in the array
+  obstacles.forEach((obstacle) => {
+    // detects for collision between obstacle and player
+    if (
+      sonic.position.x + sonic.width >= obstacle.position.x &&
+      sonic.position.x <= obstacle.position.x + obstacle.width &&
+      sonic.position.y + sonic.height >= obstacle.position.y &&
+      sonic.position.y <= obstacle.position.y + obstacle.height
+    ) {
+      // damage - restart game when player has no lives left
+      if (health < 0) {
+        startGame();
+      }
+      else {
+        // decrements health and pushes player back slightly
+        health--;
+        sonic.position.y -= 50;
+        sonic.position.x -= 150;
+      }
+      // **for testing purposes only**
+      console.log(health);
+    }
+    obstacle.update();
+  });
+
+  // updates player
   sonic.update();
 
   if (keys.right.pressed) {
     sonic.velocity.x = 5;
-    // SHOW SCORE 
+    // SHOW SCORE
     //
-    score = sonic.position.x
-    document.getElementById('currentScore').innerHTML = `Score: ${score}`
+    score = sonic.position.x;
+    document.getElementById("currentScore").innerHTML = `Score: ${score}`;
   } else if (keys.left.pressed) {
     sonic.velocity.x = -5;
   } else {
@@ -154,21 +260,18 @@ addEventListener("keyup", ({ keyCode }) => {
       break;
   }
 });
-// Timer 
-        i = 60;
-        function onTimer() {
-            
-            document.getElementById("countdown").innerHTML = i;
-            i--;
-            if (i < 0) {
-            
-                clearInterval(i);
-                if(i===0) {
-                    alert("Game Over!");   
-                    }
-            }
-            else {
-                setTimeout(onTimer, 1000);
-            }
-        }
-   
+
+// Timer
+i = 60;
+function onTimer() {
+  document.getElementById("countdown").innerHTML = i;
+  i--;
+  if (i < 0) {
+    clearInterval(i);
+    if (i === 0) {
+      alert("Game Over!");
+    }
+  } else {
+    setTimeout(onTimer, 1000);
+  }
+}
