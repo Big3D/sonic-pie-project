@@ -1,5 +1,7 @@
 // const titleBG = document.createElement('img')
-const titleBG = "../img/Castle_bkg_TEST_1.png";
+let titleBG = new Image();
+// console.log(titleBG.src);
+
 
 //adds click event listener to the start button
 document.getElementById("start-button").addEventListener("click", startGame);
@@ -12,6 +14,13 @@ function startGame() {
 //Menu Canvas Design
 const Menu_Canvas = document.getElementById("menu_canvas");
 let mtx = Menu_Canvas.getContext("2d");
+
+//// Testing draw image
+window.onload = function() {
+  mtx.drawImage(titleBG, 0, 0, 500, 200)
+}
+titleBG.src = "/img/Castle_bkg_TEST_1.png";
+////
 
 //logo square
 mtx.beginPath();
@@ -46,10 +55,10 @@ mtx.stroke();
 // btx.stroke()
 
 // Character movement
-const canvas = document.querySelector("canvas");
-const ctx = canvas.getContext("2d");
-canvas.width = innerWidth;
-canvas.height = innerHeight;
+// const canvas = document.querySelector("canvas");
+// const ctx = canvas.getContext("2d");
+Menu_Canvas.width = innerWidth;
+Menu_Canvas.height = innerHeight;
 // const box_width = 30;
 // const box_height = 30;
 // let startX = 30;
@@ -59,6 +68,8 @@ canvas.height = innerHeight;
 const gravity = 0.5;
 //SCORE
 let score = 0;
+
+
 // player class
 class Player {
   constructor() {
@@ -77,7 +88,7 @@ class Player {
 
   // render player
   draw() {
-    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+    mtx.fillRect(this.position.x, this.position.y, this.width, this.height);
   }
 
   update() {
@@ -86,7 +97,7 @@ class Player {
     this.position.y += this.velocity.y;
 
     // makes player position always hit the ground of the canvas
-    if (this.position.y + this.height + this.velocity.y <= canvas.height)
+    if (this.position.y + this.height + this.velocity.y <= Menu_Canvas.height)
       this.velocity.y += gravity;
     else {
       this.velocity.y = 0;
@@ -110,8 +121,9 @@ sonic.update();
 
 function animate() {
   requestAnimationFrame(animate);
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  mtx.clearRect(0, 0, Menu_Canvas.width, Menu_Canvas.height);
   sonic.update();
+
 
   if (keys.right.pressed) {
     sonic.velocity.x = 5;
@@ -173,20 +185,17 @@ function onTimer() {
   }
 }
 
-// Title page
-let image = new Image()
-image.src = titleBG;
+//// Title page
+
 
 class TitleBackground {
   constructor({ x, y, image}) {
     
-    this.position = {
-      x, y
-    }
+    this.position = { x,y }
 
-    this.image = image.src
-    this.width = Menu_Canvas.width
-    this.height = Menu_Canvas.height
+    this.image = image
+    this.width = 1920
+    this.height = 1080
     console.log(this.image)
   }
   
@@ -195,5 +204,16 @@ class TitleBackground {
   }
   
 }
+
+let image = new Image()
+// titleBG.onload
+image = titleBG;
+
 console.log(titleBG)
 const titleScreen = new TitleBackground({x:500, y:300, image})
+
+function TitleLoad(){
+  titleScreen.draw()
+}
+
+TitleLoad();
