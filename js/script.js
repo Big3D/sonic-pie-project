@@ -1,6 +1,5 @@
-// const titleBG = document.createElement('img')
 let titleBG = new Image();
-// console.log(titleBG.src);
+titleBG.src = "/img/Castle_bkg_TEST_1.png";
 
 
 //adds click event listener to the start button
@@ -15,12 +14,6 @@ function startGame() {
 const Menu_Canvas = document.getElementById("menu_canvas");
 let mtx = Menu_Canvas.getContext("2d");
 
-//// Testing draw image
-window.onload = function() {
-  mtx.drawImage(titleBG, 0, 0, 500, 200)
-}
-titleBG.src = "/img/Castle_bkg_TEST_1.png";
-////
 
 //logo square
 mtx.beginPath();
@@ -55,10 +48,10 @@ mtx.stroke();
 // btx.stroke()
 
 // Character movement
-// const canvas = document.querySelector("canvas");
-// const ctx = canvas.getContext("2d");
-Menu_Canvas.width = innerWidth;
-Menu_Canvas.height = innerHeight;
+const canvas = document.querySelector("canvas");
+const ctx = canvas.getContext("2d");
+canvas.width = innerWidth;
+canvas.height = innerHeight;
 // const box_width = 30;
 // const box_height = 30;
 // let startX = 30;
@@ -121,8 +114,8 @@ sonic.update();
 
 function animate() {
   requestAnimationFrame(animate);
-  mtx.clearRect(0, 0, Menu_Canvas.width, Menu_Canvas.height);
-  sonic.update();
+  mtx.clearRect(0, 0, canvas.width, canvas.height);
+  // sonic.update();
 
 
   if (keys.right.pressed) {
@@ -136,9 +129,13 @@ function animate() {
   } else {
     sonic.velocity.x = 0;
   }
+
+  
+  TitleLoad();
+  sonic.update();
 }
 
-animate();
+
 
 // character movement on keydown
 addEventListener("keydown", ({ keyCode }) => {
@@ -186,8 +183,6 @@ function onTimer() {
 }
 
 //// Title page
-
-
 class TitleBackground {
   constructor({ x, y, image}) {
     
@@ -200,20 +195,24 @@ class TitleBackground {
   }
   
   draw(){
-    mtx.drawImage(this.image, this.position.x, this.position.y)
+    ctx.drawImage(this.image, this.position.x, this.position.y)
   }
   
 }
 
 let image = new Image()
-// titleBG.onload
 image = titleBG;
 
 console.log(titleBG)
-const titleScreen = new TitleBackground({x:500, y:300, image})
+const titleScreen = new TitleBackground({x:0, y:-10, image})
 
 function TitleLoad(){
   titleScreen.draw()
 }
 
-TitleLoad();
+image.onload = function(){ 
+  TitleLoad(); 
+  animate();
+}
+// animate();
+// TitleLoad();
