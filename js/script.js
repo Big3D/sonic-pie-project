@@ -1,7 +1,3 @@
-let titleBG = new Image();
-titleBG.src = "/img/Castle_bkg_TEST_1.png";
-
-
 //adds click event listener to the start button
 document.getElementById("start-button").addEventListener("click", startGame);
 const Menu_Canvas = document.getElementById("menu_canvas");
@@ -9,10 +5,10 @@ let mtx = Menu_Canvas.getContext("2d");
 let start_button = document.getElementById("start-button");
 let leaderboard_button = document.getElementById("leaderboard-button");
 leaderBoardMenu.style.display = "none";
-Menu_Canvas.width = 700;
-Menu_Canvas.height = 500;
+Menu_Canvas.width = 800;
+Menu_Canvas.height = 450;
 const image1 = new Image();
-image1.src = "../img/sonic.img";
+// image1.src = "../img/sonic.img";
 image1.addEventListener("load", function () {
   mtx.drawImage(image1, 0, 0, Menu_Canvas.width, Menu_Canvas.width);
 });
@@ -31,7 +27,7 @@ start_button.addEventListener("click", function () {
   //start button
   mtx.beginPath();
   mtx.lineWidth = "2";
-
+  
   mtx.rect(100, 400, 50, 25);
   mtx.stroke();
 
@@ -290,11 +286,6 @@ function startGame() {
   console.log("start");
 }
 
-<<<<<<< HEAD
-//Menu Canvas Design
-const Menu_Canvas = document.getElementById("menu_canvas");
-let mtx = Menu_Canvas.getContext("2d");
-
 
 //logo square
 mtx.beginPath();
@@ -391,12 +382,10 @@ const keys = {
   },
 };
 
-sonic.update();
-
 function animate() {
   requestAnimationFrame(animate);
   mtx.clearRect(0, 0, canvas.width, canvas.height);
-  // sonic.update();
+  sonic.update();
 
 
   if (keys.right.pressed) {
@@ -410,12 +399,7 @@ function animate() {
   } else {
     sonic.velocity.x = 0;
   }
-
-  
-  TitleLoad();
-  sonic.update();
 }
-
 
 
 // character movement on keydown
@@ -463,13 +447,19 @@ function onTimer() {
   }
 }
 
-//// Title page
+//// Title page ////
+
+const titleBG = new Image();
+titleBG.src = "/img/Background-img/TitleBG1.png";
+const titleLogo = new Image();
+titleLogo.src = "/img/UI/IMG_9615_small.png"
+
 class TitleBackground {
-  constructor({ x, y, image}) {
+  constructor({ x, y, titleImage}) {
     
     this.position = { x,y }
 
-    this.image = image
+    this.image = titleImage
     this.width = 1920
     this.height = 1080
     console.log(this.image)
@@ -480,36 +470,14 @@ class TitleBackground {
   }
   
 }
-
-let image = new Image()
-image = titleBG;
-
-console.log(titleBG)
-const titleScreen = new TitleBackground({x:0, y:-10, image})
-
-function TitleLoad(){
-  titleScreen.draw()
-}
-
-image.onload = function(){ 
-  TitleLoad(); 
-  animate();
-}
-// animate();
-// TitleLoad();
-=======
-//Menu Canvas Design
->>>>>>> origin/main
-//// Title page
-class TitleBackground {
-  constructor({ x, y, image}) {
+class TitleLogo {
+  constructor({ x, y, logoImage}) {
     
     this.position = { x,y }
 
-    this.image = image
-    this.width = 1920
-    this.height = 1080
-    console.log(this.image)
+    this.image = logoImage
+    this.width = 200
+    this.height = 200
   }
   
   draw(){
@@ -518,19 +486,18 @@ class TitleBackground {
   
 }
 
-let image = new Image()
-image = titleBG;
+let titleImage = new Image();
+titleImage = titleBG;
+const titleScreen = new TitleBackground({x:0, y:-10, titleImage});
+let logoImage = new Image();
+logoImage = titleLogo;
+const titleLogoBig = new TitleLogo({x:canvas.width/2 -logoImage.width/2, y:10, logoImage});
 
-console.log(titleBG)
-const titleScreen = new TitleBackground({x:0, y:-10, image})
 
-function TitleLoad(){
+// Loads the title image 
+titleImage.onload = function(){ 
   titleScreen.draw()
 }
-
-image.onload = function(){ 
-  TitleLoad(); 
-  animate();
+logoImage.onload = function(){
+  titleLogoBig.draw()
 }
-// animate();
-// TitleLoad();
