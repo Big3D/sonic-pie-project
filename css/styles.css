@@ -20,22 +20,41 @@ body{
     position: relative;
 }
 
-#start-button {
+#start-button button{
     position: absolute;
-    top: 404px;
-    left: 110px;
+    top: 50%;
+    left: 50%;
+    background-image: url('/img/UI/TextBTN_Medium.png');
+    background-size: cover;
+    background-color: transparent;
+    border: none;
+    font-size:x-large;
+    width: 210px;
+    height: 82px;
+    text-align: center;
+    margin: -25px 0 0 -105px
 }
 
-#leaderboard-button {
+#leaderboard-button button{
     position: absolute;
-    top: 404px;
-    left: 519px;
+    margin: 0 -20px;
+    top: 75%;
+    left: 50%;
+    background-image: url('/img/UI/TextBTN_Medium.png');
+    background-size: cover;
+    background-color: transparent;
+    border: none;
+    font-size: larger;
+    width: 140px;
+    height: 55px;
+    text-align: center;
+    margin: -25px 0 0 -70px
 }
 
 #menu_canvas {
     border:1px solid #000000;
-    width: 700px;
-    height: 500px;
+    width: 80vw;
+    height: 80vh;
     /* margin: auto;
     position: absolute;
     top: 7%;
