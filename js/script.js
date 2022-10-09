@@ -2,6 +2,7 @@
 document.getElementById("start-button").addEventListener("click", startGame);
 
 //function that will start the canvas game
+// 
 function startGame() {
   console.log("start");
 }
@@ -48,7 +49,6 @@ const ctx = canvas.getContext("2d");
 canvas.width = innerWidth;
 canvas.height = innerHeight;
 
-
 // gravity
 const gravity = 0.5;
 //SCORE
@@ -88,6 +88,7 @@ class Player {
       this.velocity.y = 0;
     }
   }
+ 
 }
 
 // obstacle class
@@ -132,6 +133,7 @@ class Obstacle {
       this.velocity.x = -this.velocity.x;
     }
   }
+
 }
 
 // new instance - sonic
@@ -184,53 +186,63 @@ const keys = {
   },
 };
 
+
+// RequestAnimation Frame and set control
+//let requestAnimationFrame = window.requestAnimationFrame;
+let keepAnimating = true;
 function animate() {
-  requestAnimationFrame(animate);
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  // updates each obstacle in the array
-  obstacles.forEach((obstacle) => {
-    // detects for collision between obstacle and player
-    if (
-      sonic.position.x + sonic.width >= obstacle.position.x &&
-      sonic.position.x <= obstacle.position.x + obstacle.width &&
-      sonic.position.y + sonic.height >= obstacle.position.y &&
-      sonic.position.y <= obstacle.position.y + obstacle.height
-    ) {
-      // damage - restart game when player has no lives left
-      if (health < 0) {
-        startGame();
-      }
-      else {
-        // decrements health and pushes player back slightly
-        health--;
-        sonic.position.y -= 50;
-        sonic.position.x -= 150;
-      }
-      // **for testing purposes only**
-      console.log(health);
-    }
-    obstacle.update();
-  });
-
-  // updates player
-  sonic.update();
-
-  if (keys.right.pressed) {
-    sonic.velocity.x = 5;
-    // SHOW SCORE
-    //
-    score = sonic.position.x;
-    document.getElementById("currentScore").innerHTML = `Score: ${score}`;
-  } else if (keys.left.pressed) {
-    sonic.velocity.x = -5;
-  } else {
-    sonic.velocity.x = 0;
+    // This stops the function if keepAnimating is false
+  if(!keepAnimating){
+    return;
   }
+  
+  else {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    requestAnimationFrame(animate);
+  
+    // updates each obstacle in the array
+    obstacles.forEach((obstacle) => {
+      // detects for collision between obstacle and player
+      if (
+        sonic.position.x + sonic.width >= obstacle.position.x &&
+        sonic.position.x <= obstacle.position.x + obstacle.width &&
+        sonic.position.y + sonic.height >= obstacle.position.y &&
+        sonic.position.y <= obstacle.position.y + obstacle.height
+      ) {
+        // damage - restart game when player has no lives left
+        if (health < 0) {
+          startGame();
+        } else {
+          // decrements health and pushes player back slightly
+          health--;
+          sonic.position.y -= 50;
+          sonic.position.x -= 150;
+        }
+        // **for testing purposes only**
+        console.log(health);
+      }
+      obstacle.update();
+    });
+  
+    // updates player
+    sonic.update();
+  
+    if (keys.right.pressed) {
+      sonic.velocity.x = 5;
+      // SHOW SCORE
+      //
+      score = sonic.position.x;
+      document.getElementById("currentScore").innerHTML = `Score: ${score}`;
+    } else if (keys.left.pressed) {
+      sonic.velocity.x = -5;
+    } else {
+      sonic.velocity.x = 0;
+    }
+  }
+  
 }
 
 animate();
-
 // character movement on keydown
 addEventListener("keydown", ({ keyCode }) => {
   switch (keyCode) {
@@ -261,17 +273,95 @@ addEventListener("keyup", ({ keyCode }) => {
   }
 });
 
-// Timer
-i = 60;
+// Timer (Refactored a bit to ensure proper behaviour of the pause function) T.A
+let i = 60; 
+let timeout; 
+let stopTime = 0;
+
 function onTimer() {
   document.getElementById("countdown").innerHTML = i;
   i--;
-  if (i < 0) {
-    clearInterval(i);
-    if (i === 0) {
-      alert("Game Over!");
-    }
-  } else {
-    setTimeout(onTimer, 1000);
-  }
+  timeout = setTimeout(onTimer, 1000);
+  if (i <= stopTime) {
+    clearTimeout(timeout);
+    location.reload()
+  } 
 }
+
+//Paws Menu
+//Open press the ESC it should have resume and quit buttons.
+const paws_Menu = document.querySelector("#paws");
+
+addEventListener("keydown", (e) => {
+  let name = e.key;
+  let code = e.code;
+
+  if (code === "Escape" && name === "Escape") {
+    displayPaws();
+    clearTimer()
+    keepAnimating = false;
+  }
+  else {
+    Resume()
+  }
+});
+
+
+paws_Menu.style.display = "none";
+function displayPaws() {
+  if (paws_Menu.style.display === "none") {
+    paws_Menu.style.display = "flex";
+  } else {
+    paws_Menu.style.display = "none";
+  }
+
+}
+
+// Clear Timer 
+//get the current timer 
+current_timer = document.getElementById("countdown").innerHTML
+// stop the current on the click of esacpe key
+ function clearTimer(){
+  
+  clearTimeout(timeout)
+
+ }
+
+  // Quit Button
+  const quit_btn = document.querySelector("#btnQ")
+  quit_btn.addEventListener("click", Quit)
+  function Quit() {
+    location.reload()
+    paws_Menu.style.display = "none";
+    timeout = setTimeout(onTimer, 1000)
+    return current_timer = timeout
+  };
+  
+  // Resume Button
+  /**
+   * While paused gameplay should also pause
+    -Timer stops
+    -Player cannot move
+    -Obstacles should stop
+   */
+   
+   
+
+  const resume_btn = document.querySelector("#btnS")
+  resume_btn.addEventListener("click", Resume)
+  function Resume () {
+   onTimer()
+   paws_Menu.style.display = "none";
+   requestAnimationFrame(animate);
+   keepAnimating = true;
+  };
+
+   // This that can be improved on(getting escape to pause and play)
+
+  /**
+   * Things we need to fix asap 
+   * Ontimer function 
+   * The right key press speeds up the timer;
+   * Popping up leaderboard
+   * 
+   */
