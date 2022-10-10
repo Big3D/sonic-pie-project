@@ -7,12 +7,13 @@
     <!-- title of game -->
     <title>Super Sonic Meow</title>
     <link rel="stylesheet" href="css/styles.css" />
-    <script src="js/script.js" defer></script>
+    <script src="js/script.js" type="text/javascript" defer></script>
     <script src="js/leaderboard.js" defer></script>
   </head>
 
   <body>
     <div class="container">
+
       <!-- The width and height here is for aspect ratio of the canvas -->
               <!-- Paws Menu Starts -->
               <div id="paws" class="paws_menu">
@@ -20,6 +21,56 @@
                 <button id="btnQ" class="btn">Quit</button>
               </div>
               <!-- Paws Menu Ends -->
+        <!-- The width and height here is for aspect ratio of the canvas -->
+        <div class="canvas-container">
+            <div style ="font-size:30px;text-align: center ;color:black;" id="countdown" ></div>
+            <canvas id="menu_canvas" width="800" height="450"></canvas>
+            <div id="start-button">
+                <button type="button" onclick="onTimer()">Start</button>
+            </div>
+            <div id="leaderboard-button">
+                <button onclick="leadDisplay()" type="button">Leaderboard</button>
+            </div>
+
+            <div id="leaderBoardMenu">
+                <div id="1" class="row">
+                  <div class="name">AAA</div><div class="score">430</div>
+                </div>
+              
+                <div id="2" class="row">
+                  <div class="name">AAA</div><div class="score">580</div>
+                </div>
+              
+                <div id="3" class="row">
+                  <div class="name">AAA</div><div class="score">310</div>
+                </div>
+              
+                <div id="4" class="row">
+                  <div class="name">AAA</div><div class="score">640</div>
+                </div>
+              
+                <div id="5" class="row">
+                  <div class="name">AAA</div><div class="score">495</div>
+                </div>
+                <div id="6" class="row">
+                    <div class="name">AAA</div><div class="score">430</div>
+                  </div>
+                <div id="7" class="row">
+                    <div class="name">AAA</div><div class="score">580</div>
+                </div>
+                
+                <div id="8" class="row">
+                    <div class="name">AAA</div><div class="score">310</div>
+                </div>
+                
+                <div id="9" class="row">
+                    <div class="name">AAA</div><div class="score">640</div>
+                </div>
+                
+                <div id="10" class="row">
+                    <div class="name">AAA</div><div class="score">495</div>
+                </div>
+            </div>
 
       <div class="canvas-container">
         <div
