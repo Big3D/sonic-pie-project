@@ -146,3 +146,25 @@ body{
   }
   
   /* End of Leaderboard CSS */
+
+  /* start paws_menu */
+  .paws_menu {
+      display: flex;
+      flex-direction: row;
+      position: fixed;
+      color: #FFFFFF;
+      justify-content: center;
+      top: 10;
+      bottom:10;
+      left: 0;
+      right: 0;
+      border-radius: 5px;
+      z-index: 10;
+  }
+
+  .btn {
+    margin-left: 10px;
+    width: 100px;
+    height: 10vh;
+    border-radius: 10px;
+  }
