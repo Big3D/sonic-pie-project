@@ -20,22 +20,41 @@ body{
     position: relative;
 }
 
-#start-button {
+#start-button button{
     position: absolute;
-    top: 404px;
-    left: 110px;
+    top: 50%;
+    left: 50%;
+    background-image: url('/img/UI/TextBTN_Medium.png');
+    background-size: cover;
+    background-color: transparent;
+    border: none;
+    font-size:x-large;
+    width: 210px;
+    height: 82px;
+    text-align: center;
+    margin: -25px 0 0 -105px
 }
 
-#leaderboard-button {
+#leaderboard-button button{
     position: absolute;
-    top: 404px;
-    left: 519px;
+    margin: 0 -20px;
+    top: 75%;
+    left: 50%;
+    background-image: url('/img/UI/TextBTN_Medium.png');
+    background-size: cover;
+    background-color: transparent;
+    border: none;
+    font-size: larger;
+    width: 140px;
+    height: 55px;
+    text-align: center;
+    margin: -25px 0 0 -70px
 }
 
 #menu_canvas {
     border:1px solid #000000;
-    width: 700px;
-    height: 500px;
+    width: 80vw;
+    height: 80vh;
     /* margin: auto;
     position: absolute;
     top: 7%;
@@ -81,3 +100,71 @@ body{
     top: 0%;
     right: 10%;
 }
+
+
+/* Leaderboard CSS*/
+
+#leaderBoardMenu {
+    width: 70%;
+    height: auto;
+    float: inherit;
+    top: 300px;
+    left: 300px;
+  }
+  
+  .row {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 50%;
+    border-bottom: 1px solid #AFAFAF;
+  }
+  
+  .name {
+    position: relative;
+    display: inline-block;
+    width: 75%;
+    line-height: 45px;
+  }
+  
+  .score {
+    position: relative;
+    display: inline-block;
+    width: 25%;
+  }
+  
+  .row:nth-child(1) {
+    background: gold;
+  }
+  
+  .row:nth-child(2) {
+    background: #c0c0c0;
+  }
+  
+  .row:nth-child(3) {
+    background: #cd7f32;
+  }
+  
+  /* End of Leaderboard CSS */
+
+  /* start paws_menu */
+  .paws_menu {
+      display: flex;
+      flex-direction: row;
+      position: fixed;
+      color: #FFFFFF;
+      justify-content: center;
+      top: 10;
+      bottom:10;
+      left: 0;
+      right: 0;
+      border-radius: 5px;
+      z-index: 10;
+  }
+
+  .btn {
+    margin-left: 10px;
+    width: 100px;
+    height: 10vh;
+    border-radius: 10px;
+  }
