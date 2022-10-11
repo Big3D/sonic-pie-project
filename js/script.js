@@ -27,7 +27,7 @@ start_button.addEventListener("click", function () {
   //start button
   mtx.beginPath();
   mtx.lineWidth = "2";
-  
+
   mtx.rect(100, 400, 50, 25);
   mtx.stroke();
 
@@ -62,6 +62,10 @@ start_button.addEventListener("click", function () {
   let score = 0;
 
   // player class
+
+  const playerSprite1 = new Image();
+  playerSprite1.src = "/img/TEST-Catwalk copy.png";
+
   class Player {
     constructor() {
       this.position = {
@@ -73,14 +77,16 @@ start_button.addEventListener("click", function () {
         y: 0,
       };
       // size of player
-      this.width = 30;
-      this.height = 30;
+      this.width = 160;
+      this.height = 120;
+      this.image = playerSprite1;
     }
 
     // render player
     draw() {
-      ctx.fillStyle = "blue";
-      ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+      // ctx.fillStyle = "blue";
+      // ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+      mtx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
     }
 
     update() {
@@ -220,6 +226,7 @@ start_button.addEventListener("click", function () {
 
     // updates player
     sonic.update();
+    
 
     if (keys.right.pressed) {
       sonic.velocity.x = 5;
@@ -267,8 +274,11 @@ start_button.addEventListener("click", function () {
   });
 
   // Timer
-  i = 60;
+  let i = 60;
   function onTimer() {
+
+    console.log("timer  running");
+
     document.getElementById("countdown").innerHTML = i;
     i--;
     if (i < 0) {
@@ -281,63 +291,67 @@ start_button.addEventListener("click", function () {
     }
   }
 });
+
 //function that will start the canvas game
 function startGame() {
   console.log("start");
 }
-
 
 //// Title page ////
 
 const titleBG = new Image();
 titleBG.src = "/img/Background-img/TitleBG1.png";
 const titleLogo = new Image();
-titleLogo.src = "/img/UI/Logo notfinal.png"
+titleLogo.src = "/img/UI/Logo notfinal.png";
 
 class TitleBackground {
-  constructor({ x, y, titleImage}) {
-    
-    this.position = { x,y }
+  constructor({ x, y, titleImage }) {
+    this.position = { x, y };
 
-    this.image = titleImage
-    this.width = 1920
-    this.height = 1080
-    console.log(this.image)
+    this.image = titleImage;
+    this.width = 1920;
+    this.height = 1080;
   }
-  
-  draw(){
-    mtx.drawImage(this.image, this.position.x, this.position.y)
+
+  draw() {
+    mtx.drawImage(this.image, this.position.x, this.position.y);
   }
-  
 }
 class TitleLogo {
-  constructor({ x, y, logoImage}) {
-    
-    this.position = { x,y }
+  constructor({ x, y, logoImage }) {
+    this.position = { x, y };
 
-    this.image = logoImage
-    this.width = 200
-    this.height = 200
+    this.image = logoImage;
+    this.width = 400;
+    this.height = 400;
   }
-  
-  draw(){
-    mtx.drawImage(this.image, this.position.x, this.position.y)
+
+  draw() {
+    mtx.drawImage(
+      this.image,
+      this.position.x,
+      this.position.y,
+      this.width,
+      this.height
+    );
   }
-  
 }
 
 let titleImage = new Image();
 titleImage = titleBG;
-const titleScreen = new TitleBackground({x:0, y:-10, titleImage});
+const titleScreen = new TitleBackground({ x: 0, y: -10, titleImage });
 let logoImage = new Image();
 logoImage = titleLogo;
-const titleLogoBig = new TitleLogo({x:Menu_Canvas.width/2 -logoImage.width/2.1, y:10, logoImage});
+const titleLogoBig = new TitleLogo({
+  x: Menu_Canvas.width / 2 - logoImage.width / 2,
+  y: 10,
+  logoImage,
+});
 
-
-// Loads the title image 
-titleImage.onload = function(){ 
-  titleScreen.draw()
-}
-logoImage.onload = function(){
-  titleLogoBig.draw()
-}
+// Loads the title image
+titleImage.onload = function () {
+  titleScreen.draw();
+};
+logoImage.onload = function () {
+  titleLogoBig.draw();
+};
