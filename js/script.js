@@ -333,19 +333,20 @@ start_button.addEventListener("click", function () {
   // Timer
 });
 
-i = 60;
+let i = 60; 
+let timeout; 
+let stopTime = -1;
+
 function onTimer() {
   document.getElementById("countdown").innerHTML = i;
   i--;
-  if (i < 0) {
-    clearInterval(i);
-    if (i === 0) {
-      alert("Game Over!");
-    }
-  } else {
-    setTimeout(onTimer, 1000);
+  timeout = setTimeout(onTimer, 1000);
+  if (i <= stopTime) {
+    clearTimeout(timeout);
+    setTimeout(() => window.open('http://127.0.0.1:5505/game%20over.html'), 1000);
+    };
   }
-}
+
 //function that will start the canvas game
 function startGame() {
   console.log("start");
