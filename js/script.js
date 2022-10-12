@@ -61,8 +61,10 @@ start_button.addEventListener("click", function () {
   //SCORE
   let score = 0;
 
+
   const playerSprite1 = new Image();
   playerSprite1.src = "/img/TEST-Catwalk copy.png";
+
   // player class
   class Player {
     constructor() {
@@ -75,16 +77,20 @@ start_button.addEventListener("click", function () {
         y: 0,
       };
       // size of player
+
       this.width = 160;
       this.height = 120;
       this.image = playerSprite1
+
     }
 
     // render player
     draw() {
+
       // ctx.fillStyle = "blue";
       // ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
       mtx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
+
     }
 
     update() {
@@ -128,12 +134,14 @@ start_button.addEventListener("click", function () {
       this.position.x += this.velocity.x;
       this.position.y += this.velocity.y;
 
+
       // sets obstacle "y" position to bottom of canvas
       if (this.position.y + this.height + this.velocity.y <= canvas.height) {
         this.velocity.y += gravity;
       } else {
         this.velocity.y = 0;
       }
+
 
       // makes obstacle go back and forth
       this.distance.traveled += Math.abs(this.velocity.x);
@@ -144,6 +152,7 @@ start_button.addEventListener("click", function () {
       }
     }
   }
+
 
   // new instance - sonic
   const sonic = new Player();
@@ -343,4 +352,6 @@ titleImage.onload = function () {
 };
 logoImage.onload = function () {
   titleLogoBig.draw();
+
 };
+
