@@ -340,7 +340,7 @@ let stopTime = -1;
 function onTimer() {
   document.getElementById("countdown").innerHTML = i;
   i--;
-  timeout = setTimeout(onTimer, 1000);
+  timeout = setTimeout(onTimer, 100);
   if (i <= stopTime) {
     clearTimeout(timeout);
     setTimeout(() => window.open('http://127.0.0.1:5505/game%20over.html'), 1000);
