@@ -12,7 +12,11 @@ const image1 = new Image();
 image1.addEventListener("load", function () {
   mtx.drawImage(image1, 0, 0, Menu_Canvas.width, Menu_Canvas.width);
 });
+
+// Using Boolean to stop start countdown
+let countingDown = false;
 start_button.addEventListener("click", function () {
+  reduceCount()
   start_button.style.display = "none";
   leaderboard_button.style.display = "none";
   // leaderBoardMenu.style.display = "block";
@@ -406,3 +410,35 @@ logoImage.onload = function () {
 
 };
 
+
+// Countdown to start
+//Grab the count down
+let countdown_num = document.querySelector(".text_count");
+let countdown_num_wrapper = document.getElementById('count_down')
+let remainingTime = 3;
+let end_time = "Start !!!"
+function reduceCount(){
+  countdown_num.innerHTML = remainingTime;
+  let countdown_timer = setInterval(()=>{
+    remainingTime--;
+    countdown_num.innerHTML = remainingTime;
+
+    if(remainingTime<=0){
+      countdown_num.innerHTML = end_time
+      clearInterval(countdown_timer)  
+      countingDown = true; 
+    }
+   
+  },2000)
+  
+}
+
+const startTimeout = setTimeout(undoDisplay, 8500)
+function undoDisplay(){
+  countdown_num_wrapper.style.display = "none"
+}
+
+
+
+ 
+//Countdown to start ends. 
