@@ -64,6 +64,10 @@ start_button.addEventListener("click", function () {
   //SCORE
   let score = 0;
 
+
+  const playerSprite1 = new Image();
+  playerSprite1.src = "/img/TEST-Catwalk copy.png";
+
   // player class
   class Player {
     constructor() {
@@ -76,14 +80,20 @@ start_button.addEventListener("click", function () {
         y: 0,
       };
       // size of player
-      this.width = 30;
-      this.height = 30;
+
+      this.width = 160;
+      this.height = 120;
+      this.image = playerSprite1
+
     }
 
     // render player
     draw() {
-      ctx.fillStyle = "blue";
-      ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+
+      // ctx.fillStyle = "blue";
+      // ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+      mtx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
+
     }
 
     update() {
@@ -97,6 +107,23 @@ start_button.addEventListener("click", function () {
       else {
         this.velocity.y = 0;
       }
+    }
+  }
+
+  // CLASS CONTRUCTOR FOR PLATFORMS
+  class Platform {
+    constructor({ x, y }) {
+      this.position = {
+        x,
+        y
+
+      }
+      this.width = 200
+      this.height = 35
+    }
+    draw() {
+      ctx.fillStyle = 'purple'
+      ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
   }
 
@@ -127,12 +154,14 @@ start_button.addEventListener("click", function () {
       this.position.x += this.velocity.x;
       this.position.y += this.velocity.y;
 
+
       // sets obstacle "y" position to bottom of canvas
       if (this.position.y + this.height + this.velocity.y <= canvas.height) {
         this.velocity.y += gravity;
       } else {
         this.velocity.y = 0;
       }
+
 
       // makes obstacle go back and forth
       this.distance.traveled += Math.abs(this.velocity.x);
@@ -144,8 +173,13 @@ start_button.addEventListener("click", function () {
     }
   }
 
+
   // new instance - sonic
   const sonic = new Player();
+
+  //new instance Platforms
+  const platforms = [new Platform({ x: 300, y: 550 }), new Platform({ x: 500, y: 450 })]
+
 
   // health bar
   let health = 100;
@@ -191,6 +225,9 @@ start_button.addEventListener("click", function () {
     left: {
       pressed: false,
     },
+    spacebar: {
+      pressed: false,
+    },
   };
 
   function animate() {
@@ -199,6 +236,19 @@ start_button.addEventListener("click", function () {
     }
     requestAnimationFrame(animate);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    //loops through platforms arrray
+    platforms.forEach((platform) => { platform.draw() })
+    //platform collision 
+    platforms.forEach((platform) => {
+      if (sonic.position.y + sonic.height <= platform.position.y
+        && sonic.position.y + sonic.height + sonic.velocity.y >= platform.position.y
+        && sonic.position.x + sonic.width >= platform.position.x
+        && sonic.position.x <= platform.position.x + platform.width
+      ) {
+        sonic.velocity.y = 0
+      }
+    })
 
     // updates each obstacle in the array
     obstacles.forEach((obstacle) => {
@@ -229,10 +279,17 @@ start_button.addEventListener("click", function () {
 
     if (keys.right.pressed) {
       sonic.velocity.x = 5;
-      // SHOW SCORE
-      //
-      score = sonic.position.x;
-      document.getElementById("currentScore").innerHTML = `Score: ${score}`;
+      // SHOW SCORE 
+      score = (sonic.position.x / 2)
+      if (score === 100) {
+        document.getElementById('currentScore').innerHTML = `Score: ${score}`
+      }
+      if (score === 300) {
+        document.getElementById('currentScore').innerHTML = `Score: ${score}`
+      }
+      if (score === 500) {
+        document.getElementById('currentScore').innerHTML = `Score: ${score}`
+      }
     } else if (keys.left.pressed) {
       sonic.velocity.x = -5;
     } else {
@@ -252,7 +309,10 @@ start_button.addEventListener("click", function () {
         keys.right.pressed = true;
         break;
       case 32:
-        sonic.velocity.y -= 10;
+        if(!keys.spacebar.pressed){
+          keys.spacebar.pressed = true
+          sonic.velocity.y -= 15;
+        }
         break;
     }
   });
@@ -267,7 +327,11 @@ start_button.addEventListener("click", function () {
         keys.right.pressed = false;
         break;
       case 32:
-        sonic.velocity.y -= 10;
+        keys.spacebar.pressed = false
+        if(!keys.spacebar.pressed && sonic.velocity.y != 0){
+          sonic.velocity.y += 14
+          
+        }
         break;
     }
   });
@@ -330,7 +394,9 @@ titleImage.onload = function () {
 };
 logoImage.onload = function () {
   titleLogoBig.draw();
+
 };
+
 
 let i = 60;
 let timeout;
@@ -412,10 +478,6 @@ function Resume() {
 
 // This that can be improved on(getting escape to pause and play)
 
-/**
- * Things we need to fix asap
- * Ontimer function
- * The right key press speeds up the timer;
- * Popping up leaderboard
- *
- */
+
+ 
+
