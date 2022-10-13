@@ -175,7 +175,7 @@ start_button.addEventListener("click", function () {
   const sonic = new Player();
 
   //new instance Platforms
-  const platforms = [new Platform({ x: 300, y: 550 }), new Platform({ x: 500, y: 450 })]
+  const platforms = [new Platform({ x: 300, y: 750 }), new Platform({ x: 500, y: 450 })]
 
 
   // health bar
@@ -244,6 +244,7 @@ start_button.addEventListener("click", function () {
       }
     })
 
+
     // updates each obstacle in the array
     obstacles.forEach((obstacle) => {
       // detects for collision between obstacle and player
@@ -289,6 +290,28 @@ start_button.addEventListener("click", function () {
     } else {
       sonic.velocity.x = 0;
     }
+
+    if (keys.right.pressed && sonic.position.x < 500){
+      sonic.velocity.x = 5
+    }
+    else if(keys.left.pressed && sonic.position.x > 100){
+      sonic.velocity.x = -5
+    }
+    else{
+      sonic.velocity.x = 0
+
+      if(keys.right.pressed){
+        for(let i = 0; i < platforms.length; i++){
+          platforms[i].position.x -=5
+        }
+      }
+      else if(keys.left.pressed){
+        for(let i = 0; i < platforms.length; i++){
+          platforms[i].position.x +=5
+        }
+      }      
+    }
+ 
   }
 
   animate();
