@@ -1,3 +1,6 @@
+let keepAnimating = true;
+
+
 //adds click event listener to the start button
 document.getElementById("start-button").addEventListener("click", startGame);
 const Menu_Canvas = document.getElementById("menu_canvas");
@@ -191,6 +194,9 @@ start_button.addEventListener("click", function () {
   };
 
   function animate() {
+    if (!keepAnimating) {
+      return;
+    }
     requestAnimationFrame(animate);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -265,23 +271,8 @@ start_button.addEventListener("click", function () {
         break;
     }
   });
-
-  // Timer
 });
 
-i = 60;
-function onTimer() {
-  document.getElementById("countdown").innerHTML = i;
-  i--;
-  if (i < 0) {
-    clearInterval(i);
-    if (i === 0) {
-      alert("Game Over!");
-    }
-  } else {
-    setTimeout(onTimer, 1000);
-  }
-}
 //function that will start the canvas game
 function startGame() {
   console.log("start");
@@ -340,3 +331,91 @@ titleImage.onload = function () {
 logoImage.onload = function () {
   titleLogoBig.draw();
 };
+
+let i = 60;
+let timeout;
+let stopTime = -1;
+
+function onTimer() {
+  document.getElementById("countdown").innerHTML = i;
+  i--;
+  timeout = setTimeout(onTimer, 1000);
+  if (i <= stopTime) {
+    clearTimeout(timeout);
+    setTimeout(
+      () => window.open("http://127.0.0.1:5505/game%20over.html"),
+      1000
+    );
+  }
+}
+
+//Paws Menu
+//Open press the ESC it should have resume and quit buttons.
+const paws_Menu = document.querySelector("#paws");
+
+addEventListener("keydown", (e) => {
+  let name = e.key;
+  let code = e.code;
+
+  if (code === "Escape" && name === "Escape") {
+    displayPaws();
+    clearTimer();
+    keepAnimating = false;
+  }
+  console.log(`ESC ${keepAnimating}`);
+});
+
+paws_Menu.style.display = "none";
+function displayPaws() {
+  if (paws_Menu.style.display === "none") {
+    paws_Menu.style.display = "flex";
+  } else {
+    paws_Menu.style.display = "none";
+  }
+}
+
+// Clear Timer
+//get the current timer
+current_timer = document.getElementById("countdown").innerHTML;
+// stop the current on the click of esacpe key
+function clearTimer() {
+  console.log(timeout);
+  clearTimeout(timeout);
+}
+
+// Quit Button
+const quit_btn = document.querySelector("#btnQ");
+quit_btn.addEventListener("click", Quit);
+function Quit() {
+  location.reload();
+  paws_Menu.style.display = "none";
+  timeout = setTimeout(onTimer, 1000);
+  return (current_timer = timeout);
+}
+
+// Resume Button
+/**
+   * While paused gameplay should also pause
+    -Timer stops
+    -Player cannot move
+    -Obstacles should stop
+   */
+
+const resume_btn = document.querySelector("#btnS");
+resume_btn.addEventListener("click", Resume);
+function Resume() {
+  onTimer();
+  paws_Menu.style.display = "none";
+  keepAnimating = true;
+  console.log("i have resumed")
+}
+
+// This that can be improved on(getting escape to pause and play)
+
+/**
+ * Things we need to fix asap
+ * Ontimer function
+ * The right key press speeds up the timer;
+ * Popping up leaderboard
+ *
+ */
