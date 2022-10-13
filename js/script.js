@@ -65,6 +65,23 @@ start_button.addEventListener("click", function () {
   const playerSprite1 = new Image();
   playerSprite1.src = "/img/TEST-Catwalk copy.png";
 
+  //Background Images Class
+  class Background {
+    constructor(index){
+      this.position = {
+        x: 0,
+        y: 0,
+      }
+      this.index = index
+      this.backgroundImage = new Image();
+      this.backgroundImage.src = `/img/Background-img/Frame_${index+1}.png`;
+    }
+    draw(){
+      const offset = this.index * canvas.width
+      ctx.drawImage(this.backgroundImage, this.position.x + offset, this.position.y, canvas.width, canvas.height);
+    }
+  }
+
   // player class
   class Player {
     constructor() {
@@ -151,7 +168,6 @@ start_button.addEventListener("click", function () {
       this.position.x += this.velocity.x;
       this.position.y += this.velocity.y;
 
-
       // sets obstacle "y" position to bottom of canvas
       if (this.position.y + this.height + this.velocity.y <= canvas.height) {
         this.velocity.y += gravity;
@@ -170,6 +186,11 @@ start_button.addEventListener("click", function () {
     }
   }
 
+  // new instance background images
+  let backgrounds = []
+  for(let i = 0; i < 8; i++){
+    backgrounds.push(new Background(i))
+  }
 
   // new instance - sonic
   const sonic = new Player();
@@ -177,12 +198,14 @@ start_button.addEventListener("click", function () {
   //new instance Platforms
   const platforms = [new Platform({ x: 300, y: 750 }), new Platform({ x: 500, y: 450 })]
 
-
   // health bar
   let health = 100;
 
   // new moving obstacles
   let obstacles = [];
+
+  // scroll position
+  let scrollPosition = 0;
 
   obstacles = [
     new Obstacle({
@@ -231,6 +254,11 @@ start_button.addEventListener("click", function () {
     requestAnimationFrame(animate);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    //loops through background array
+    for(let i = 0; i < backgrounds.length; i++){
+      backgrounds[i].draw()
+    }
+
     //loops through platforms arrray
     platforms.forEach((platform) => { platform.draw() })
     //platform collision 
@@ -269,49 +297,57 @@ start_button.addEventListener("click", function () {
       obstacle.update();
     });
 
+    // SHOW SCORE 
+    //refactor made here to ensure when a player reverses they don't get points taken away
+    score = Math.max(score, sonic.position.x / 2)
+    if (score === 100) {
+      document.getElementById('currentScore').innerHTML = `Score: ${score}`
+    }
+    if (score === 300) {
+      document.getElementById('currentScore').innerHTML = `Score: ${score}`
+    }
+    if (score === 500) {
+      document.getElementById('currentScore').innerHTML = `Score: ${score}`
+    }
+
     // updates player
     sonic.update();
-
-    if (keys.right.pressed) {
-      sonic.velocity.x = 5;
-      // SHOW SCORE 
-      score = (sonic.position.x / 2)
-      if (score === 100) {
-        document.getElementById('currentScore').innerHTML = `Score: ${score}`
-      }
-      if (score === 300) {
-        document.getElementById('currentScore').innerHTML = `Score: ${score}`
-      }
-      if (score === 500) {
-        document.getElementById('currentScore').innerHTML = `Score: ${score}`
-      }
-    } else if (keys.left.pressed) {
-      sonic.velocity.x = -5;
-    } else {
-      sonic.velocity.x = 0;
-    }
 
     if (keys.right.pressed && sonic.position.x < 500){
       sonic.velocity.x = 5
     }
-    else if(keys.left.pressed && sonic.position.x > 100){
+    else if(keys.left.pressed && sonic.position.x > 50){
       sonic.velocity.x = -5
     }
     else{
       sonic.velocity.x = 0
 
+    // handles background image scrolling
       if(keys.right.pressed){
+        scrollPosition += 5
+        for(let i = 0; i < backgrounds.length; i++){
+          backgrounds[i].position.x -= 5
+        }
         for(let i = 0; i < platforms.length; i++){
-          platforms[i].position.x -=5
+          platforms[i].position.x -= 5
+        }
+        for(let i = 0; i < obstacles.length; i++){
+          obstacles[i].position.x -= 5
         }
       }
-      else if(keys.left.pressed){
+      else if(keys.left.pressed && scrollPosition > 0){
+        scrollPosition -= 5
+        for(let i = 0; i < backgrounds.length; i++){
+          backgrounds[i].position.x += 5
+        }
         for(let i = 0; i < platforms.length; i++){
-          platforms[i].position.x +=5
+          platforms[i].position.x += 5
+        }
+        for(let i = 0; i < obstacles.length; i++){
+          obstacles[i].position.x += 5
         }
       }      
     }
- 
   }
 
   animate();
