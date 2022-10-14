@@ -16,9 +16,9 @@ let keepAnimating = true;
 
 // Using Boolean to stop start countdown
 let countingDown = false;
-start_button.addEventListener("click", StartGame)
+start_button.addEventListener("click", StartGame);
 function StartGame() {
-  reduceCount()
+  reduceCount();
   start_button.style.display = "none";
   leaderboard_button.style.display = "none";
   // leaderBoardMenu.style.display = "block";
@@ -27,350 +27,355 @@ function StartGame() {
   animate();
 }
 
-  // Character movement
-  const canvas = document.querySelector("canvas");
-  const ctx = canvas.getContext("2d");
-  canvas.width = innerWidth;
-  canvas.height = innerHeight;
+// Character movement
+const canvas = document.querySelector("canvas");
+const ctx = canvas.getContext("2d");
+canvas.width = innerWidth;
+canvas.height = innerHeight;
 
-  // gravity
-  const gravity = 0.5;
-  //SCORE
-  let score = 0;
+// gravity
+const gravity = 0.5;
+//SCORE
+let score = 0;
 
+const playerSprite1 = new Image();
+playerSprite1.src = "/img/TEST-Catwalk copy.png";
 
-  const playerSprite1 = new Image();
-  playerSprite1.src = "/img/TEST-Catwalk copy.png";
+//Background Images Class
+class Background {
+  constructor(index) {
+    this.position = {
+      x: 0,
+      y: 0,
+    };
+    this.index = index;
+    this.backgroundImage = new Image();
+    this.backgroundImage.src = `/img/Background-img/Frame_${index + 1}.png`;
+  }
+  draw() {
+    const offset = this.index * canvas.width;
+    ctx.drawImage(
+      this.backgroundImage,
+      this.position.x + offset,
+      this.position.y,
+      canvas.width,
+      canvas.height
+    );
+  }
+}
 
-  //Background Images Class
-  class Background {
-    constructor(index){
-      this.position = {
-        x: 0,
-        y: 0,
-      }
-      this.index = index
-      this.backgroundImage = new Image();
-      this.backgroundImage.src = `/img/Background-img/Frame_${index+1}.png`;
-    }
-    draw(){
-      const offset = this.index * canvas.width
-      ctx.drawImage(this.backgroundImage, this.position.x + offset, this.position.y, canvas.width, canvas.height);
-    }
+// player class
+class Player {
+  constructor() {
+    this.position = {
+      x: 100,
+      y: 100,
+    };
+    this.velocity = {
+      x: 0,
+      y: 0,
+    };
+    // size of player
+
+    this.width = 160;
+    this.height = 120;
+    this.image = playerSprite1;
   }
 
-  // player class
-  class Player {
-    constructor() {
-      this.position = {
-        x: 100,
-        y: 100,
-      };
-      this.velocity = {
-        x: 0,
-        y: 0,
-      };
-      // size of player
-
-      this.width = 160;
-      this.height = 120;
-      this.image = playerSprite1
-
-    }
-
-    // render player
-    draw() {
-
-      // ctx.fillStyle = "blue";
-      // ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
-      mtx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
-
-    }
-
-    update() {
-      this.draw();
-      this.position.x += this.velocity.x;
-      this.position.y += this.velocity.y;
-
-      // makes player position always hit the ground of the canvas
-      if (this.position.y + this.height + this.velocity.y <= canvas.height)
-        this.velocity.y += gravity;
-      else {
-        this.velocity.y = 0;
-      }
-    }
+  // render player
+  draw() {
+    // ctx.fillStyle = "blue";
+    // ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+    mtx.drawImage(
+      this.image,
+      this.position.x,
+      this.position.y,
+      this.width,
+      this.height
+    );
   }
 
-  // CLASS CONTRUCTOR FOR PLATFORMS
-  class Platform {
-    constructor({ x, y }) {
-      this.position = {
-        x,
-        y
+  update() {
+    this.draw();
+    this.position.x += this.velocity.x;
+    this.position.y += this.velocity.y;
 
-      }
-      this.width = 200
-      this.height = 35
-    }
-    draw() {
-      ctx.fillStyle = 'purple'
-      ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
+    // makes player position always hit the ground of the canvas
+    if (this.position.y + this.height + this.velocity.y <= canvas.height)
+      this.velocity.y += gravity;
+    else {
+      this.velocity.y = 0;
     }
   }
+}
 
-  // obstacle class
-  class Obstacle {
-    constructor({ position, velocity, distance }) {
-      this.position = {
-        x: position.x,
-        y: position.y,
-      };
-      this.velocity = {
-        x: velocity.x,
-        y: velocity.y,
-      };
-      this.width = 30;
-      this.height = 30;
+// CLASS CONTRUCTOR FOR PLATFORMS
+class Platform {
+  constructor({ x, y }) {
+    this.position = {
+      x,
+      y,
+    };
+    this.width = 200;
+    this.height = 35;
+  }
+  draw() {
+    ctx.fillStyle = "purple";
+    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+  }
+}
 
-      this.distance = distance;
+// obstacle class
+class Obstacle {
+  constructor({ position, velocity, distance }) {
+    this.position = {
+      x: position.x,
+      y: position.y,
+    };
+    this.velocity = {
+      x: velocity.x,
+      y: velocity.y,
+    };
+    this.width = 30;
+    this.height = 30;
+
+    this.distance = distance;
+  }
+
+  draw() {
+    ctx.fillStyle = "red";
+    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+  }
+
+  update() {
+    this.draw();
+    this.position.x += this.velocity.x;
+    this.position.y += this.velocity.y;
+
+    // sets obstacle "y" position to bottom of canvas
+    if (this.position.y + this.height + this.velocity.y <= canvas.height) {
+      this.velocity.y += gravity;
+    } else {
+      this.velocity.y = 0;
     }
 
-    draw() {
-      ctx.fillStyle = "red";
-      ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+    // makes obstacle go back and forth
+    this.distance.traveled += Math.abs(this.velocity.x);
+
+    if (this.distance.traveled > this.distance.limit) {
+      this.distance.traveled = 0;
+      this.velocity.x = -this.velocity.x;
     }
+  }
+}
 
-    update() {
-      this.draw();
-      this.position.x += this.velocity.x;
-      this.position.y += this.velocity.y;
+// new instance background images
+let backgrounds = [];
+for (let i = 0; i < 8; i++) {
+  backgrounds.push(new Background(i));
+}
 
-      // sets obstacle "y" position to bottom of canvas
-      if (this.position.y + this.height + this.velocity.y <= canvas.height) {
-        this.velocity.y += gravity;
+// new instance - sonic
+const sonic = new Player();
+
+//new instance Platforms
+const platforms = [
+  new Platform({ x: 300, y: 750 }),
+  new Platform({ x: 500, y: 450 }),
+];
+
+// health bar
+let health = 100;
+
+// new moving obstacles
+let obstacles = [];
+
+// scroll position
+let scrollPosition = 0;
+
+obstacles = [
+  new Obstacle({
+    position: {
+      x: 400,
+      y: 400,
+    },
+    velocity: {
+      x: -0.5,
+      y: 0,
+    },
+    distance: {
+      limit: 100,
+      traveled: 0,
+    },
+  }),
+  new Obstacle({
+    position: {
+      x: 800,
+      y: 400,
+    },
+    velocity: {
+      x: -0.5,
+      y: 0,
+    },
+    distance: {
+      limit: 100,
+      traveled: 0,
+    },
+  }),
+];
+
+const keys = {
+  right: {
+    pressed: false,
+  },
+  left: {
+    pressed: false,
+  },
+  spacebar: {
+    pressed: false,
+  },
+};
+
+function animate() {
+  if (!keepAnimating) {
+    return;
+  }
+  requestAnimationFrame(animate);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  //loops through background array
+  for (let i = 0; i < backgrounds.length; i++) {
+    backgrounds[i].draw();
+  }
+
+  //loops through platforms arrray
+  platforms.forEach((platform) => {
+    platform.draw();
+  });
+  //platform collision
+  platforms.forEach((platform) => {
+    if (
+      sonic.position.y + sonic.height <= platform.position.y &&
+      sonic.position.y + sonic.height + sonic.velocity.y >=
+        platform.position.y &&
+      sonic.position.x + sonic.width >= platform.position.x &&
+      sonic.position.x <= platform.position.x + platform.width
+    ) {
+      sonic.velocity.y = 0;
+    }
+  });
+
+  // updates each obstacle in the array
+  obstacles.forEach((obstacle) => {
+    // detects for collision between obstacle and player
+    if (
+      sonic.position.x + sonic.width >= obstacle.position.x &&
+      sonic.position.x <= obstacle.position.x + obstacle.width &&
+      sonic.position.y + sonic.height >= obstacle.position.y &&
+      sonic.position.y <= obstacle.position.y + obstacle.height
+    ) {
+      // damage - restart game when player has no lives left
+      if (health < 0) {
+        // startGame();
       } else {
-        this.velocity.y = 0;
+        // decrements health and pushes player back slightly
+        health--;
+        sonic.position.y -= 50;
+        sonic.position.x -= 150;
       }
-
-
-      // makes obstacle go back and forth
-      this.distance.traveled += Math.abs(this.velocity.x);
-
-      if (this.distance.traveled > this.distance.limit) {
-        this.distance.traveled = 0;
-        this.velocity.x = -this.velocity.x;
-      }
+      // for testing purposes only
+      console.log(health);
     }
+    obstacle.update();
+  });
+
+  // SHOW SCORE
+  //refactor made here to ensure when a player reverses they don't get points taken away
+  score = Math.max(score, sonic.position.x / 2);
+  if (score === 100) {
+    document.getElementById("currentScore").innerHTML = `Score: ${score}`;
+  }
+  if (score === 300) {
+    document.getElementById("currentScore").innerHTML = `Score: ${score}`;
+  }
+  if (score === 500) {
+    document.getElementById("currentScore").innerHTML = `Score: ${score}`;
   }
 
-  // new instance background images
-  let backgrounds = []
-  for(let i = 0; i < 8; i++){
-    backgrounds.push(new Background(i))
-  }
+  // updates player
+  sonic.update();
 
-  // new instance - sonic
-  const sonic = new Player();
-
-  //new instance Platforms
-  const platforms = [new Platform({ x: 300, y: 750 }), new Platform({ x: 500, y: 450 })]
-
-  // health bar
-  let health = 100;
-
-  // new moving obstacles
-  let obstacles = [];
-
-  // scroll position
-  let scrollPosition = 0;
-
-  obstacles = [
-    new Obstacle({
-      position: {
-        x: 400,
-        y: 400,
-      },
-      velocity: {
-        x: -0.5,
-        y: 0,
-      },
-      distance: {
-        limit: 100,
-        traveled: 0,
-      },
-    }),
-    new Obstacle({
-      position: {
-        x: 800,
-        y: 400,
-      },
-      velocity: {
-        x: -0.5,
-        y: 0,
-      },
-      distance: {
-        limit: 100,
-        traveled: 0,
-      },
-    }),
-  ];
-
-  const keys = {
-    right: {
-      pressed: false,
-    },
-    left: {
-      pressed: false,
-    },
-    spacebar: {
-      pressed: false,
-    },
-  };
-
-  function animate() {
-    if (!keepAnimating) {
-      return;
-    }
-    requestAnimationFrame(animate);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    //loops through background array
-    for(let i = 0; i < backgrounds.length; i++){
-      backgrounds[i].draw()
-    }
-
-    //loops through platforms arrray
-    platforms.forEach((platform) => { platform.draw() })
-    //platform collision 
-    platforms.forEach((platform) => {
-      if (sonic.position.y + sonic.height <= platform.position.y
-        && sonic.position.y + sonic.height + sonic.velocity.y >= platform.position.y
-        && sonic.position.x + sonic.width >= platform.position.x
-        && sonic.position.x <= platform.position.x + platform.width
-      ) {
-        sonic.velocity.y = 0
-      }
-    })
-
-
-    // updates each obstacle in the array
-    obstacles.forEach((obstacle) => {
-      // detects for collision between obstacle and player
-      if (
-        sonic.position.x + sonic.width >= obstacle.position.x &&
-        sonic.position.x <= obstacle.position.x + obstacle.width &&
-        sonic.position.y + sonic.height >= obstacle.position.y &&
-        sonic.position.y <= obstacle.position.y + obstacle.height
-      ) {
-        // damage - restart game when player has no lives left
-        if (health < 0) {
-          // startGame();
-        } else {
-          // decrements health and pushes player back slightly
-          health--;
-          sonic.position.y -= 50;
-          sonic.position.x -= 150;
-        }
-        // for testing purposes only
-        console.log(health);
-      }
-      obstacle.update();
-    });
-
-    // SHOW SCORE 
-    //refactor made here to ensure when a player reverses they don't get points taken away
-    score = Math.max(score, sonic.position.x / 2)
-    if (score === 100) {
-      document.getElementById('currentScore').innerHTML = `Score: ${score}`
-    }
-    if (score === 300) {
-      document.getElementById('currentScore').innerHTML = `Score: ${score}`
-    }
-    if (score === 500) {
-      document.getElementById('currentScore').innerHTML = `Score: ${score}`
-    }
-
-    // updates player
-    sonic.update();
-
-    if (keys.right.pressed && sonic.position.x < 500){
-      sonic.velocity.x = 5
-    }
-    else if(keys.left.pressed && sonic.position.x > 50){
-      sonic.velocity.x = -5
-    }
-    else{
-      sonic.velocity.x = 0
+  if (keys.right.pressed && sonic.position.x < 500) {
+    sonic.velocity.x = 5;
+  } else if (keys.left.pressed && sonic.position.x > 50) {
+    sonic.velocity.x = -5;
+  } else {
+    sonic.velocity.x = 0;
 
     // handles background image scrolling
-      if(keys.right.pressed){
-        scrollPosition += 5
-        for(let i = 0; i < backgrounds.length; i++){
-          backgrounds[i].position.x -= 5
-        }
-        for(let i = 0; i < platforms.length; i++){
-          platforms[i].position.x -= 5
-        }
-        for(let i = 0; i < obstacles.length; i++){
-          obstacles[i].position.x -= 5
-        }
+    if (keys.right.pressed) {
+      scrollPosition += 5;
+      for (let i = 0; i < backgrounds.length; i++) {
+        backgrounds[i].position.x -= 5;
       }
-      else if(keys.left.pressed && scrollPosition > 0){
-        scrollPosition -= 5
-        for(let i = 0; i < backgrounds.length; i++){
-          backgrounds[i].position.x += 5
-        }
-        for(let i = 0; i < platforms.length; i++){
-          platforms[i].position.x += 5
-        }
-        for(let i = 0; i < obstacles.length; i++){
-          obstacles[i].position.x += 5
-        }
-      }      
+      for (let i = 0; i < platforms.length; i++) {
+        platforms[i].position.x -= 5;
+      }
+      for (let i = 0; i < obstacles.length; i++) {
+        obstacles[i].position.x -= 5;
+      }
+    } else if (keys.left.pressed && scrollPosition > 0) {
+      scrollPosition -= 5;
+      for (let i = 0; i < backgrounds.length; i++) {
+        backgrounds[i].position.x += 5;
+      }
+      for (let i = 0; i < platforms.length; i++) {
+        platforms[i].position.x += 5;
+      }
+      for (let i = 0; i < obstacles.length; i++) {
+        obstacles[i].position.x += 5;
+      }
     }
   }
+}
 
+// character movement on keydown
+addEventListener("keydown", ({ keyCode }) => {
+  switch (keyCode) {
+    case 37:
+      keys.left.pressed = true;
+      break;
+    case 39:
+      keys.right.pressed = true;
+      break;
+    case 32:
+      if (!keys.spacebar.pressed) {
+        keys.spacebar.pressed = true;
+        sonic.velocity.y -= 15;
+      }
+      break;
+  }
+});
 
-  // character movement on keydown
-  addEventListener("keydown", ({ keyCode }) => {
-    switch (keyCode) {
-      case 37:
-        keys.left.pressed = true;
-        break;
-      case 39:
-        keys.right.pressed = true;
-        break;
-      case 32:
-        if(!keys.spacebar.pressed){
-          keys.spacebar.pressed = true
-          sonic.velocity.y -= 15;
-        }
-        break;
-    }
-  });
-
-  // character movement on key up
-  addEventListener("keyup", ({ keyCode }) => {
-    switch (keyCode) {
-      case 37:
-        keys.left.pressed = false;
-        break;
-      case 39:
-        keys.right.pressed = false;
-        break;
-      case 32:
-        keys.spacebar.pressed = false
-        if(!keys.spacebar.pressed && sonic.velocity.y != 0){
-          sonic.velocity.y += 14
-          
-        }
-        break;
-    }
-  });
-
+// character movement on key up
+addEventListener("keyup", ({ keyCode }) => {
+  switch (keyCode) {
+    case 37:
+      keys.left.pressed = false;
+      break;
+    case 39:
+      keys.right.pressed = false;
+      break;
+    case 32:
+      keys.spacebar.pressed = false;
+      if (!keys.spacebar.pressed && sonic.velocity.y != 0) {
+        sonic.velocity.y += 14;
+      }
+      break;
+  }
+});
 
 // });
-
 
 //function that will start the canvas game
 function startGame() {
@@ -429,40 +434,35 @@ titleImage.onload = function () {
 };
 logoImage.onload = function () {
   titleLogoBig.draw();
-
 };
-
 
 // Countdown to start
 //Grab the count down
 let countdown_num = document.querySelector(".text_count");
-let countdown_num_wrapper = document.getElementById('count_down')
+let countdown_num_wrapper = document.getElementById("count_down");
 let remainingTime = 3;
-let end_time = "Start !!!"
-function reduceCount(){
+let end_time = "Start !!!";
+function reduceCount() {
   countdown_num.innerHTML = remainingTime;
-  let countdown_timer = setInterval(()=>{
+  let countdown_timer = setInterval(() => {
     remainingTime--;
     countdown_num.innerHTML = remainingTime;
 
-    if(remainingTime<=0){
-      countdown_num.innerHTML = end_time
-      clearInterval(countdown_timer)  
-      countingDown = true; 
+    if (remainingTime <= 0) {
+      countdown_num.innerHTML = end_time;
+      clearInterval(countdown_timer);
+      countingDown = true;
     }
-  },1000)
+  }, 1000);
 }
 
-const startTimeout = setTimeout(undoDisplay, 4000)
-function undoDisplay(){
-  countdown_num_wrapper.style.display = "none"
+const startTimeout = setTimeout(undoDisplay, 4000);
+function undoDisplay() {
+  countdown_num_wrapper.style.display = "none";
   onTimer();
 }
 
-
-
- 
-//Countdown to start ends. 
+//Countdown to start ends.
 let i = 60;
 let timeout;
 let stopTime = -1;
@@ -536,10 +536,11 @@ const resume_btn = document.querySelector("#btnS");
 resume_btn.addEventListener("click", Resume);
 function Resume() {
   onTimer();
-  Player.draw;
   paws_Menu.style.display = "none";
   keepAnimating = true;
-  console.log("i have resumed")
+  animate()
+  requestAnimationFrame(animate)
+  console.log("i have resumed");
 }
 
 // This that can be improved on(getting escape to pause and play)
