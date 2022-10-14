@@ -1,8 +1,5 @@
-let keepAnimating = true;
-
-
 //adds click event listener to the start button
-document.getElementById("start-button").addEventListener("click", startGame);
+// document.getElementById("start-button").addEventListener("click", startGame);
 const Menu_Canvas = document.getElementById("menu_canvas");
 let mtx = Menu_Canvas.getContext("2d");
 let start_button = document.getElementById("start-button");
@@ -10,52 +7,25 @@ let leaderboard_button = document.getElementById("leaderboard-button");
 leaderBoardMenu.style.display = "none";
 Menu_Canvas.width = innerWidth;
 Menu_Canvas.height = innerHeight;
-const image1 = new Image();
-// image1.src = "../img/sonic.img";
-image1.addEventListener("load", function () {
-  mtx.drawImage(image1, 0, 0, Menu_Canvas.width, Menu_Canvas.width);
-});
+let keepAnimating = true;
+// const image1 = new Image();
+// // image1.src = "../img/sonic.img";
+// image1.addEventListener("load", function () {
+//   mtx.drawImage(image1, 0, 0, Menu_Canvas.width, Menu_Canvas.width);
+// });
 
 // Using Boolean to stop start countdown
 let countingDown = false;
-start_button.addEventListener("click", function () {
+start_button.addEventListener("click", StartGame)
+function StartGame() {
   reduceCount()
   start_button.style.display = "none";
   leaderboard_button.style.display = "none";
   // leaderBoardMenu.style.display = "block";
   leaderBoardMenu.style.display = "none";
 
-  //logo square
-  mtx.beginPath();
-  mtx.lineWidth = "2";
-  mtx.rect(100, 20, 500, 100);
-  mtx.stroke();
-
-  //start button
-  mtx.beginPath();
-  mtx.lineWidth = "2";
-
-  mtx.rect(100, 400, 50, 25);
-  mtx.stroke();
-
-  //leaderboard button
-  mtx.beginPath();
-  mtx.lineWidth = "2";
-  mtx.rect(516, 400, 84, 25);
-  mtx.stroke();
-
-  // const MainLogo_Canvas = document.getElementById("main_logo");
-  // let mLtx = Menu_Canvas.getContext("2d");
-  // mLtx.moveTo(0, 0);
-  // mLtx.lineTo(0, 0);
-  // mLtx.stroke();
-
-  // // Btn Canvas Design
-  // const Btn_Canvas = document.getElementById("btn_play");
-  // let btx = Btn_Canvas.getContext("2d");
-  // btx.beginPath();
-  // btx.arc(5, 5, 40, 0, 2 * Math.PI);
-  // btx.stroke()
+  animate();
+}
 
   // Character movement
   const canvas = document.querySelector("canvas");
@@ -294,7 +264,7 @@ start_button.addEventListener("click", function () {
       ) {
         // damage - restart game when player has no lives left
         if (health < 0) {
-          startGame();
+          // startGame();
         } else {
           // decrements health and pushes player back slightly
           health--;
@@ -360,7 +330,6 @@ start_button.addEventListener("click", function () {
     }
   }
 
-  animate();
 
   // character movement on keydown
   addEventListener("keydown", ({ keyCode }) => {
@@ -398,7 +367,10 @@ start_button.addEventListener("click", function () {
         break;
     }
   });
-});
+
+
+// });
+
 
 //function that will start the canvas game
 function startGame() {
@@ -478,14 +450,13 @@ function reduceCount(){
       clearInterval(countdown_timer)  
       countingDown = true; 
     }
-   
-  },2000)
-  
+  },1000)
 }
 
-const startTimeout = setTimeout(undoDisplay, 8500)
+const startTimeout = setTimeout(undoDisplay, 4000)
 function undoDisplay(){
   countdown_num_wrapper.style.display = "none"
+  onTimer();
 }
 
 
@@ -565,6 +536,7 @@ const resume_btn = document.querySelector("#btnS");
 resume_btn.addEventListener("click", Resume);
 function Resume() {
   onTimer();
+  Player.draw;
   paws_Menu.style.display = "none";
   keepAnimating = true;
   console.log("i have resumed")
