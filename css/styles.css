@@ -201,9 +201,10 @@ body {
   z-index: 99999;
 }
 .text_count{
-  font-size: x-large;
+  font-size: 70px;
   font-weight: 700;
   text-shadow: 0.3rem 0.3rem rgba(black, 0.7);
+  color: red;
 }
 /* Count_down CSS END */
 
