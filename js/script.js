@@ -441,19 +441,21 @@ logoImage.onload = function () {
 let countdown_num = document.querySelector(".text_count");
 let countdown_num_wrapper = document.getElementById("count_down");
 let remainingTime = 3;
-let end_time = "Start !!!";
+let end_time = "Start ";
 function reduceCount() {
   countdown_num.innerHTML = remainingTime;
   let countdown_timer = setInterval(() => {
+    keepAnimating = false;
     remainingTime--;
     countdown_num.innerHTML = remainingTime;
-
     if (remainingTime <= 0) {
       countdown_num.innerHTML = end_time;
       clearInterval(countdown_timer);
-      countingDown = true;
+      keepAnimating = true;
+      requestAnimationFrame(animate);
     }
   }, 1000);
+
 }
 
 const startTimeout = setTimeout(undoDisplay, 4000);
@@ -538,8 +540,8 @@ function Resume() {
   onTimer();
   paws_Menu.style.display = "none";
   keepAnimating = true;
-  animate()
-  requestAnimationFrame(animate)
+  animate();
+  requestAnimationFrame(animate);
   console.log("i have resumed");
 }
 
