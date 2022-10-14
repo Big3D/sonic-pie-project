@@ -107,12 +107,14 @@ body {
   float: inherit;
   top: 300px;
   left: 300px;
+  font-family: 'Butcherman', cursive;
+  text-align: center;
 }
 
 .name {
   position: relative;
   display: inline-block;
-  width: 75%;
+  width: 40%;
   font-family: 'Butcherman', cursive;
   text-align: center;
   line-height: 45px;
@@ -154,7 +156,6 @@ body {
 }
 
 .row:nth-child(3) {
-  width: 30%;
   background: #c0c0c0;
 }
 
