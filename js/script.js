@@ -229,6 +229,7 @@ const platforms = [
 // new instance - end score modal
 const endScoreModal = new Modal();
 
+
 // health bar
 let health = 100;
 
@@ -262,6 +263,7 @@ obstacles = [
       x: -0.5,
       y: 0,
     },
+
     distance: {
       limit: 100,
       traveled: 0,
@@ -488,19 +490,22 @@ logoImage.onload = function () {
 let countdown_num = document.querySelector(".text_count");
 let countdown_num_wrapper = document.getElementById("count_down");
 let remainingTime = 3;
-let end_time = "Start !!!";
+let end_time = "Start ";
 function reduceCount() {
   countdown_num.innerHTML = remainingTime;
   let countdown_timer = setInterval(() => {
+    keepAnimating = false;
     remainingTime--;
     countdown_num.innerHTML = remainingTime;
-
+    
     if (remainingTime <= 0) {
       countdown_num.innerHTML = end_time;
       clearInterval(countdown_timer);
-      countingDown = true;
+      keepAnimating = true;
+      requestAnimationFrame(animate);
     }
   }, 1000);
+
 }
 
 const startTimeout = setTimeout(undoDisplay, 4000);
@@ -583,9 +588,10 @@ const resume_btn = document.querySelector("#btnS");
 resume_btn.addEventListener("click", Resume);
 function Resume() {
   onTimer();
-  Player.draw;
   paws_Menu.style.display = "none";
   keepAnimating = true;
+  animate();
+  requestAnimationFrame(animate);
   console.log("i have resumed");
 }
 
