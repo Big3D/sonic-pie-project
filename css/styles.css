@@ -23,6 +23,7 @@ body {
 
 .canvas-container{
     position: relative;
+}
 
 #start-button button {
   position: absolute;
