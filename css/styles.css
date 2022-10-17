@@ -153,16 +153,22 @@ body {
 }
 
 
-.row:nth-child(5) {
+.row:nth-child(3) {
   background: gold;
+  position: relative;
+  display: inline-block;
 }
 
-.row:nth-child(6) {
+.row:nth-child(4) {
   background: #c0c0c0;
+  position: relative;
+  display: inline-block;
 }
 
-.row:nth-child(7) {
+.row:nth-child(5) {
   background: #cd7f32;
+  position: relative;
+  display: inline-block;
 }
 
 .cyclic_input {
@@ -192,6 +198,10 @@ body {
 .cyclic_input:after {
   content: '▼';
   bottom: 0;
+}
+
+#cy-input{
+  visibility: hidden;
 }
 
 
