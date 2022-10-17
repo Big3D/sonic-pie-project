@@ -16,8 +16,13 @@ body {
   align-items: center;
 }
 
-.canvas-container {
-  position: relative;
+
+#container canvas, #leaderBoardMenu {
+  position: absolute;
+}
+
+.canvas-container{
+    position: relative;
 }
 
 #start-button button {
@@ -102,11 +107,11 @@ body {
 /* Leaderboard CSS*/
 
 #leaderBoardMenu {
-  width: 90%;
+  width: 100%;
   height: auto;
-  float: inherit;
-  top: 300px;
-  left: 300px;
+  /* float: inherit; */
+  /* top: 300px;
+  left: 300px; */
   font-family: 'Butcherman', cursive;
   text-align: center;
 }
@@ -144,26 +149,64 @@ body {
 .score {
   position: relative;
   display: inline-block;
-  width: 25%;
+  width: 30%;
 }
 
-.row:nth-child(1) {
-  background: gold;
-}
-
-.row:nth-child(2) {
-  background: #c0c0c0;
-}
 
 .row:nth-child(3) {
-  background: #c0c0c0;
+  background: gold;
+  position: relative;
+  display: inline-block;
 }
 
 .row:nth-child(4) {
-  background: #cd7f32;
+  background: #c0c0c0;
+  position: relative;
+  display: inline-block;
 }
 
+.row:nth-child(5) {
+  background: #cd7f32;
+  position: relative;
+  display: inline-block;
+}
+
+.cyclic_input {
+  float: left;
+  padding: 1rem;
+  font-size: 5rem;
+  position: relative;
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.cyclic_input:before,
+.cyclic_input:after {
+  display: block;
+  position: absolute;
+  left: 50%;
+  font-size: 1rem;
+  transform: translateX(-50%);
+}
+
+.cyclic_input:before {
+  content: '▲';
+  top: 0;
+}
+
+.cyclic_input:after {
+  content: '▼';
+  bottom: 0;
+}
+
+#cy-input{
+  visibility: hidden;
+}
+
+
 /* End of Leaderboard CSS */
+
 
 /* start paws_menu */
 .paws_menu {
