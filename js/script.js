@@ -1,7 +1,3 @@
-
-
-
-
 //adds click event listener to the start button
 // document.getElementById("start-button").addEventListener("click", startGame);
 const Menu_Canvas = document.getElementById("menu_canvas");
@@ -172,7 +168,7 @@ class Obstacle {
 		}
 	}
 }
-// TSi
+//Tsi
 class Pie {
 	constructor({ position, velocity, distance }) {
 		this.position = {
@@ -188,35 +184,23 @@ class Pie {
 
 		this.distance = distance;
 	}
-
+	//Draw pie
 	draw() {
 		ctx.fillStyle = "green";
 		ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
 	}
-	clear() {
-
+	clean() {
+		ctx.fillStyle = "white";
+		ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
 	}
-
 	update() {
 		this.draw();
-		ctx.clearRect(this.position.x, this.position.y, this.width, this.height);
-		this.position.x += this.velocity.x;
 		this.position.y += this.velocity.y;
-
-		// sets obstacle "y" position to bottom of canvas
+		//sets obstacle "y" position to bottom of canvas
 		if (this.position.y + this.height + this.velocity.y <= canvas.height) {
 			this.velocity.y += gravity;
 		} else {
 			this.velocity.y = 0;
-		}
-  // tsiend
-
-		// makes obstacle go back and forth
-		this.distance.traveled += Math.abs(this.velocity.x);
-
-		if (this.distance.traveled > this.distance.limit) {
-			this.distance.traveled = 0;
-			this.velocity.x = -this.velocity.x;
 		}
 	}
 }
@@ -241,7 +225,7 @@ let health = 100;
 
 // new moving obstacles
 let obstacles = [];
-let pies = [];//tsi
+let pies = [];
 // scroll position
 let scrollPosition = 0;
 
@@ -275,7 +259,7 @@ obstacles = [
 		},
 	}),
 ];
-// Tsi
+// tsi
 pies = [
 	new Pie({
 		position: {
@@ -293,7 +277,7 @@ pies = [
 	}),
 	new Pie({
 		position: {
-			x: 1600,
+			x: 1800,
 			y: 400,
 		},
 		velocity: {
@@ -371,9 +355,9 @@ function animate() {
 		}
 		obstacle.update();
 	});
-  // tsi
+	// tsi
 	pies.forEach((pie) => {
-	
+		// detects for collision between obstacle and player
 		if (
 			sonic.position.x + sonic.width >= pie.position.x &&
 			sonic.position.x <= pie.position.x + pie.width &&
@@ -385,17 +369,20 @@ function animate() {
 				// startGame();
 			} else {
 				// decrements health and pushes player back slightly
-				pie.clear();
-				score = score + 100;
+				if (pie.position.x > sonic.position.x) {
+					score = score + 100;
+				}
+				if (pie.position.x === sonic.position.x) {
+					pie.clean();
+				}
+
 				sonic.position.y -= 50;
 				sonic.position.x += 150;
 			}
-
 			document.getElementById("currentScore").innerHTML = `Score: ${score}`;
 		}
 		pie.update();
 	});
-  // tsi end
 	// SHOW SCORE
 	//refactor made here to ensure when a player reverses they don't get points taken away
 	// score = Math.max(score, sonic.position.x / 2);
@@ -577,6 +564,7 @@ function undoDisplay() {
 }
 
 //Countdown to start ends.
+
 let i = 60;
 let timeout;
 let stopTime = -1;
@@ -599,24 +587,24 @@ function onTimer() {
 const paws_Menu = document.querySelector("#paws");
 
 addEventListener("keydown", (e) => {
-  let name = e.key;
-  let code = e.code;
+	let name = e.key;
+	let code = e.code;
 
-  if (code === "Escape" && name === "Escape") {
-    displayPaws();
-    clearTimer();
-    keepAnimating = false;
-  }
-  console.log(`ESC ${keepAnimating}`);
+	if (code === "Escape" && name === "Escape") {
+		displayPaws();
+		clearTimer();
+		keepAnimating = false;
+	}
+	console.log(`ESC ${keepAnimating}`);
 });
 
 paws_Menu.style.display = "none";
 function displayPaws() {
-  if (paws_Menu.style.display === "none") {
-    paws_Menu.style.display = "flex";
-  } else {
-    paws_Menu.style.display = "none";
-  }
+	if (paws_Menu.style.display === "none") {
+		paws_Menu.style.display = "flex";
+	} else {
+		paws_Menu.style.display = "none";
+	}
 }
 
 // Clear Timer
@@ -624,18 +612,18 @@ function displayPaws() {
 current_timer = document.getElementById("countdown").innerHTML;
 // stop the current on the click of esacpe key
 function clearTimer() {
-  console.log(timeout);
-  clearTimeout(timeout);
+	console.log(timeout);
+	clearTimeout(timeout);
 }
 
 // Quit Button
 const quit_btn = document.querySelector("#btnQ");
 quit_btn.addEventListener("click", Quit);
 function Quit() {
-  location.reload();
-  paws_Menu.style.display = "none";
-  timeout = setTimeout(onTimer, 1000);
-  return (current_timer = timeout);
+	location.reload();
+	paws_Menu.style.display = "none";
+	timeout = setTimeout(onTimer, 1000);
+	return (current_timer = timeout);
 }
 
 // Resume Button
@@ -649,13 +637,12 @@ function Quit() {
 const resume_btn = document.querySelector("#btnS");
 resume_btn.addEventListener("click", Resume);
 function Resume() {
-  onTimer();
-  paws_Menu.style.display = "none";
-  keepAnimating = true;
-  animate();
-  requestAnimationFrame(animate);
-  console.log("i have resumed");
+	onTimer();
+	paws_Menu.style.display = "none";
+	keepAnimating = true;
+	animate();
+	requestAnimationFrame(animate);
+	console.log("i have resumed");
 }
 
 // This that can be improved on(getting escape to pause and play)
-
