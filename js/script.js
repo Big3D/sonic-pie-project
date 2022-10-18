@@ -26,6 +26,7 @@ function StartGame() {
 
   start_button.style.display = "none";
   leaderboard_button.style.display = "none";
+  gameoverscreen.style.display = "none";
   // leaderBoardMenu.style.display = "block";
   leaderBoardMenu.style.display = "none";
 	animate();
@@ -707,8 +708,10 @@ function endGame() {
     keepAnimating = false;
     endScoreModal.draw();
     console.log("game over");
+    gameoverscreen.classList.remove('hide')
+    gameoverscreen.style.display = "flex";
   }
- gameoverscreen.classList.remove('hide')
+ //gameoverscreen.classList.remove('hide')
  
 }
 function closegameover(){
