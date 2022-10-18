@@ -251,23 +251,28 @@ body {
 }
 /* Count_down CSS END */
 /* Game Over Screen */
+#gameover-screen{
+  position: absolute;
+ display:flex;
+ align-items:center;
+ flex-direction:column;
+ text-align: center;
+ font-family:  'Butcherman', 'cursive';
+ outline: none;
+ border: 0%;
+ margin-left: 42%;
+ top: 20%;
+}
 #xuit{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
   background-image: url(/img/UI/TextBTN_Medium.png);
   width: 17.5rem;
   height: 6.9vh;
   font-size:50px;
-  text-decoration:none;
   font-family:  'Butcherman', 'cursive';
-  outline: none;
-  border-radius: 8px;
-  margin: auto;
-  text-align: center;
+  border-radius: 10px;
   color: black;
-  position: absolute;
-  
+  background-color: #000000;
+  outline: none;
 }
 .hide{
   visibility: hidden;
@@ -282,25 +287,11 @@ body {
 #username{
    
   padding:12px 3px 12px 5px;
-  margin: auto;
-  display:flex;
-  align-items:center;
- flex-direction:column;
- text-align: center;
- font-family:  'Butcherman', 'cursive';
  font-size: 18px;
- position: absolute;
+ text-align: center;
+ margin-bottom: 20px;
 }
-h1{
+.gameover{
   color: black;
-  display:flex;
-  font-family:  'Butcherman', 'cursive';
-  align-items:center;
-  flex-direction:column;
-  text-align: center;
   font-size: 70px;
-  position: absolute;
-  top: 18%;
-  margin-left: 40%;
-  z-index: 200;
 }
