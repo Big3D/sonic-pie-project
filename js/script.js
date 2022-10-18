@@ -18,7 +18,11 @@ let keepAnimating = true;
 let countingDown = false;
 start_button.addEventListener("click", StartGame);
 function StartGame() {
-  reduceCount();
+  let removeDisplay = new Promise((resolve)=>{
+    resolve = reduceCount()
+   })
+   removeDisplay.then(setTimeout(undoDisplay, 4000))
+
   start_button.style.display = "none";
   leaderboard_button.style.display = "none";
   // leaderBoardMenu.style.display = "block";
@@ -490,7 +494,7 @@ logoImage.onload = function () {
 let countdown_num = document.querySelector(".text_count");
 let countdown_num_wrapper = document.getElementById("count_down");
 let remainingTime = 3;
-let end_time = "Start ";
+let end_time = "Start !!!";
 function reduceCount() {
   countdown_num.innerHTML = remainingTime;
   let countdown_timer = setInterval(() => {
@@ -508,7 +512,8 @@ function reduceCount() {
 
 }
 
-const startTimeout = setTimeout(undoDisplay, 4000);
+
+//const startTimeout = 
 function undoDisplay() {
   countdown_num_wrapper.style.display = "none";
   onTimer();
