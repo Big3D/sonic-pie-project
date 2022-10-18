@@ -1,4 +1,4 @@
-body {
+#xuit{
     font-size:80px;
     margin:0px;
     padding:0px;
@@ -52,6 +52,7 @@ button:hover {
    
     padding:12px 3px 12px 50px;
     margin-left: 80px;
+    font-size: 35px;
  
     
 }
