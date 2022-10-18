@@ -4,6 +4,7 @@ const Menu_Canvas = document.getElementById("menu_canvas");
 let mtx = Menu_Canvas.getContext("2d");
 let start_button = document.getElementById("start-button");
 let leaderboard_button = document.getElementById("leaderboard-button");
+let gameoverscreen = document.getElementById("gameover-screen")
 leaderBoardMenu.style.display = "none";
 Menu_Canvas.width = innerWidth;
 Menu_Canvas.height = innerHeight;
@@ -25,6 +26,7 @@ function StartGame() {
 
   start_button.style.display = "none";
   leaderboard_button.style.display = "none";
+  gameoverscreen.style.display = "none";
   // leaderBoardMenu.style.display = "block";
   leaderBoardMenu.style.display = "none";
 	animate();
@@ -706,5 +708,12 @@ function endGame() {
     keepAnimating = false;
     endScoreModal.draw();
     console.log("game over");
+    gameoverscreen.classList.remove('hide')
+    gameoverscreen.style.display = "flex";
   }
+ //gameoverscreen.classList.remove('hide')
+ 
+}
+function closegameover(){
+  gameoverscreen.classList.add('hide')
 }
