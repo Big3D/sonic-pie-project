@@ -18,12 +18,15 @@ let keepAnimating = true;
 let countingDown = false;
 start_button.addEventListener("click", StartGame);
 function StartGame() {
-	reduceCount();
-	start_button.style.display = "none";
-	leaderboard_button.style.display = "none";
-	// leaderBoardMenu.style.display = "block";
-	leaderBoardMenu.style.display = "none";
+  let removeDisplay = new Promise((resolve)=>{
+    resolve = reduceCount()
+   })
+   removeDisplay.then(setTimeout(undoDisplay, 4000))
 
+  start_button.style.display = "none";
+  leaderboard_button.style.display = "none";
+  // leaderBoardMenu.style.display = "block";
+  leaderBoardMenu.style.display = "none";
 	animate();
 }
 
@@ -205,6 +208,48 @@ class Pie {
 	}
 }
 
+// end score modal class
+class Modal {
+  constructor() {
+    this.position = {
+      // ensures modal position is in the center of canvas
+      x: canvas.width / 3,
+      y: canvas.height / 6,
+    };
+
+    this.width = 400;
+    this.height = 450;
+  }
+
+  draw() {
+    ctx.fillStyle = "white";
+    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+    ctx.fillStyle = "black";
+    ctx.font = "20pt Arial";
+    ctx.textAlign = "center";
+    // End score modal title heading
+    ctx.fillText(`FINAL SCORE`, this.position.x * 1.55, this.position.y + 100);
+    // Score from game play
+    ctx.fillText(
+      `Score: ${score}`,
+      this.position.x * 1.55,
+      this.position.y + 200
+    );
+    // Remaining time in game * 100
+    ctx.fillText(
+      `Timer Bonus = ${i} x 100`,
+      this.position.x * 1.55,
+      this.position.y + 250
+    );
+    // Totals final score (score + timer bonus)
+    ctx.fillText(
+      `Final Score = ${Math.floor(score + i * 100)} `,
+      this.position.x * 1.55,
+      this.position.y + 300
+    );
+  }
+}
+
 // new instance background images
 let backgrounds = [];
 for (let i = 0; i < 8; i++) {
@@ -219,6 +264,10 @@ const platforms = [
 	new Platform({ x: 300, y: 750 }),
 	new Platform({ x: 500, y: 450 }),
 ];
+
+// new instance - end score modal
+const endScoreModal = new Modal();
+
 
 // health bar
 let health = 100;
@@ -437,6 +486,7 @@ function animate() {
 			}
 		}
 	}
+  endGame();
 }
 
 // character movement on keydown
@@ -541,23 +591,25 @@ logoImage.onload = function () {
 let countdown_num = document.querySelector(".text_count");
 let countdown_num_wrapper = document.getElementById("count_down");
 let remainingTime = 3;
-let end_time = "Start ";
+let end_time = "Start !!!";
 function reduceCount() {
-	countdown_num.innerHTML = remainingTime;
-	let countdown_timer = setInterval(() => {
-		keepAnimating = false;
-		remainingTime--;
-		countdown_num.innerHTML = remainingTime;
-		if (remainingTime <= 0) {
-			countdown_num.innerHTML = end_time;
-			clearInterval(countdown_timer);
-			keepAnimating = true;
-			requestAnimationFrame(animate);
-		}
-	}, 1000);
+  countdown_num.innerHTML = remainingTime;
+  let countdown_timer = setInterval(() => {
+    keepAnimating = false;
+    remainingTime--;
+    countdown_num.innerHTML = remainingTime;
+    
+    if (remainingTime <= 0) {
+      countdown_num.innerHTML = end_time;
+      clearInterval(countdown_timer);
+      keepAnimating = true;
+      requestAnimationFrame(animate);
+    }
+  }, 1000);
 }
 
-const startTimeout = setTimeout(undoDisplay, 4000);
+
+//const startTimeout = 
 function undoDisplay() {
 	countdown_num_wrapper.style.display = "none";
 	onTimer();
@@ -646,3 +698,13 @@ function Resume() {
 }
 
 // This that can be improved on(getting escape to pause and play)
+
+// prompts end score modal if time <= 0 or if player reaches end of level
+// end of level is currently based on scroll position
+function endGame() {
+  if (i <= stopTime || scrollPosition == 5800) {
+    keepAnimating = false;
+    endScoreModal.draw();
+    console.log("game over");
+  }
+}
