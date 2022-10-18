@@ -188,25 +188,28 @@ class Pie {
 		this.height = 30;
 
 		this.distance = distance;
+		this.alive = true;
 	}
 	//Draw pie
 	draw() {
 		ctx.fillStyle = "green";
 		ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
 	}
-	clean() {
-		ctx.fillStyle = "white";
-		ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+	clear() {
+		this.alive = false;
 	}
 	update() {
-		this.draw();
-		this.position.y += this.velocity.y;
-		//sets obstacle "y" position to bottom of canvas
-		if (this.position.y + this.height + this.velocity.y <= canvas.height) {
-			this.velocity.y += gravity;
-		} else {
-			this.velocity.y = 0;
+		if(this.alive === true){
+			this.draw();
+			this.position.y += this.velocity.y;
+			//sets obstacle "y" position to bottom of canvas
+			if (this.position.y + this.height + this.velocity.y <= canvas.height) {
+				this.velocity.y += gravity;
+			} else {
+				this.velocity.y = 0;
+			}
 		}
+
 	}
 }
 
@@ -420,20 +423,16 @@ function animate() {
 				// startGame();
 			} else {
 				// decrements health and pushes player back slightly
-				if (pie.position.x > sonic.position.x) {
-					score = score + 100;
-				}
-				if (pie.position.x === sonic.position.x) {
-					pie.clean();
-				}
-
-				sonic.position.y -= 50;
-				sonic.position.x += 150;
+				pie.clear()
+				score = score + 100;
 			}
 			document.getElementById("currentScore").innerHTML = `Score: ${score}`;
 		}
 		pie.update();
 	});
+
+
+
 	// SHOW SCORE
 	//refactor made here to ensure when a player reverses they don't get points taken away
 	// score = Math.max(score, sonic.position.x / 2);
