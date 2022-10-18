@@ -423,8 +423,6 @@ function animate() {
 				// decrements health and pushes player back slightly
 				pie.clear()
 				score = score + 100;
-				sonic.position.y -= 50;
-				sonic.position.x += 150;
 			}
 			document.getElementById("currentScore").innerHTML = `Score: ${score}`;
 		}
