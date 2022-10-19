@@ -172,8 +172,78 @@ class Platform {
 	}
 }
 
-// obstacle class
-class Obstacle {
+// horizontal saw obstacle class -- moves left and right
+class HorizontalSaw {
+  constructor({ position, velocity, distance }) {
+    this.position = {
+      x: position.x,
+      y: position.y,
+    };
+    this.velocity = {
+      x: velocity.x,
+      y: velocity.y,
+    };
+    this.width = 40;
+    this.height = 40;
+
+    this.distance = distance;
+  }
+  draw() {
+    ctx.fillStyle = "red";
+    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+  }
+  update() {
+    this.draw();
+    this.position.x += this.velocity.x;
+    this.position.y += this.velocity.y;
+
+    // makes obstacle go back and forth
+    this.distance.traveled += Math.abs(this.velocity.x);
+
+    if (this.distance.traveled > this.distance.limit) {
+      this.distance.traveled = 0;
+      this.velocity.x = -this.velocity.x;
+    }
+  }
+}
+
+// verticle saw obstacle class -- moves up and down
+class VerticalSaw {
+  constructor({ position, velocity, distance }) {
+    this.position = {
+      x: position.x,
+      y: position.y,
+    };
+    this.velocity = {
+      x: velocity.x,
+      y: velocity.y,
+    };
+    this.width = 40;
+    this.height = 40;
+
+    this.distance = distance;
+  }
+  draw() {
+    ctx.fillStyle = "teal";
+    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+  }
+  update() {
+    this.draw();
+    this.position.x += this.velocity.x;
+    this.position.y += this.velocity.y;
+
+    // makes obstacle move vertically
+    this.distance.traveled += Math.abs(this.velocity.y);
+
+    if (this.distance.traveled > this.distance.limit) {
+      this.distance.traveled = 0;
+      this.velocity.y = -this.velocity.y;
+    }
+  }
+}
+
+// water drops obstacle class -- moves down and repeats
+class WaterDrops {
   constructor({ position, velocity, distance }) {
     this.position = {
       x: position.x,
@@ -187,10 +257,10 @@ class Obstacle {
     this.height = 30;
 
     this.distance = distance;
+    this.alive = true;
   }
-
   draw() {
-    ctx.fillStyle = "red";
+    ctx.fillStyle = "lime";
     ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
   }
 
@@ -199,22 +269,35 @@ class Obstacle {
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
 
-    // sets obstacle "y" position to bottom of canvas
-    if (this.position.y + this.height + this.velocity.y <= canvas.height) {
-      this.velocity.y += gravity;
-    } else {
-      this.velocity.y = 0;
-    }
-
-    // makes obstacle go back and forth
-    this.distance.traveled += Math.abs(this.velocity.x);
+    // makes obstacle move vertically
+    this.distance.traveled += Math.abs(this.velocity.y);
 
     if (this.distance.traveled > this.distance.limit) {
       this.distance.traveled = 0;
-      this.velocity.x = -this.velocity.x;
+      // repeats position from top
+      this.position.y = 450;
     }
   }
 }
+
+// skeleton hands obstacle class -- static
+class SkeletonHands {
+  constructor({ x, y }) {
+    this.position = {
+      x,
+      y,
+    };
+
+    this.width = 50;
+    this.height = 50;
+  }
+
+  draw() {
+    ctx.fillStyle = "gray";
+    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+  }
+}
+
 //Tsi
 class Pie {
   constructor({ position, velocity, distance }) {
@@ -320,31 +403,32 @@ const endScoreModal = new Modal();
 // health bar
 let health = 100;
 
-// new moving obstacles
-let obstacles = [];
 let pies = [];
+
 // scroll position
 let scrollPosition = 0;
 
-obstacles = [
-  new Obstacle({
+// new instance - moving horizontal saw obstacles
+let horizontalSaws = [];
+horizontalSaws = [
+  new HorizontalSaw({
     position: {
-      x: 400,
-      y: 400,
+      x: 650,
+      y: 445,
     },
     velocity: {
       x: -0.5,
       y: 0,
     },
     distance: {
-      limit: 100,
+      limit: 150,
       traveled: 0,
     },
   }),
-  new Obstacle({
+  new HorizontalSaw({
     position: {
-      x: 800,
-      y: 400,
+      x: 2000,
+      y: 500,
     },
     velocity: {
       x: -0.5,
@@ -356,6 +440,65 @@ obstacles = [
     },
   }),
 ];
+
+// new instance - moving vertical saw obstacles
+let verticalSaws = [];
+verticalSaws = [
+  new VerticalSaw({
+    position: {
+      x: 900,
+      y: 450,
+    },
+    velocity: {
+      x: 0,
+      y: -1,
+    },
+    distance: {
+      limit: 200,
+      traveled: 0,
+    },
+  }),
+  new VerticalSaw({
+    position: {
+      x: 1500,
+      y: 450,
+    },
+    velocity: {
+      x: 0,
+      y: -1,
+    },
+    distance: {
+      limit: 200,
+      traveled: 0,
+    },
+  }),
+];
+
+//new instance - water drops obstacle
+let waterDrops = [];
+waterDrops = [
+  new WaterDrops({
+    position: {
+      x: 4000,
+      y: 450,
+    },
+    velocity: {
+      x: 0,
+      y: 0.7,
+    },
+    distance: {
+      limit: 150,
+      traveled: 0,
+    },
+  }),
+];
+
+//new instance - skeleton hands obstacle
+const skeletonHands = [
+  new SkeletonHands({ x: 900, y: 400 }),
+  new SkeletonHands({ x: 1200, y: 400 }),
+];
+
 // tsi
 pies = [
   new Pie({
@@ -404,6 +547,7 @@ function animate() {
   if (!keepAnimating) {
     return;
   }
+
   requestAnimationFrame(animate);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -429,14 +573,14 @@ function animate() {
     }
   });
 
-  // updates each obstacle in the array
-  obstacles.forEach((obstacle) => {
+  // updates each horizontal saw obstacle in the array
+  horizontalSaws.forEach((horizontalSaw) => {
     // detects for collision between obstacle and player
     if (
-      sonic.position.x + sonic.width >= obstacle.position.x &&
-      sonic.position.x <= obstacle.position.x + obstacle.width &&
-      sonic.position.y + sonic.height >= obstacle.position.y &&
-      sonic.position.y <= obstacle.position.y + obstacle.height
+      sonic.position.x + sonic.width >= horizontalSaw.position.x &&
+      sonic.position.x <= horizontalSaw.position.x + horizontalSaw.width &&
+      sonic.position.y + sonic.height >= horizontalSaw.position.y &&
+      sonic.position.y <= horizontalSaw.position.y + horizontalSaw.height
     ) {
       // damage - restart game when player has no lives left
       if (health < 0) {
@@ -447,11 +591,65 @@ function animate() {
         sonic.position.y -= 50;
         sonic.position.x -= 150;
       }
-      // for testing purposes only
-      console.log(health);
     }
-    obstacle.update();
+    horizontalSaw.update();
   });
+
+  // updates each vertical saw obstacle in the array
+  verticalSaws.forEach((verticalSaw) => {
+    // detects for collision between obstacle and player
+    if (
+      sonic.position.x + sonic.width >= verticalSaw.position.x &&
+      sonic.position.x <= verticalSaw.position.x + verticalSaw.width &&
+      sonic.position.y + sonic.height >= verticalSaw.position.y &&
+      sonic.position.y <= verticalSaw.position.y + verticalSaw.height
+    ) {
+      // damage - restart game when player has no lives left
+      if (health < 0) {
+        // startGame();
+      } else {
+        // decrements health and pushes player back slightly
+        health--;
+        sonic.position.y -= 50;
+        sonic.position.x -= 150;
+      }
+    }
+    verticalSaw.update();
+  });
+
+  // updates each water drop obstacle in the array
+  waterDrops.forEach((waterDrop) => {
+    // detects for collision between obstacle and player
+    if (
+      sonic.position.x + sonic.width >= waterDrop.position.x &&
+      sonic.position.x <= waterDrop.position.x + waterDrop.width &&
+      sonic.position.y + sonic.height >= waterDrop.position.y &&
+      sonic.position.y <= waterDrop.position.y + waterDrop.height
+    ) {
+      // decrements health and pushes player back slightly
+      health--;
+      sonic.position.y -= 50;
+      sonic.position.x -= 150;
+    }
+    waterDrop.update();
+  });
+
+  // renders each skeleton hand in array
+  skeletonHands.forEach((skeletonHand) => {
+    skeletonHand.draw();
+    if (
+      sonic.position.x + sonic.width >= skeletonHand.position.x &&
+      sonic.position.x <= skeletonHand.position.x + skeletonHand.width &&
+      sonic.position.y + sonic.height >= skeletonHand.position.y &&
+      sonic.position.y <= skeletonHand.position.y + skeletonHand.height
+    ) {
+      // decrements health and pushes player back slightly
+      health--;
+      sonic.position.y -= 50;
+      sonic.position.x -= 150;
+    }
+  });
+
   // tsi
   pies.forEach((pie) => {
     // detects for collision between obstacle and player
@@ -467,12 +665,7 @@ function animate() {
       } else {
         // decrements health and pushes player back slightly
         pie.clear();
-        if (pie.position.x > sonic.position.x) {
-			// Count score
-			score = score + 100;
-		}
-		sonic.position.y -= 50;
-		sonic.position.x += 150;;
+        score = score + 100;
       }
       document.getElementById("currentScore").innerHTML = `Score: ${score}`;
     }
@@ -511,8 +704,17 @@ function animate() {
       for (let i = 0; i < platforms.length; i++) {
         platforms[i].position.x -= 5;
       }
-      for (let i = 0; i < obstacles.length; i++) {
-        obstacles[i].position.x -= 5;
+      for (let i = 0; i < horizontalSaws.length; i++) {
+        horizontalSaws[i].position.x -= 5;
+      }
+      for (let i = 0; i < verticalSaws.length; i++) {
+        verticalSaws[i].position.x -= 5;
+      }
+      for (let i = 0; i < waterDrops.length; i++) {
+        waterDrops[i].position.x -= 5;
+      }
+      for (let i = 0; i < skeletonHands.length; i++) {
+        skeletonHands[i].position.x -= 5;
       }
       for (let i = 0; i < pies.length; i++) {
         pies[i].position.x -= 5;
@@ -525,8 +727,17 @@ function animate() {
       for (let i = 0; i < platforms.length; i++) {
         platforms[i].position.x += 5;
       }
-      for (let i = 0; i < obstacles.length; i++) {
-        obstacles[i].position.x += 5;
+      for (let i = 0; i < horizontalSaws.length; i++) {
+        horizontalSaws[i].position.x += 5;
+      }
+      for (let i = 0; i < verticalSaws.length; i++) {
+        verticalSaws[i].position.x += 5;
+      }
+      for (let i = 0; i < waterDrops.length; i++) {
+        waterDrops[i].position.x += 5;
+      }
+      for (let i = 0; i < skeletonHands.length; i++) {
+        skeletonHands[i].position.x += 5;
       }
       for (let i = 0; i < pies.length; i++) {
         pies[i].position.x += 5;
