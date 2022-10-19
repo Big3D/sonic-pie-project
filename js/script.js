@@ -170,19 +170,6 @@ class Platform {
 	draw() {
 		ctx.drawImage(this.platformImage,this.position.x, this.position.y, this.width, this.height)
 	}
-
-  constructor({ x, y }) {
-    this.position = {
-      x,
-      y,
-    };
-    this.width = 200;
-    this.height = 35;
-  }
-  draw() {
-    ctx.fillStyle = "purple";
-    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
-  }
 }
 
 // obstacle class
