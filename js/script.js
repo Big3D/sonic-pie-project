@@ -18,29 +18,26 @@ const GameBGM1 = new Audio("/audio/BGM/Game-BGM1.mp3");
 ////Set this to TRUE to stop the music reloading constantly
 let mute = false;
 
-function playBGM(){
+function playBGM() {
   if (!mute && !playing) {
     titleBGM1.onload = titleBGM1.play();
     GameBGM1.pause();
-  }
-  else if (!mute && playing) {
+  } else if (!mute && playing) {
     GameBGM1.onload = GameBGM1.play();
     titleBGM1.pause();
-  }
-  else if (mute){
+  } else if (mute) {
     GameBGM1.pause();
     titleBGM1.pause();
   }
 }
 
 function muteUnmute() {
-  if (!mute){
-    console.log('Mute')
+  if (!mute) {
+    console.log("Mute");
     mute = true;
     playBGM();
-  }
-  else if(mute){
-    console.log('Unmute')
+  } else if (mute) {
+    console.log("Unmute");
     mute = false;
     playBGM();
   }
@@ -53,7 +50,7 @@ playBGM();
 let countingDown = false;
 start_button.addEventListener("click", StartGame);
 function StartGame() {
-  if(!playing){
+  if (!playing) {
     playing = true;
   }
 
@@ -77,12 +74,30 @@ canvas.width = innerWidth;
 canvas.height = innerHeight;
 
 // gravity
-const gravity = 0.5;
+const gravity = .5;
 //SCORE
 let score = 0;
 
 const playerSprite1 = new Image();
-playerSprite1.src = "/img/TEST-Catwalk copy.png";
+//// Cat animation
+
+const playerWalkRightSpriteRef = "/img/CAT WALK PNGs/WalkRightSpriteSheet.png"
+const playerWalkRightSprite = new Image();
+playerWalkRightSprite.src = playerWalkRightSpriteRef;
+const playerWalkLeftSpriteRef = "/img/CAT WALK PNGs/WalkLeftSpriteSheet.png"
+const playerWalkLeftSprite = new Image();
+playerWalkLeftSprite.src = playerWalkLeftSpriteRef;
+const playerJumpRightSpriteRef = "/img/CAT_JUMP_PNGs/JumpRightSpriteSheet.png"
+const playerJumpRightSprite = new Image();
+playerJumpRightSprite.src = playerJumpRightSpriteRef;
+const playerJumpLeftSpriteRef = "/img/CAT_JUMP_PNGs/JumpLeftSpriteSheet.png"
+const playerJumpLeftSprite = new Image();
+playerJumpLeftSprite.src = playerJumpLeftSpriteRef;
+
+
+playerSprite1.src = "/img/CAT WALK PNGs/WalkRightSpriteSheet.png";
+
+//// Cat animation
 
 //Background Images Class
 class Background {
@@ -121,8 +136,37 @@ class Player {
     // size of player
 
     this.width = 160;
-    this.height = 120;
+    this.height = 160;
     this.image = playerSprite1;
+    this.frames = 0;
+    this.frameCounter = 0;
+
+    //// These are the sprite states that hold values for animations
+    this.sprites = {
+      stand:{
+        right: playerSprite1 ,
+        left: playerSprite1, 
+        frameSheet: 7,
+        animSpeed: 18
+      },
+      walk:{
+        right: playerWalkRightSprite,
+        left: playerWalkLeftSprite, 
+        frameSheet: 7,
+        animSpeed: 18
+      },
+      //// Need to add delay to the first few frames so that Sonic isnt mid way through jump before leaving ground
+      jump: {
+        right: playerJumpRightSprite,
+        left: playerJumpLeftSprite, 
+        frameSheet: 8,
+        animSpeed: 10
+      }
+    }
+
+    this.currentSprite = this.sprites.stand.right;
+    this.currentFrameSheet = this.sprites.stand.frameSheet;
+    this.currentAnimSpeed = this.sprites.stand.animSpeed;
   }
 
   // render player
@@ -130,7 +174,11 @@ class Player {
     // ctx.fillStyle = "blue";
     // ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
     mtx.drawImage(
-      this.image,
+      this.currentSprite,
+      256 * this.frames,
+      0,
+      256,
+      256,
       this.position.x,
       this.position.y,
       this.width,
@@ -139,12 +187,26 @@ class Player {
   }
 
   update() {
+    this.frameCounter++;
+    if (this.frameCounter > this.currentAnimSpeed) {
+      this.frames++;
+      this.frameCounter = 0;
+      if (this.frames > this.currentFrameSheet) {
+        this.frames = 0;
+      }
+    }
+    if (this.frames > 8) {
+      this.frames = 0;
+      console.log(this.frames);
+    }
+
     this.draw();
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
 
     // makes player position always hit the ground of the canvas
-    if (this.position.y + this.height + this.velocity.y <= canvas.height)
+    //// Added 150 to the height so that the player stand on the actual floor
+    if (this.position.y + this.height + this.velocity.y <= canvas.height - 150)
       this.velocity.y += gravity;
     else {
       this.velocity.y = 0;
@@ -154,22 +216,28 @@ class Player {
 
 // platform sprite
 const platformSprite = new Image();
-platformSprite.src = '/img/Platform-img/Platform 03.png'
+platformSprite.src = "/img/Platform-img/Platform 03.png";
 
 // CLASS CONTRUCTOR FOR PLATFORMS
 class Platform {
-	constructor({ x, y }) {
-		this.position = {
-			x,
-			y,
-		};
-		this.width = 200;
-		this.height = 55;
-		this.platformImage = platformSprite
-	}
-	draw() {
-		ctx.drawImage(this.platformImage,this.position.x, this.position.y, this.width, this.height)
-	}
+  constructor({ x, y }) {
+    this.position = {
+      x,
+      y,
+    };
+    this.width = 200;
+    this.height = 55;
+    this.platformImage = platformSprite;
+  }
+  draw() {
+    ctx.drawImage(
+      this.platformImage,
+      this.position.x,
+      this.position.y,
+      this.width,
+      this.height
+    );
+  }
 }
 
 // obstacle class
@@ -307,9 +375,8 @@ const sonic = new Player();
 
 //new instance Platforms
 const platforms = [
-
-	new Platform({ x: 300, y: 450 }),
-	new Platform({ x: 500, y: 350 }),
+  new Platform({ x: 300, y: 450 }),
+  new Platform({ x: 500, y: 350 }),
   new Platform({ x: 300, y: 750 }),
   new Platform({ x: 500, y: 450 }),
 ];
@@ -468,11 +535,11 @@ function animate() {
         // decrements health and pushes player back slightly
         pie.clear();
         if (pie.position.x > sonic.position.x) {
-			// Count score
-			score = score + 100;
-		}
-		sonic.position.y -= 50;
-		sonic.position.x += 150;;
+          // Count score
+          score = score + 100;
+        }
+        sonic.position.y -= 50;
+        sonic.position.x += 150;
       }
       document.getElementById("currentScore").innerHTML = `Score: ${score}`;
     }
@@ -542,14 +609,31 @@ addEventListener("keydown", ({ keyCode }) => {
   switch (keyCode) {
     case 37:
       keys.left.pressed = true;
+      sonic.currentSprite = sonic.sprites.walk.left;
+      sonic.currentAnimSpeed = sonic.sprites.walk.animSpeed;
+      sonic.currentFrameSheet = sonic.sprites.walk.frameSheet;
       break;
     case 39:
       keys.right.pressed = true;
+      sonic.currentSprite = sonic.sprites.walk.right
+      sonic.currentAnimSpeed = sonic.sprites.walk.animSpeed;
+      sonic.currentFrameSheet = sonic.sprites.walk.frameSheet;
       break;
     case 32:
-      if (!keys.spacebar.pressed) {
+      if (!keys.spacebar.pressed && (sonic.currentSprite = sonic.sprites.walk.right)) {
         keys.spacebar.pressed = true;
         sonic.velocity.y -= 15;
+        sonic.currentSprite = sonic.sprites.jump.right
+        sonic.currentAnimSpeed = sonic.sprites.jump.animSpeed;
+        sonic.currentFrameSheet = sonic.sprites.jump.frameSheet;
+      }
+      case 30:
+      if (!keys.spacebar.pressed && (sonic.currentSprite = sonic.sprites.walk.left)) {
+        keys.spacebar.pressed = true;
+        sonic.velocity.y -= 15;
+        sonic.currentSprite = sonic.sprites.jump.left
+        sonic.currentAnimSpeed = sonic.sprites.jump.animSpeed;
+        sonic.currentFrameSheet = sonic.sprites.jump.frameSheet;
       }
       break;
   }
@@ -567,7 +651,7 @@ addEventListener("keyup", ({ keyCode }) => {
     case 32:
       keys.spacebar.pressed = false;
       if (!keys.spacebar.pressed && sonic.velocity.y != 0) {
-        sonic.velocity.y += 14;
+        sonic.velocity.y += 15;
       }
       break;
   }
