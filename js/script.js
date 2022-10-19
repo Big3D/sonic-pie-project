@@ -1,29 +1,69 @@
 //adds click event listener to the start button
-// document.getElementById("start-button").addEventListener("click", startGame);
 const Menu_Canvas = document.getElementById("menu_canvas");
 let mtx = Menu_Canvas.getContext("2d");
 let start_button = document.getElementById("start-button");
 let leaderboard_button = document.getElementById("leaderboard-button");
+let gameoverscreen = document.getElementById("gameover-screen");
 leaderBoardMenu.style.display = "none";
 Menu_Canvas.width = innerWidth;
 Menu_Canvas.height = innerHeight;
 let keepAnimating = true;
-// const image1 = new Image();
-// // image1.src = "../img/sonic.img";
-// image1.addEventListener("load", function () {
-//   mtx.drawImage(image1, 0, 0, Menu_Canvas.width, Menu_Canvas.width);
-// });
+
+//// Audio Testing ////
+let playing = false;
+
+const titleBGM1 = new Audio("/audio/BGM/Title-theme1.mp3");
+const GameBGM1 = new Audio("/audio/BGM/Game-BGM1.mp3");
+
+////Set this to TRUE to stop the music reloading constantly
+let mute = false;
+
+function playBGM() {
+	if (!mute && !playing) {
+		titleBGM1.onload = titleBGM1.play();
+		GameBGM1.pause();
+	} else if (!mute && playing) {
+		GameBGM1.onload = GameBGM1.play();
+		titleBGM1.pause();
+	} else if (mute) {
+		GameBGM1.pause();
+		titleBGM1.pause();
+	}
+}
+
+function muteUnmute() {
+	if (!mute) {
+		console.log("Mute");
+		mute = true;
+		playBGM();
+	} else if (mute) {
+		console.log("Unmute");
+		mute = false;
+		playBGM();
+	}
+}
+
+playBGM();
+//// Audio Testing ////
 
 // Using Boolean to stop start countdown
 let countingDown = false;
 start_button.addEventListener("click", StartGame);
 function StartGame() {
-	reduceCount();
+	if (!playing) {
+		playing = true;
+	}
+
+	let removeDisplay = new Promise((resolve) => {
+		resolve = reduceCount();
+	});
+	removeDisplay.then(setTimeout(undoDisplay, 4000));
+
 	start_button.style.display = "none";
 	leaderboard_button.style.display = "none";
+	gameoverscreen.style.display = "none";
 	// leaderBoardMenu.style.display = "block";
 	leaderBoardMenu.style.display = "none";
-
 	animate();
 }
 
@@ -183,16 +223,14 @@ class Pie {
 		this.height = 30;
 
 		this.distance = distance;
+		this.alive = true;
 	}
 	//Draw pie
 	draw() {
 		ctx.fillStyle = "green";
 		ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
 	}
-	clean() {
-		ctx.fillStyle = "white";
-		ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
-	}
+
 	update() {
 		this.draw();
 		this.position.y += this.velocity.y;
@@ -202,6 +240,48 @@ class Pie {
 		} else {
 			this.velocity.y = 0;
 		}
+	}
+}
+
+// end score modal class
+class Modal {
+	constructor() {
+		this.position = {
+			// ensures modal position is in the center of canvas
+			x: canvas.width / 3,
+			y: canvas.height / 6,
+		};
+
+		this.width = 400;
+		this.height = 450;
+	}
+
+	draw() {
+		ctx.fillStyle = "white";
+		ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+		ctx.fillStyle = "black";
+		ctx.font = "20pt Arial";
+		ctx.textAlign = "center";
+		// End score modal title heading
+		ctx.fillText(`FINAL SCORE`, this.position.x * 1.55, this.position.y + 100);
+		// Score from game play
+		ctx.fillText(
+			`Score: ${score}`,
+			this.position.x * 1.55,
+			this.position.y + 200
+		);
+		// Remaining time in game * 100
+		ctx.fillText(
+			`Timer Bonus = ${i} x 100`,
+			this.position.x * 1.55,
+			this.position.y + 250
+		);
+		// Totals final score (score + timer bonus)
+		ctx.fillText(
+			`Final Score = ${Math.floor(score + i * 100)} `,
+			this.position.x * 1.55,
+			this.position.y + 300
+		);
 	}
 }
 
@@ -219,6 +299,9 @@ const platforms = [
 	new Platform({ x: 300, y: 750 }),
 	new Platform({ x: 500, y: 450 }),
 ];
+
+// new instance - end score modal
+const endScoreModal = new Modal();
 
 // health bar
 let health = 100;
@@ -370,19 +453,22 @@ function animate() {
 			} else {
 				// decrements health and pushes player back slightly
 				if (pie.position.x > sonic.position.x) {
+					// Count score
 					score = score + 100;
 				}
-				if (pie.position.x === sonic.position.x) {
-					pie.clean();
-				}
-
 				sonic.position.y -= 50;
 				sonic.position.x += 150;
+
+				// Clear pie
+				pie.position.x = undefined;
+				pie.position.y = undefined;
 			}
+			// Write score into document
 			document.getElementById("currentScore").innerHTML = `Score: ${score}`;
 		}
 		pie.update();
 	});
+
 	// SHOW SCORE
 	//refactor made here to ensure when a player reverses they don't get points taken away
 	// score = Math.max(score, sonic.position.x / 2);
@@ -437,6 +523,8 @@ function animate() {
 			}
 		}
 	}
+	endGame();
+	playBGM();
 }
 
 // character movement on keydown
@@ -541,13 +629,14 @@ logoImage.onload = function () {
 let countdown_num = document.querySelector(".text_count");
 let countdown_num_wrapper = document.getElementById("count_down");
 let remainingTime = 3;
-let end_time = "Start ";
+let end_time = "Start !!!";
 function reduceCount() {
 	countdown_num.innerHTML = remainingTime;
 	let countdown_timer = setInterval(() => {
 		keepAnimating = false;
 		remainingTime--;
 		countdown_num.innerHTML = remainingTime;
+
 		if (remainingTime <= 0) {
 			countdown_num.innerHTML = end_time;
 			clearInterval(countdown_timer);
@@ -557,7 +646,7 @@ function reduceCount() {
 	}, 1000);
 }
 
-const startTimeout = setTimeout(undoDisplay, 4000);
+//const startTimeout =
 function undoDisplay() {
 	countdown_num_wrapper.style.display = "none";
 	onTimer();
@@ -620,18 +709,21 @@ function clearTimer() {
 const quit_btn = document.querySelector("#btnQ");
 quit_btn.addEventListener("click", Quit);
 function Quit() {
+	playing = false;
+	let muteState = mute;
 	location.reload();
 	paws_Menu.style.display = "none";
 	timeout = setTimeout(onTimer, 1000);
+	mute = muteState;
 	return (current_timer = timeout);
 }
 
 // Resume Button
 /**
    * While paused gameplay should also pause
-    -Timer stops
-    -Player cannot move
-    -Obstacles should stop
+	-Timer stops
+	-Player cannot move
+	-Obstacles should stop
    */
 
 const resume_btn = document.querySelector("#btnS");
@@ -646,3 +738,19 @@ function Resume() {
 }
 
 // This that can be improved on(getting escape to pause and play)
+
+// prompts end score modal if time <= 0 or if player reaches end of level
+// end of level is currently based on scroll position
+function endGame() {
+	if (i <= stopTime || scrollPosition == 5800) {
+		keepAnimating = false;
+		endScoreModal.draw();
+		console.log("game over");
+		gameoverscreen.classList.remove("hide");
+		gameoverscreen.style.display = "flex";
+	}
+	//gameoverscreen.classList.remove('hide')
+}
+function closegameover() {
+	gameoverscreen.classList.add("hide");
+}
