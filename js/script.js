@@ -4,7 +4,7 @@ const Menu_Canvas = document.getElementById("menu_canvas");
 let mtx = Menu_Canvas.getContext("2d");
 let start_button = document.getElementById("start-button");
 let leaderboard_button = document.getElementById("leaderboard-button");
-let gameoverscreen = document.getElementById("gameover-screen")
+let gameoverscreen = document.getElementById("gameover-screen");
 leaderBoardMenu.style.display = "none";
 Menu_Canvas.width = innerWidth;
 Menu_Canvas.height = innerHeight;
@@ -19,17 +19,17 @@ let keepAnimating = true;
 let countingDown = false;
 start_button.addEventListener("click", StartGame);
 function StartGame() {
-  let removeDisplay = new Promise((resolve)=>{
-    resolve = reduceCount()
-   })
-   removeDisplay.then(setTimeout(undoDisplay, 4000))
+  let removeDisplay = new Promise((resolve) => {
+    resolve = reduceCount();
+  });
+  removeDisplay.then(setTimeout(undoDisplay, 4000));
 
   start_button.style.display = "none";
   leaderboard_button.style.display = "none";
   gameoverscreen.style.display = "none";
   // leaderBoardMenu.style.display = "block";
   leaderBoardMenu.style.display = "none";
-	animate();
+  animate();
 }
 
 // Character movement
@@ -48,169 +48,251 @@ playerSprite1.src = "/img/TEST-Catwalk copy.png";
 
 //Background Images Class
 class Background {
-	constructor(index) {
-		this.position = {
-			x: 0,
-			y: 0,
-		};
-		this.index = index;
-		this.backgroundImage = new Image();
-		this.backgroundImage.src = `/img/Background-img/Frame_${index + 1}.png`;
-	}
-	draw() {
-		const offset = this.index * canvas.width;
-		ctx.drawImage(
-			this.backgroundImage,
-			this.position.x + offset,
-			this.position.y,
-			canvas.width,
-			canvas.height
-		);
-	}
+  constructor(index) {
+    this.position = {
+      x: 0,
+      y: 0,
+    };
+    this.index = index;
+    this.backgroundImage = new Image();
+    this.backgroundImage.src = `/img/Background-img/Frame_${index + 1}.png`;
+  }
+  draw() {
+    const offset = this.index * canvas.width;
+    ctx.drawImage(
+      this.backgroundImage,
+      this.position.x + offset,
+      this.position.y,
+      canvas.width,
+      canvas.height
+    );
+  }
 }
 
 // player class
 class Player {
-	constructor() {
-		this.position = {
-			x: 100,
-			y: 100,
-		};
-		this.velocity = {
-			x: 0,
-			y: 0,
-		};
-		// size of player
+  constructor() {
+    this.position = {
+      x: 100,
+      y: 100,
+    };
+    this.velocity = {
+      x: 0,
+      y: 0,
+    };
+    // size of player
 
-		this.width = 160;
-		this.height = 120;
-		this.image = playerSprite1;
-	}
+    this.width = 160;
+    this.height = 120;
+    this.image = playerSprite1;
+  }
 
-	// render player
-	draw() {
-		// ctx.fillStyle = "blue";
-		// ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
-		mtx.drawImage(
-			this.image,
-			this.position.x,
-			this.position.y,
-			this.width,
-			this.height
-		);
-	}
+  // render player
+  draw() {
+    // ctx.fillStyle = "blue";
+    // ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+    mtx.drawImage(
+      this.image,
+      this.position.x,
+      this.position.y,
+      this.width,
+      this.height
+    );
+  }
 
-	update() {
-		this.draw();
-		this.position.x += this.velocity.x;
-		this.position.y += this.velocity.y;
+  update() {
+    this.draw();
+    this.position.x += this.velocity.x;
+    this.position.y += this.velocity.y;
 
-		// makes player position always hit the ground of the canvas
-		if (this.position.y + this.height + this.velocity.y <= canvas.height)
-			this.velocity.y += gravity;
-		else {
-			this.velocity.y = 0;
-		}
-	}
+    // makes player position always hit the ground of the canvas
+    if (this.position.y + this.height + this.velocity.y <= canvas.height)
+      this.velocity.y += gravity;
+    else {
+      this.velocity.y = 0;
+    }
+  }
 }
 
 // CLASS CONTRUCTOR FOR PLATFORMS
 class Platform {
-	constructor({ x, y }) {
-		this.position = {
-			x,
-			y,
-		};
-		this.width = 200;
-		this.height = 35;
-	}
-	draw() {
-		ctx.fillStyle = "purple";
-		ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
-	}
+  constructor({ x, y }) {
+    this.position = {
+      x,
+      y,
+    };
+    this.width = 200;
+    this.height = 35;
+  }
+  draw() {
+    ctx.fillStyle = "purple";
+    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+  }
 }
 
-// obstacle class
-class Obstacle {
-	constructor({ position, velocity, distance }) {
-		this.position = {
-			x: position.x,
-			y: position.y,
-		};
-		this.velocity = {
-			x: velocity.x,
-			y: velocity.y,
-		};
-		this.width = 30;
-		this.height = 30;
+// horizontal saw obstacle class -- moves left and right
+class HorizontalSaw {
+  constructor({ position, velocity, distance }) {
+    this.position = {
+      x: position.x,
+      y: position.y,
+    };
+    this.velocity = {
+      x: velocity.x,
+      y: velocity.y,
+    };
+    this.width = 40;
+    this.height = 40;
 
-		this.distance = distance;
-	}
+    this.distance = distance;
+  }
+  draw() {
+    ctx.fillStyle = "red";
+    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+  }
+  update() {
+    this.draw();
+    this.position.x += this.velocity.x;
+    this.position.y += this.velocity.y;
 
-	draw() {
-		ctx.fillStyle = "red";
-		ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
-	}
+    // makes obstacle go back and forth
+    this.distance.traveled += Math.abs(this.velocity.x);
 
-	update() {
-		this.draw();
-		this.position.x += this.velocity.x;
-		this.position.y += this.velocity.y;
-
-		// sets obstacle "y" position to bottom of canvas
-		if (this.position.y + this.height + this.velocity.y <= canvas.height) {
-			this.velocity.y += gravity;
-		} else {
-			this.velocity.y = 0;
-		}
-
-		// makes obstacle go back and forth
-		this.distance.traveled += Math.abs(this.velocity.x);
-
-		if (this.distance.traveled > this.distance.limit) {
-			this.distance.traveled = 0;
-			this.velocity.x = -this.velocity.x;
-		}
-	}
+    if (this.distance.traveled > this.distance.limit) {
+      this.distance.traveled = 0;
+      this.velocity.x = -this.velocity.x;
+    }
+  }
 }
+
+// verticle saw obstacle class -- moves up and down
+class VerticalSaw {
+  constructor({ position, velocity, distance }) {
+    this.position = {
+      x: position.x,
+      y: position.y,
+    };
+    this.velocity = {
+      x: velocity.x,
+      y: velocity.y,
+    };
+    this.width = 40;
+    this.height = 40;
+
+    this.distance = distance;
+  }
+  draw() {
+    ctx.fillStyle = "teal";
+    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+  }
+  update() {
+    this.draw();
+    this.position.x += this.velocity.x;
+    this.position.y += this.velocity.y;
+
+    // makes obstacle move vertically
+    this.distance.traveled += Math.abs(this.velocity.y);
+
+    if (this.distance.traveled > this.distance.limit) {
+      this.distance.traveled = 0;
+      this.velocity.y = -this.velocity.y;
+    }
+  }
+}
+
+// water drops obstacle class -- moves down and repeats
+class WaterDrops {
+  constructor({ position, velocity, distance }) {
+    this.position = {
+      x: position.x,
+      y: position.y,
+    };
+    this.velocity = {
+      x: velocity.x,
+      y: velocity.y,
+    };
+    this.width = 30;
+    this.height = 30;
+
+    this.distance = distance;
+    this.alive = true;
+  }
+  draw() {
+    ctx.fillStyle = "lime";
+    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+  }
+
+  update() {
+    this.draw();
+    this.position.x += this.velocity.x;
+    this.position.y += this.velocity.y;
+
+    // makes obstacle move vertically
+    this.distance.traveled += Math.abs(this.velocity.y);
+
+    if (this.distance.traveled > this.distance.limit) {
+      this.distance.traveled = 0;
+      // repeats position from top
+      this.position.y = 450;
+    }
+  }
+}
+
+// skeleton hands obstacle class -- static
+class SkeletonHands {
+  constructor({ x, y }) {
+    this.position = {
+      x,
+      y,
+    };
+
+    this.width = 50;
+    this.height = 50;
+  }
+
+  draw() {
+    ctx.fillStyle = "gray";
+    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+  }
+}
+
 //Tsi
 class Pie {
-	constructor({ position, velocity, distance }) {
-		this.position = {
-			x: position.x,
-			y: position.y,
-		};
-		this.velocity = {
-			x: velocity.x,
-			y: velocity.y,
-		};
-		this.width = 30;
-		this.height = 30;
+  constructor({ position, velocity, distance }) {
+    this.position = {
+      x: position.x,
+      y: position.y,
+    };
+    this.velocity = {
+      x: velocity.x,
+      y: velocity.y,
+    };
+    this.width = 30;
+    this.height = 30;
 
-		this.distance = distance;
-		this.alive = true;
-	}
-	//Draw pie
-	draw() {
-		ctx.fillStyle = "green";
-		ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
-	}
-	clear() {
-		this.alive = false;
-	}
-	update() {
-		if(this.alive === true){
-			this.draw();
-			this.position.y += this.velocity.y;
-			//sets obstacle "y" position to bottom of canvas
-			if (this.position.y + this.height + this.velocity.y <= canvas.height) {
-				this.velocity.y += gravity;
-			} else {
-				this.velocity.y = 0;
-			}
-		}
-
-	}
+    this.distance = distance;
+    this.alive = true;
+  }
+  //Draw pie
+  draw() {
+    ctx.fillStyle = "green";
+    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+  }
+  clear() {
+    this.alive = false;
+  }
+  update() {
+    if (this.alive === true) {
+      this.draw();
+      this.position.y += this.velocity.y;
+      //sets obstacle "y" position to bottom of canvas
+      if (this.position.y + this.height + this.velocity.y <= canvas.height) {
+        this.velocity.y += gravity;
+      } else {
+        this.velocity.y = 0;
+      }
+    }
+  }
 }
 
 // end score modal class
@@ -258,7 +340,7 @@ class Modal {
 // new instance background images
 let backgrounds = [];
 for (let i = 0; i < 8; i++) {
-	backgrounds.push(new Background(i));
+  backgrounds.push(new Background(i));
 }
 
 // new instance - sonic
@@ -266,271 +348,401 @@ const sonic = new Player();
 
 //new instance Platforms
 const platforms = [
-	new Platform({ x: 300, y: 750 }),
-	new Platform({ x: 500, y: 450 }),
+  new Platform({ x: 300, y: 750 }),
+  new Platform({ x: 500, y: 450 }),
 ];
 
 // new instance - end score modal
 const endScoreModal = new Modal();
 
-
 // health bar
 let health = 100;
 
-// new moving obstacles
-let obstacles = [];
 let pies = [];
+
 // scroll position
 let scrollPosition = 0;
 
-obstacles = [
-	new Obstacle({
-		position: {
-			x: 400,
-			y: 400,
-		},
-		velocity: {
-			x: -0.5,
-			y: 0,
-		},
-		distance: {
-			limit: 100,
-			traveled: 0,
-		},
-	}),
-	new Obstacle({
-		position: {
-			x: 800,
-			y: 400,
-		},
-		velocity: {
-			x: -0.5,
-			y: 0,
-		},
-		distance: {
-			limit: 100,
-			traveled: 0,
-		},
-	}),
+// new instance - moving horizontal saw obstacles
+let horizontalSaws = [];
+horizontalSaws = [
+  new HorizontalSaw({
+    position: {
+      x: 650,
+      y: 445,
+    },
+    velocity: {
+      x: -0.5,
+      y: 0,
+    },
+    distance: {
+      limit: 150,
+      traveled: 0,
+    },
+  }),
+  new HorizontalSaw({
+    position: {
+      x: 2000,
+      y: 500,
+    },
+    velocity: {
+      x: -0.5,
+      y: 0,
+    },
+    distance: {
+      limit: 100,
+      traveled: 0,
+    },
+  }),
 ];
+
+// new instance - moving vertical saw obstacles
+let verticalSaws = [];
+verticalSaws = [
+  new VerticalSaw({
+    position: {
+      x: 900,
+      y: 450,
+    },
+    velocity: {
+      x: 0,
+      y: -1,
+    },
+    distance: {
+      limit: 200,
+      traveled: 0,
+    },
+  }),
+  new VerticalSaw({
+    position: {
+      x: 1500,
+      y: 450,
+    },
+    velocity: {
+      x: 0,
+      y: -1,
+    },
+    distance: {
+      limit: 200,
+      traveled: 0,
+    },
+  }),
+];
+
+//new instance - water drops obstacle
+let waterDrops = [];
+waterDrops = [
+  new WaterDrops({
+    position: {
+      x: 4000,
+      y: 450,
+    },
+    velocity: {
+      x: 0,
+      y: 0.7,
+    },
+    distance: {
+      limit: 150,
+      traveled: 0,
+    },
+  }),
+];
+
+//new instance - skeleton hands obstacle
+const skeletonHands = [
+  new SkeletonHands({ x: 900, y: 400 }),
+  new SkeletonHands({ x: 1200, y: 400 }),
+];
+
 // tsi
 pies = [
-	new Pie({
-		position: {
-			x: 1300,
-			y: 400,
-		},
-		velocity: {
-			x: -0.5,
-			y: 0,
-		},
-		distance: {
-			limit: 100,
-			traveled: 0,
-		},
-	}),
-	new Pie({
-		position: {
-			x: 1800,
-			y: 400,
-		},
-		velocity: {
-			x: -0.5,
-			y: 0,
-		},
-		distance: {
-			limit: 100,
-			traveled: 0,
-		},
-	}),
+  new Pie({
+    position: {
+      x: 1300,
+      y: 400,
+    },
+    velocity: {
+      x: -0.5,
+      y: 0,
+    },
+    distance: {
+      limit: 100,
+      traveled: 0,
+    },
+  }),
+  new Pie({
+    position: {
+      x: 1800,
+      y: 400,
+    },
+    velocity: {
+      x: -0.5,
+      y: 0,
+    },
+    distance: {
+      limit: 100,
+      traveled: 0,
+    },
+  }),
 ];
 
 const keys = {
-	right: {
-		pressed: false,
-	},
-	left: {
-		pressed: false,
-	},
-	spacebar: {
-		pressed: false,
-	},
+  right: {
+    pressed: false,
+  },
+  left: {
+    pressed: false,
+  },
+  spacebar: {
+    pressed: false,
+  },
 };
 
 function animate() {
-	if (!keepAnimating) {
-		return;
-	}
-	requestAnimationFrame(animate);
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
+  if (!keepAnimating) {
+    return;
+  }
 
-	//loops through background array
-	for (let i = 0; i < backgrounds.length; i++) {
-		backgrounds[i].draw();
-	}
+  requestAnimationFrame(animate);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-	//loops through platforms arrray
-	platforms.forEach((platform) => {
-		platform.draw();
-	});
-	//platform collision
-	platforms.forEach((platform) => {
-		if (
-			sonic.position.y + sonic.height <= platform.position.y &&
-			sonic.position.y + sonic.height + sonic.velocity.y >=
-				platform.position.y &&
-			sonic.position.x + sonic.width >= platform.position.x &&
-			sonic.position.x <= platform.position.x + platform.width
-		) {
-			sonic.velocity.y = 0;
-		}
-	});
+  //loops through background array
+  for (let i = 0; i < backgrounds.length; i++) {
+    backgrounds[i].draw();
+  }
 
-	// updates each obstacle in the array
-	obstacles.forEach((obstacle) => {
-		// detects for collision between obstacle and player
-		if (
-			sonic.position.x + sonic.width >= obstacle.position.x &&
-			sonic.position.x <= obstacle.position.x + obstacle.width &&
-			sonic.position.y + sonic.height >= obstacle.position.y &&
-			sonic.position.y <= obstacle.position.y + obstacle.height
-		) {
-			// damage - restart game when player has no lives left
-			if (health < 0) {
-				// startGame();
-			} else {
-				// decrements health and pushes player back slightly
-				health--;
-				sonic.position.y -= 50;
-				sonic.position.x -= 150;
-			}
-			// for testing purposes only
-			console.log(health);
-		}
-		obstacle.update();
-	});
-	// tsi
-	pies.forEach((pie) => {
-		// detects for collision between obstacle and player
-		if (
-			sonic.position.x + sonic.width >= pie.position.x &&
-			sonic.position.x <= pie.position.x + pie.width &&
-			sonic.position.y + sonic.height >= pie.position.y &&
-			sonic.position.y <= pie.position.y + pie.height
-		) {
-			// damage - restart game when player has no lives left
-			if (health < 0) {
-				// startGame();
-			} else {
-				// decrements health and pushes player back slightly
-				pie.clear()
-				score = score + 100;
-			}
-			document.getElementById("currentScore").innerHTML = `Score: ${score}`;
-		}
-		pie.update();
-	});
+  //loops through platforms arrray
+  platforms.forEach((platform) => {
+    platform.draw();
+  });
+  //platform collision
+  platforms.forEach((platform) => {
+    if (
+      sonic.position.y + sonic.height <= platform.position.y &&
+      sonic.position.y + sonic.height + sonic.velocity.y >=
+        platform.position.y &&
+      sonic.position.x + sonic.width >= platform.position.x &&
+      sonic.position.x <= platform.position.x + platform.width
+    ) {
+      sonic.velocity.y = 0;
+    }
+  });
 
+  // updates each horizontal saw obstacle in the array
+  horizontalSaws.forEach((horizontalSaw) => {
+    // detects for collision between obstacle and player
+    if (
+      sonic.position.x + sonic.width >= horizontalSaw.position.x &&
+      sonic.position.x <= horizontalSaw.position.x + horizontalSaw.width &&
+      sonic.position.y + sonic.height >= horizontalSaw.position.y &&
+      sonic.position.y <= horizontalSaw.position.y + horizontalSaw.height
+    ) {
+      // damage - restart game when player has no lives left
+      if (health < 0) {
+        // startGame();
+      } else {
+        // decrements health and pushes player back slightly
+        health--;
+        sonic.position.y -= 50;
+        sonic.position.x -= 150;
+      }
+    }
+    horizontalSaw.update();
+  });
 
+  // updates each vertical saw obstacle in the array
+  verticalSaws.forEach((verticalSaw) => {
+    // detects for collision between obstacle and player
+    if (
+      sonic.position.x + sonic.width >= verticalSaw.position.x &&
+      sonic.position.x <= verticalSaw.position.x + verticalSaw.width &&
+      sonic.position.y + sonic.height >= verticalSaw.position.y &&
+      sonic.position.y <= verticalSaw.position.y + verticalSaw.height
+    ) {
+      // damage - restart game when player has no lives left
+      if (health < 0) {
+        // startGame();
+      } else {
+        // decrements health and pushes player back slightly
+        health--;
+        sonic.position.y -= 50;
+        sonic.position.x -= 150;
+      }
+    }
+    verticalSaw.update();
+  });
 
-	// SHOW SCORE
-	//refactor made here to ensure when a player reverses they don't get points taken away
-	// score = Math.max(score, sonic.position.x / 2);
-	// if (score === 100) {
-	// 	document.getElementById("currentScore").innerHTML = `Score: ${score}`;
-	// }
-	// if (score === 300) {
-	// 	document.getElementById("currentScore").innerHTML = `Score: ${score}`;
-	// }
-	// if (score === 500) {
-	// 	document.getElementById("currentScore").innerHTML = `Score: ${score}`;
-	// }
+  // updates each water drop obstacle in the array
+  waterDrops.forEach((waterDrop) => {
+    // detects for collision between obstacle and player
+    if (
+      sonic.position.x + sonic.width >= waterDrop.position.x &&
+      sonic.position.x <= waterDrop.position.x + waterDrop.width &&
+      sonic.position.y + sonic.height >= waterDrop.position.y &&
+      sonic.position.y <= waterDrop.position.y + waterDrop.height
+    ) {
+      // decrements health and pushes player back slightly
+      health--;
+      sonic.position.y -= 50;
+      sonic.position.x -= 150;
+    }
+    waterDrop.update();
+  });
 
-	// updates player
-	sonic.update();
+  // renders each skeleton hand in array
+  skeletonHands.forEach((skeletonHand) => {
+    skeletonHand.draw();
+    if (
+      sonic.position.x + sonic.width >= skeletonHand.position.x &&
+      sonic.position.x <= skeletonHand.position.x + skeletonHand.width &&
+      sonic.position.y + sonic.height >= skeletonHand.position.y &&
+      sonic.position.y <= skeletonHand.position.y + skeletonHand.height
+    ) {
+      // decrements health and pushes player back slightly
+      health--;
+      sonic.position.y -= 50;
+      sonic.position.x -= 150;
+    }
+  });
 
-	if (keys.right.pressed && sonic.position.x < 500) {
-		sonic.velocity.x = 5;
-	} else if (keys.left.pressed && sonic.position.x > 50) {
-		sonic.velocity.x = -5;
-	} else {
-		sonic.velocity.x = 0;
+  // tsi
+  pies.forEach((pie) => {
+    // detects for collision between obstacle and player
+    if (
+      sonic.position.x + sonic.width >= pie.position.x &&
+      sonic.position.x <= pie.position.x + pie.width &&
+      sonic.position.y + sonic.height >= pie.position.y &&
+      sonic.position.y <= pie.position.y + pie.height
+    ) {
+      // damage - restart game when player has no lives left
+      if (health < 0) {
+        // startGame();
+      } else {
+        // decrements health and pushes player back slightly
+        pie.clear();
+        score = score + 100;
+      }
+      document.getElementById("currentScore").innerHTML = `Score: ${score}`;
+    }
+    pie.update();
+  });
 
-		// handles background image scrolling
-		if (keys.right.pressed) {
-			scrollPosition += 5;
-			for (let i = 0; i < backgrounds.length; i++) {
-				backgrounds[i].position.x -= 5;
-			}
-			for (let i = 0; i < platforms.length; i++) {
-				platforms[i].position.x -= 5;
-			}
-			for (let i = 0; i < obstacles.length; i++) {
-				obstacles[i].position.x -= 5;
-			}
-			for (let i = 0; i < pies.length; i++) {
-				pies[i].position.x -= 5;
-			}
-		} else if (keys.left.pressed && scrollPosition > 0) {
-			scrollPosition -= 5;
-			for (let i = 0; i < backgrounds.length; i++) {
-				backgrounds[i].position.x += 5;
-			}
-			for (let i = 0; i < platforms.length; i++) {
-				platforms[i].position.x += 5;
-			}
-			for (let i = 0; i < obstacles.length; i++) {
-				obstacles[i].position.x += 5;
-			}
-			for (let i = 0; i < pies.length; i++) {
-				pies[i].position.x += 5;
-			}
-		}
-	}
+  // SHOW SCORE
+  //refactor made here to ensure when a player reverses they don't get points taken away
+  // score = Math.max(score, sonic.position.x / 2);
+  // if (score === 100) {
+  // 	document.getElementById("currentScore").innerHTML = `Score: ${score}`;
+  // }
+  // if (score === 300) {
+  // 	document.getElementById("currentScore").innerHTML = `Score: ${score}`;
+  // }
+  // if (score === 500) {
+  // 	document.getElementById("currentScore").innerHTML = `Score: ${score}`;
+  // }
+
+  // updates player
+  sonic.update();
+
+  if (keys.right.pressed && sonic.position.x < 500) {
+    sonic.velocity.x = 5;
+  } else if (keys.left.pressed && sonic.position.x > 50) {
+    sonic.velocity.x = -5;
+  } else {
+    sonic.velocity.x = 0;
+
+    // handles background image scrolling
+    if (keys.right.pressed) {
+      scrollPosition += 5;
+      for (let i = 0; i < backgrounds.length; i++) {
+        backgrounds[i].position.x -= 5;
+      }
+      for (let i = 0; i < platforms.length; i++) {
+        platforms[i].position.x -= 5;
+      }
+      for (let i = 0; i < horizontalSaws.length; i++) {
+        horizontalSaws[i].position.x -= 5;
+      }
+      for (let i = 0; i < verticalSaws.length; i++) {
+        verticalSaws[i].position.x -= 5;
+      }
+      for (let i = 0; i < waterDrops.length; i++) {
+        waterDrops[i].position.x -= 5;
+      }
+      for (let i = 0; i < skeletonHands.length; i++) {
+        skeletonHands[i].position.x -= 5;
+      }
+      for (let i = 0; i < pies.length; i++) {
+        pies[i].position.x -= 5;
+      }
+    } else if (keys.left.pressed && scrollPosition > 0) {
+      scrollPosition -= 5;
+      for (let i = 0; i < backgrounds.length; i++) {
+        backgrounds[i].position.x += 5;
+      }
+      for (let i = 0; i < platforms.length; i++) {
+        platforms[i].position.x += 5;
+      }
+      for (let i = 0; i < horizontalSaws.length; i++) {
+        horizontalSaws[i].position.x += 5;
+      }
+      for (let i = 0; i < verticalSaws.length; i++) {
+        verticalSaws[i].position.x += 5;
+      }
+      for (let i = 0; i < waterDrops.length; i++) {
+        waterDrops[i].position.x += 5;
+      }
+      for (let i = 0; i < skeletonHands.length; i++) {
+        skeletonHands[i].position.x += 5;
+      }
+      for (let i = 0; i < pies.length; i++) {
+        pies[i].position.x += 5;
+      }
+    }
+  }
   endGame();
 }
 
 // character movement on keydown
 addEventListener("keydown", ({ keyCode }) => {
-	switch (keyCode) {
-		case 37:
-			keys.left.pressed = true;
-			break;
-		case 39:
-			keys.right.pressed = true;
-			break;
-		case 32:
-			if (!keys.spacebar.pressed) {
-				keys.spacebar.pressed = true;
-				sonic.velocity.y -= 15;
-			}
-			break;
-	}
+  switch (keyCode) {
+    case 37:
+      keys.left.pressed = true;
+      break;
+    case 39:
+      keys.right.pressed = true;
+      break;
+    case 32:
+      if (!keys.spacebar.pressed) {
+        keys.spacebar.pressed = true;
+        sonic.velocity.y -= 15;
+      }
+      break;
+  }
 });
 
 // character movement on key up
 addEventListener("keyup", ({ keyCode }) => {
-	switch (keyCode) {
-		case 37:
-			keys.left.pressed = false;
-			break;
-		case 39:
-			keys.right.pressed = false;
-			break;
-		case 32:
-			keys.spacebar.pressed = false;
-			if (!keys.spacebar.pressed && sonic.velocity.y != 0) {
-				sonic.velocity.y += 14;
-			}
-			break;
-	}
+  switch (keyCode) {
+    case 37:
+      keys.left.pressed = false;
+      break;
+    case 39:
+      keys.right.pressed = false;
+      break;
+    case 32:
+      keys.spacebar.pressed = false;
+      if (!keys.spacebar.pressed && sonic.velocity.y != 0) {
+        sonic.velocity.y += 14;
+      }
+      break;
+  }
 });
 
 // });
 
 //function that will start the canvas game
 function startGame() {
-	console.log("start");
+  console.log("start");
 }
 
 //// Title page ////
@@ -541,31 +753,31 @@ const titleLogo = new Image();
 titleLogo.src = "/img/UI/Logo notfinal.png";
 
 class TitleBackground {
-	constructor({ x, y, titleImage }) {
-		this.position = { x, y };
+  constructor({ x, y, titleImage }) {
+    this.position = { x, y };
 
-		this.image = titleImage;
-		this.width = 1920;
-		this.height = 1080;
-		console.log(this.image);
-	}
+    this.image = titleImage;
+    this.width = 1920;
+    this.height = 1080;
+    console.log(this.image);
+  }
 
-	draw() {
-		mtx.drawImage(this.image, this.position.x, this.position.y);
-	}
+  draw() {
+    mtx.drawImage(this.image, this.position.x, this.position.y);
+  }
 }
 class TitleLogo {
-	constructor({ x, y, logoImage }) {
-		this.position = { x, y };
+  constructor({ x, y, logoImage }) {
+    this.position = { x, y };
 
-		this.image = logoImage;
-		this.width = 200;
-		this.height = 200;
-	}
+    this.image = logoImage;
+    this.width = 200;
+    this.height = 200;
+  }
 
-	draw() {
-		mtx.drawImage(this.image, this.position.x, this.position.y);
-	}
+  draw() {
+    mtx.drawImage(this.image, this.position.x, this.position.y);
+  }
 }
 
 let titleImage = new Image();
@@ -574,17 +786,17 @@ const titleScreen = new TitleBackground({ x: 0, y: -10, titleImage });
 let logoImage = new Image();
 logoImage = titleLogo;
 const titleLogoBig = new TitleLogo({
-	x: Menu_Canvas.width / 2 - logoImage.width / 2.1,
-	y: 10,
-	logoImage,
+  x: Menu_Canvas.width / 2 - logoImage.width / 2.1,
+  y: 10,
+  logoImage,
 });
 
 // Loads the title image
 titleImage.onload = function () {
-	titleScreen.draw();
+  titleScreen.draw();
 };
 logoImage.onload = function () {
-	titleLogoBig.draw();
+  titleLogoBig.draw();
 };
 
 // Countdown to start
@@ -599,7 +811,7 @@ function reduceCount() {
     keepAnimating = false;
     remainingTime--;
     countdown_num.innerHTML = remainingTime;
-    
+
     if (remainingTime <= 0) {
       countdown_num.innerHTML = end_time;
       clearInterval(countdown_timer);
@@ -609,11 +821,10 @@ function reduceCount() {
   }, 1000);
 }
 
-
-//const startTimeout = 
+//const startTimeout =
 function undoDisplay() {
-	countdown_num_wrapper.style.display = "none";
-	onTimer();
+  countdown_num_wrapper.style.display = "none";
+  onTimer();
 }
 
 //Countdown to start ends.
@@ -623,16 +834,16 @@ let timeout;
 let stopTime = -1;
 
 function onTimer() {
-	document.getElementById("countdown").innerHTML = i;
-	i--;
-	timeout = setTimeout(onTimer, 1000);
-	if (i <= stopTime) {
-		clearTimeout(timeout);
-		setTimeout(
-			() => window.open("http://127.0.0.1:5505/game%20over.html"),
-			1000
-		);
-	}
+  document.getElementById("countdown").innerHTML = i;
+  i--;
+  timeout = setTimeout(onTimer, 1000);
+  if (i <= stopTime) {
+    clearTimeout(timeout);
+    setTimeout(
+      () => window.open("http://127.0.0.1:5505/game%20over.html"),
+      1000
+    );
+  }
 }
 
 //Paws Menu
@@ -640,24 +851,24 @@ function onTimer() {
 const paws_Menu = document.querySelector("#paws");
 
 addEventListener("keydown", (e) => {
-	let name = e.key;
-	let code = e.code;
+  let name = e.key;
+  let code = e.code;
 
-	if (code === "Escape" && name === "Escape") {
-		displayPaws();
-		clearTimer();
-		keepAnimating = false;
-	}
-	console.log(`ESC ${keepAnimating}`);
+  if (code === "Escape" && name === "Escape") {
+    displayPaws();
+    clearTimer();
+    keepAnimating = false;
+  }
+  console.log(`ESC ${keepAnimating}`);
 });
 
 paws_Menu.style.display = "none";
 function displayPaws() {
-	if (paws_Menu.style.display === "none") {
-		paws_Menu.style.display = "flex";
-	} else {
-		paws_Menu.style.display = "none";
-	}
+  if (paws_Menu.style.display === "none") {
+    paws_Menu.style.display = "flex";
+  } else {
+    paws_Menu.style.display = "none";
+  }
 }
 
 // Clear Timer
@@ -665,18 +876,18 @@ function displayPaws() {
 current_timer = document.getElementById("countdown").innerHTML;
 // stop the current on the click of esacpe key
 function clearTimer() {
-	console.log(timeout);
-	clearTimeout(timeout);
+  console.log(timeout);
+  clearTimeout(timeout);
 }
 
 // Quit Button
 const quit_btn = document.querySelector("#btnQ");
 quit_btn.addEventListener("click", Quit);
 function Quit() {
-	location.reload();
-	paws_Menu.style.display = "none";
-	timeout = setTimeout(onTimer, 1000);
-	return (current_timer = timeout);
+  location.reload();
+  paws_Menu.style.display = "none";
+  timeout = setTimeout(onTimer, 1000);
+  return (current_timer = timeout);
 }
 
 // Resume Button
@@ -690,12 +901,12 @@ function Quit() {
 const resume_btn = document.querySelector("#btnS");
 resume_btn.addEventListener("click", Resume);
 function Resume() {
-	onTimer();
-	paws_Menu.style.display = "none";
-	keepAnimating = true;
-	animate();
-	requestAnimationFrame(animate);
-	console.log("i have resumed");
+  onTimer();
+  paws_Menu.style.display = "none";
+  keepAnimating = true;
+  animate();
+  requestAnimationFrame(animate);
+  console.log("i have resumed");
 }
 
 // This that can be improved on(getting escape to pause and play)
@@ -707,12 +918,11 @@ function endGame() {
     keepAnimating = false;
     endScoreModal.draw();
     console.log("game over");
-    gameoverscreen.classList.remove('hide')
+    gameoverscreen.classList.remove("hide");
     gameoverscreen.style.display = "flex";
   }
- //gameoverscreen.classList.remove('hide')
- 
+  //gameoverscreen.classList.remove('hide')
 }
-function closegameover(){
-  gameoverscreen.classList.add('hide')
+function closegameover() {
+  gameoverscreen.classList.add("hide");
 }
