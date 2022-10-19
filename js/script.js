@@ -1,5 +1,4 @@
 //adds click event listener to the start button
-// document.getElementById("start-button").addEventListener("click", startGame);
 const Menu_Canvas = document.getElementById("menu_canvas");
 let mtx = Menu_Canvas.getContext("2d");
 let start_button = document.getElementById("start-button");
@@ -9,16 +8,55 @@ leaderBoardMenu.style.display = "none";
 Menu_Canvas.width = innerWidth;
 Menu_Canvas.height = innerHeight;
 let keepAnimating = true;
-// const image1 = new Image();
-// // image1.src = "../img/sonic.img";
-// image1.addEventListener("load", function () {
-//   mtx.drawImage(image1, 0, 0, Menu_Canvas.width, Menu_Canvas.width);
-// });
+
+//// Audio Testing ////
+let playing = false;
+
+const titleBGM1 = new Audio("/audio/BGM/Title-theme1.mp3");
+const GameBGM1 = new Audio("/audio/BGM/Game-BGM1.mp3");
+
+////Set this to TRUE to stop the music reloading constantly
+let mute = false;
+
+function playBGM(){
+  if (!mute && !playing) {
+    titleBGM1.onload = titleBGM1.play();
+    GameBGM1.pause();
+  }
+  else if (!mute && playing) {
+    GameBGM1.onload = GameBGM1.play();
+    titleBGM1.pause();
+  }
+  else if (mute){
+    GameBGM1.pause();
+    titleBGM1.pause();
+  }
+}
+
+function muteUnmute() {
+  if (!mute){
+    console.log('Mute')
+    mute = true;
+    playBGM();
+  }
+  else if(mute){
+    console.log('Unmute')
+    mute = false;
+    playBGM();
+  }
+}
+
+playBGM();
+//// Audio Testing ////
 
 // Using Boolean to stop start countdown
 let countingDown = false;
 start_button.addEventListener("click", StartGame);
 function StartGame() {
+  if(!playing){
+    playing = true;
+  }
+
   let removeDisplay = new Promise((resolve) => {
     resolve = reduceCount();
   });
@@ -114,20 +152,24 @@ class Player {
   }
 }
 
+// platform sprite
+const platformSprite = new Image();
+platformSprite.src = '/img/Platform-img/Platform 03.png'
+
 // CLASS CONTRUCTOR FOR PLATFORMS
 class Platform {
-  constructor({ x, y }) {
-    this.position = {
-      x,
-      y,
-    };
-    this.width = 200;
-    this.height = 35;
-  }
-  draw() {
-    ctx.fillStyle = "purple";
-    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
-  }
+	constructor({ x, y }) {
+		this.position = {
+			x,
+			y,
+		};
+		this.width = 200;
+		this.height = 55;
+		this.platformImage = platformSprite
+	}
+	draw() {
+		ctx.drawImage(this.platformImage,this.position.x, this.position.y, this.width, this.height)
+	}
 }
 
 // horizontal saw obstacle class -- moves left and right
@@ -348,6 +390,9 @@ const sonic = new Player();
 
 //new instance Platforms
 const platforms = [
+
+	new Platform({ x: 300, y: 450 }),
+	new Platform({ x: 500, y: 350 }),
   new Platform({ x: 300, y: 750 }),
   new Platform({ x: 500, y: 450 }),
 ];
@@ -700,6 +745,7 @@ function animate() {
     }
   }
   endGame();
+  playBGM();
 }
 
 // character movement on keydown
@@ -884,9 +930,12 @@ function clearTimer() {
 const quit_btn = document.querySelector("#btnQ");
 quit_btn.addEventListener("click", Quit);
 function Quit() {
+  playing = false;
+  let muteState = mute;
   location.reload();
   paws_Menu.style.display = "none";
   timeout = setTimeout(onTimer, 1000);
+  mute = muteState;
   return (current_timer = timeout);
 }
 
