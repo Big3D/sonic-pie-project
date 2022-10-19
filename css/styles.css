@@ -250,4 +250,48 @@ body {
   color: red;
 }
 /* Count_down CSS END */
-
+/* Game Over Screen */
+#gameover-screen{
+  position: absolute;
+ display:flex;
+ align-items:center;
+ flex-direction:column;
+ text-align: center;
+ font-family:  'Butcherman', 'cursive';
+ outline: none;
+ border: 0%;
+ margin-left: 42%;
+ top: 20%;
+}
+#xuit{
+  background-image: url(/img/UI/TextBTN_Medium.png);
+  width: 17.5rem;
+  height: 6.9vh;
+  font-size:50px;
+  font-family:  'Butcherman', 'cursive';
+  border-radius: 10px;
+  color: black;
+  background-color: #000000;
+  outline: none;
+}
+.hide{
+  visibility: hidden;
+}
+#xuit:hover{
+  font-size:55px;
+    background-color:black;
+  border: none;
+  outline: none;
+  transition-duration: 0.4s;
+}
+#username{
+   
+  padding:12px 3px 12px 5px;
+ font-size: 18px;
+ text-align: center;
+ margin-bottom: 20px;
+}
+.gameover{
+  color: black;
+  font-size: 70px;
+}
