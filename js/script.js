@@ -152,8 +152,25 @@ class Player {
   }
 }
 
+// platform sprite
+const platformSprite = new Image();
+platformSprite.src = '/img/Platform-img/Platform 03.png'
+
 // CLASS CONTRUCTOR FOR PLATFORMS
 class Platform {
+	constructor({ x, y }) {
+		this.position = {
+			x,
+			y,
+		};
+		this.width = 200;
+		this.height = 55;
+		this.platformImage = platformSprite
+	}
+	draw() {
+		ctx.drawImage(this.platformImage,this.position.x, this.position.y, this.width, this.height)
+	}
+
   constructor({ x, y }) {
     this.position = {
       x,
@@ -303,6 +320,9 @@ const sonic = new Player();
 
 //new instance Platforms
 const platforms = [
+
+	new Platform({ x: 300, y: 450 }),
+	new Platform({ x: 500, y: 350 }),
   new Platform({ x: 300, y: 750 }),
   new Platform({ x: 500, y: 450 }),
 ];
