@@ -16,13 +16,13 @@ body {
   align-items: center;
 }
 
-
-#container canvas, #leaderBoardMenu {
+#container canvas,
+#leaderBoardMenu {
   position: absolute;
 }
 
-.canvas-container{
-    position: relative;
+.canvas-container {
+  position: relative;
 }
 
 #start-button button {
@@ -112,7 +112,7 @@ body {
   /* float: inherit; */
   /* top: 300px;
   left: 300px; */
-  font-family: 'Butcherman', cursive;
+  font-family: "Butcherman", cursive;
   text-align: center;
 }
 
@@ -120,38 +120,35 @@ body {
   position: relative;
   display: inline-block;
   width: 40%;
-  font-family: 'Butcherman', cursive;
+  font-family: "Butcherman", cursive;
   text-align: center;
   line-height: 45px;
 }
 
-.leadtitle{
+.leadtitle {
   justify-items: center;
-  font-family: 'Butcherman', cursive;
+  font-family: "Butcherman", cursive;
   text-align: center;
-
 }
 .row {
   position: relative;
   display: block;
   width: 100%;
   height: 50%;
-  border-bottom: 1px solid #AFAFAF;
+  border-bottom: 1px solid #afafaf;
 }
 
-.placement{
+.placement {
   position: relative;
   display: inline-block;
   width: 25%;
 }
-
 
 .score {
   position: relative;
   display: inline-block;
   width: 30%;
 }
-
 
 .row:nth-child(3) {
   background: gold;
@@ -191,22 +188,20 @@ body {
 }
 
 .cyclic_input:before {
-  content: '▲';
+  content: "▲";
   top: 0;
 }
 
 .cyclic_input:after {
-  content: '▼';
+  content: "▼";
   bottom: 0;
 }
 
-#cy-input{
+#cy-input {
   visibility: hidden;
 }
 
-
 /* End of Leaderboard CSS */
-
 
 /* start paws_menu */
 .paws_menu {
@@ -243,7 +238,7 @@ body {
   border-radius: 5px;
   z-index: 99999;
 }
-.text_count{
+.text_count {
   font-size: 70px;
   font-weight: 700;
   text-shadow: 0.3rem 0.3rem rgba(black, 0.7);
@@ -251,47 +246,93 @@ body {
 }
 /* Count_down CSS END */
 /* Game Over Screen */
-#gameover-screen{
+#gameover_background img{
+object-fit:scale-down;
+}
+
+/* This can be improved if the width of the canvas would change to cover  */
+
+#gameover_background {
+position: absolute;
+top: 0;
+right: 0;
+left: 0;
+bottom: 0;
+z-index: 21000;
+}
+
+#gameover-screen {
   position: absolute;
- display:flex;
- align-items:center;
- flex-direction:column;
- text-align: center;
- font-family:  'Butcherman', 'cursive';
- outline: none;
- border: 0%;
- margin-left: 42%;
- top: 20%;
-}
-#xuit{
-  background-image: url(/img/UI/TextBTN_Medium.png);
-  width: 17.5rem;
-  height: 6.9vh;
-  font-size:50px;
-  font-family:  'Butcherman', 'cursive';
-  border-radius: 10px;
-  color: black;
-  background-color: #000000;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  font-family: "Butcherman", "cursive";
   outline: none;
+  border: 0%;
+
+  top: 0;
+  right: 40%;
+  z-index: 20000;
 }
-.hide{
+h1.gameover {
+  color: yellow;
+}
+#xuit {
+ /* background-image: url(/img/UI/TextBTN_Medium.png); */
+  /* width: 17.5rem;
+  height: 6.9vh; */
+  font-size: 30px;
+  font-family: "Butcherman", "cursive";
+  border-radius: 10px;
+  color: yellow;
+  background-color: transparent;
+  text-decoration: none;
+  outline: none;
+  border: none;
+}
+::placeholder{
+  color: yellow;
+  font-size: 30px;
+  font-family: "Butcherman", "cursive";
+}
+#input_background img{
+  object-fit: scale-down;
+  width: 60%;
+  height: 150px;
+  position: relative;
+}
+#input_div {
+  position: absolute;
+  bottom: 25%;
+  right:20%;
+  z-index: 900;
+}
+
+.hide {
   visibility: hidden;
 }
-#xuit:hover{
-  font-size:55px;
-    background-color:black;
-  border: none;
+#xuit:hover {
+  font-size: 31.5px;
+  background-color: black;
+  transition-duration: 0.2s;
+}
+
+#username {
+  padding: 12px 3px 12px 5px;
+  font-size: 18px;
+  text-align: center;
+  background: #1f1f1f;
   outline: none;
-  transition-duration: 0.4s;
+  color: yellow;
+  width: 50%;
+  border: none;
 }
-#username{
-   
-  padding:12px 3px 12px 5px;
- font-size: 18px;
- text-align: center;
- margin-bottom: 20px;
-}
-.gameover{
+.gameover {
   color: black;
   font-size: 70px;
+}
+        
+#player_details {
+  color: white;
 }
