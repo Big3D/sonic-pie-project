@@ -1,6 +1,10 @@
+/* Butcherman font */
+@import url("https://fonts.googleapis.com/css2?family=Butcherman&display=swap");
+
 * {
   margin: 0;
   padding: 0;
+  font-family: "Butcherman", cursive;
 }
 
 body {
@@ -285,6 +289,14 @@ h1.gameover {
 }
 #xuit {
   font-size: 30px;
+  margin-left: 42%;
+  top: 20%;
+}
+#xuit {
+  background-image: url(/img/UI/TextBTN_Medium.png);
+  width: 17.5rem;
+  height: 6.9vh;
+  font-size: 50px;
   font-family: "Butcherman", "cursive";
   border-radius: 10px;
   color: yellow;
@@ -304,13 +316,13 @@ h1.gameover {
   height: 150px;
   position: relative;
 }
+
 #input_div {
   position: absolute;
   bottom: 25%;
   right:36%;
   z-index: 900;
 }
-
 .hide {
   visibility: hidden;
 }
@@ -320,6 +332,12 @@ h1.gameover {
   transition-duration: 0.2s;
 }
 
+  font-size: 55px;
+  background-color: black;
+  border: none;
+  outline: none;
+  transition-duration: 0.4s;
+}
 #username {
   padding: 12px 3px 12px 5px;
   font-size: 18px;
@@ -329,6 +347,7 @@ h1.gameover {
   color: yellow;
   width: 50%;
   border: none;
+  margin-bottom: 20px;
 }
 .gameover {
   color: black;
