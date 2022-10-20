@@ -250,46 +250,136 @@ body {
 }
 /* Count_down CSS END */
 /* Game Over Screen */
+#gameover_background img{
+object-fit:contain;
+max-width: 100%;
+height: auto;
+margin-top: 20px;
+}
+
+
+#gameover_background {
+position: absolute;
+top: 0;
+right: 0;
+left: 0;
+bottom: 0;
+z-index: 21000;
+}
+
 #gameover-screen {
-  position: absolute;
-  display: flex;
+  margin-top: 50px;
+ position: absolute; 
+  /* display: flex;
   align-items: center;
-  flex-direction: column;
+  justify-items: right;
+  flex-direction: column; */
   text-align: center;
   font-family: "Butcherman", "cursive";
   outline: none;
   border: 0%;
-  margin-left: 42%;
+  max-width: 100%;
+  height: auto;
+  right: 15%;
+  left: 10%;
+  z-index: 20000;
+}
+h1.gameover {
+  color: yellow;
+}
+#xuit {
+  font-size: 30px;
+  margin-left: 5%;
   top: 20%;
 }
 #xuit {
-  background-image: url(/img/UI/TextBTN_Medium.png);
+  /* background-image: url(/img/UI/TextBTN_Medium.png);
   width: 17.5rem;
-  height: 6.9vh;
+  height: 6.9vh; */
   font-size: 50px;
   font-family: "Butcherman", "cursive";
   border-radius: 10px;
-  color: black;
-  background-color: #000000;
+  color: yellow;
+  background-color: transparent;
+  text-decoration: none;
   outline: none;
+  border: none;
+}
+::placeholder{
+  color: yellow;
+  font-size: 30px;
+  font-family: "Butcherman", "cursive";
+}
+#input_background img{
+  object-fit: scale-down;
+  max-width: 60%;
+  height: 150px;
+  position: relative;
+}
+
+#input_div {
+  position: absolute;
+  bottom: 25%;
+  right:36%;
+  z-index: 900;
 }
 .hide {
   visibility: hidden;
 }
 #xuit:hover {
-  font-size: 55px;
+  font-size: 31.5px;
   background-color: black;
-  border: none;
-  outline: none;
-  transition-duration: 0.4s;
+  transition-duration: 0.2s;
 }
+
 #username {
   padding: 12px 3px 12px 5px;
   font-size: 18px;
   text-align: center;
+  background: #1f1f1f;
+  outline: none;
+  color: yellow;
+  width: 50%;
+  border: none;
   margin-bottom: 20px;
 }
 .gameover {
   color: black;
   font-size: 70px;
 }
+        
+#player_details {
+  color: white;
+}
+
+@media only screen and (max-width: 768px) {
+  #input_div {
+    position: absolute;
+    bottom: 25%;
+    right:25%;
+    z-index: 900;
+  }
+} 
+
+@media only screen and (max-width: 600px) {
+  #input_div {
+    position: absolute;
+    bottom: 20%;
+    right:20%;
+    z-index: 900;
+  }
+
+  #xuit {
+    font-size: 20px;
+    font-family: "Butcherman", "cursive";
+    border-radius: 10px;
+    color: yellow;
+    background-color: transparent;
+    text-decoration: none;
+    outline: none;
+    border: none;
+    margin-top: 20px;
+  }
+}
+
+ 

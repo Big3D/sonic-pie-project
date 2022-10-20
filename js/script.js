@@ -3,7 +3,7 @@ const Menu_Canvas = document.getElementById("menu_canvas");
 let mtx = Menu_Canvas.getContext("2d");
 let start_button = document.getElementById("start-button");
 let leaderboard_button = document.getElementById("leaderboard-button");
-let gameoverscreen = document.getElementById("gameover-screen");
+let gameoverscreen = document.getElementById("gameover_background");
 leaderBoardMenu.style.display = "none";
 Menu_Canvas.width = innerWidth;
 Menu_Canvas.height = innerHeight;
@@ -763,7 +763,7 @@ function animate() {
       }
     }
   }
-  endGame();
+  TimeUp();
   playBGM();
 }
 
@@ -982,16 +982,47 @@ function Resume() {
 
 // prompts end score modal if time <= 0 or if player reaches end of level
 // end of level is currently based on scroll position
-function endGame() {
-  if (i <= stopTime || scrollPosition == 5800) {
+// function endGame() {
+//   if (i <= stopTime || scrollPosition == 5800) {
+//     keepAnimating = false;
+//     //endScoreModal.draw();
+//     showFinal_details()
+//     console.log("game over");
+
+//     gameoverscreen.classList.remove("hide");
+//     gameoverscreen.style.display = "flex";
+//   }
+//   //gameoverscreen.classList.remove('hide')
+// }
+// function closegameover() {
+//   gameoverscreen.classList.add("hide");
+// }
+
+//this tells when the time is up
+function TimeUp(){
+  if (i <= stopTime) {
     keepAnimating = false;
-    endScoreModal.draw();
+    showFinal_details()
     console.log("game over");
+
     gameoverscreen.classList.remove("hide");
     gameoverscreen.style.display = "flex";
-  }
-  //gameoverscreen.classList.remove('hide')
+
 }
-function closegameover() {
-  gameoverscreen.classList.add("hide");
 }
+// select all the needed ids for score display
+let score_endModal =document.getElementById('s_core')
+let timer_bonusModal =document.getElementById('t_imer')
+let f_nalModal =document.getElementById('f_score')
+
+// grab Izzy's solutions call them in this function
+const showFinal_details = ()=>{
+ score_endModal.innerHTML = `Score: ${score}`;
+ timer_bonusModal.innerHTML = `Timer Bonus: ${i} x 100`;
+ f_nalModal.innerHTML =  `Final Score: ${Math.floor(score + i * 100)} `;
+}
+
+/**
+ * 
+ * 
+ */
