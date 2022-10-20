@@ -1,6 +1,10 @@
+/* Butcherman font */
+@import url("https://fonts.googleapis.com/css2?family=Butcherman&display=swap");
+
 * {
   margin: 0;
   padding: 0;
+  font-family: "Butcherman", cursive;
 }
 
 body {
@@ -16,13 +20,13 @@ body {
   align-items: center;
 }
 
-
-#container canvas, #leaderBoardMenu {
+#container canvas,
+#leaderBoardMenu {
   position: absolute;
 }
 
-.canvas-container{
-    position: relative;
+.canvas-container {
+  position: relative;
 }
 
 #start-button button {
@@ -112,7 +116,7 @@ body {
   /* float: inherit; */
   /* top: 300px;
   left: 300px; */
-  font-family: 'Butcherman', cursive;
+  font-family: "Butcherman", cursive;
   text-align: center;
 }
 
@@ -120,38 +124,35 @@ body {
   position: relative;
   display: inline-block;
   width: 40%;
-  font-family: 'Butcherman', cursive;
+  font-family: "Butcherman", cursive;
   text-align: center;
   line-height: 45px;
 }
 
-.leadtitle{
+.leadtitle {
   justify-items: center;
-  font-family: 'Butcherman', cursive;
+  font-family: "Butcherman", cursive;
   text-align: center;
-
 }
 .row {
   position: relative;
   display: block;
   width: 100%;
   height: 50%;
-  border-bottom: 1px solid #AFAFAF;
+  border-bottom: 1px solid #afafaf;
 }
 
-.placement{
+.placement {
   position: relative;
   display: inline-block;
   width: 25%;
 }
-
 
 .score {
   position: relative;
   display: inline-block;
   width: 30%;
 }
-
 
 .row:nth-child(3) {
   background: gold;
@@ -191,22 +192,20 @@ body {
 }
 
 .cyclic_input:before {
-  content: '▲';
+  content: "▲";
   top: 0;
 }
 
 .cyclic_input:after {
-  content: '▼';
+  content: "▼";
   bottom: 0;
 }
 
-#cy-input{
+#cy-input {
   visibility: hidden;
 }
 
-
 /* End of Leaderboard CSS */
-
 
 /* start paws_menu */
 .paws_menu {
@@ -243,7 +242,7 @@ body {
   border-radius: 5px;
   z-index: 99999;
 }
-.text_count{
+.text_count {
   font-size: 70px;
   font-weight: 700;
   text-shadow: 0.3rem 0.3rem rgba(black, 0.7);
@@ -251,47 +250,46 @@ body {
 }
 /* Count_down CSS END */
 /* Game Over Screen */
-#gameover-screen{
+#gameover-screen {
   position: absolute;
- display:flex;
- align-items:center;
- flex-direction:column;
- text-align: center;
- font-family:  'Butcherman', 'cursive';
- outline: none;
- border: 0%;
- margin-left: 42%;
- top: 20%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  font-family: "Butcherman", "cursive";
+  outline: none;
+  border: 0%;
+  margin-left: 42%;
+  top: 20%;
 }
-#xuit{
+#xuit {
   background-image: url(/img/UI/TextBTN_Medium.png);
   width: 17.5rem;
   height: 6.9vh;
-  font-size:50px;
-  font-family:  'Butcherman', 'cursive';
+  font-size: 50px;
+  font-family: "Butcherman", "cursive";
   border-radius: 10px;
   color: black;
   background-color: #000000;
   outline: none;
 }
-.hide{
+.hide {
   visibility: hidden;
 }
-#xuit:hover{
-  font-size:55px;
-    background-color:black;
+#xuit:hover {
+  font-size: 55px;
+  background-color: black;
   border: none;
   outline: none;
   transition-duration: 0.4s;
 }
-#username{
-   
-  padding:12px 3px 12px 5px;
- font-size: 18px;
- text-align: center;
- margin-bottom: 20px;
+#username {
+  padding: 12px 3px 12px 5px;
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 20px;
 }
-.gameover{
+.gameover {
   color: black;
   font-size: 70px;
 }
