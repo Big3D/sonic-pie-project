@@ -771,7 +771,6 @@ function Resume() {
 function TimeUp(){
   if (i <= stopTime) {
     keepAnimating = false;
-    //endScoreModal.draw();
     showFinal_details()
     console.log("game over");
 

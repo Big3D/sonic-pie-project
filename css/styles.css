@@ -247,10 +247,9 @@ body {
 /* Count_down CSS END */
 /* Game Over Screen */
 #gameover_background img{
-object-fit:scale-down;
+object-fit:contain;
 }
 
-/* This can be improved if the width of the canvas would change to cover  */
 
 #gameover_background {
 position: absolute;
@@ -279,9 +278,6 @@ h1.gameover {
   color: yellow;
 }
 #xuit {
- /* background-image: url(/img/UI/TextBTN_Medium.png); */
-  /* width: 17.5rem;
-  height: 6.9vh; */
   font-size: 30px;
   font-family: "Butcherman", "cursive";
   border-radius: 10px;
