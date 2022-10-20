@@ -172,6 +172,9 @@ class Platform {
 	}
 }
 
+// saw sprite image
+const sawSprite = new Image();
+sawSprite.src = '/img/Obstacles_img/Saw.png'
 // horizontal saw obstacle class -- moves left and right
 class HorizontalSaw {
   constructor({ position, velocity, distance }) {
@@ -183,14 +186,15 @@ class HorizontalSaw {
       x: velocity.x,
       y: velocity.y,
     };
-    this.width = 40;
-    this.height = 40;
+    this.image = sawSprite
+    this.width = 55;
+    this.height = 55;
+  
 
     this.distance = distance;
   }
   draw() {
-    ctx.fillStyle = "red";
-    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+    ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
   }
   update() {
     this.draw();
@@ -207,7 +211,7 @@ class HorizontalSaw {
   }
 }
 
-// verticle saw obstacle class -- moves up and down
+// vertical saw obstacle class -- moves up and down
 class VerticalSaw {
   constructor({ position, velocity, distance }) {
     this.position = {
@@ -218,14 +222,15 @@ class VerticalSaw {
       x: velocity.x,
       y: velocity.y,
     };
-    this.width = 40;
-    this.height = 40;
+    this.image = sawSprite
+    this.width = 55;
+    this.height = 55;
 
     this.distance = distance;
   }
   draw() {
-    ctx.fillStyle = "teal";
-    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+    ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
+  
   }
   update() {
     this.draw();
@@ -242,6 +247,9 @@ class VerticalSaw {
   }
 }
 
+// water drop sprite image
+const waterDropSprite = new Image();
+waterDropSprite.src = '/img/Obstacles_img/Dripping_Water.png'
 // water drops obstacle class -- moves down and repeats
 class WaterDrops {
   constructor({ position, velocity, distance }) {
@@ -253,15 +261,15 @@ class WaterDrops {
       x: velocity.x,
       y: velocity.y,
     };
-    this.width = 30;
-    this.height = 30;
+    this.image = waterDropSprite
+    this.width = waterDropSprite.width;
+    this.height = waterDropSprite.height;
 
     this.distance = distance;
     this.alive = true;
   }
   draw() {
-    ctx.fillStyle = "lime";
-    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+    ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
   }
 
   update() {
@@ -280,6 +288,9 @@ class WaterDrops {
   }
 }
 
+// skeleton hand sprite image 
+const skeletonHandSprite = new Image();
+skeletonHandSprite.src = '/img/Obstacles_img/Skeleton_Hand.png'
 // skeleton hands obstacle class -- static
 class SkeletonHands {
   constructor({ x, y }) {
@@ -287,14 +298,13 @@ class SkeletonHands {
       x,
       y,
     };
-
-    this.width = 50;
-    this.height = 50;
+    this.image = skeletonHandSprite
+    this.width = skeletonHandSprite.width - 50;
+    this.height = skeletonHandSprite.height - 50;
   }
 
   draw() {
-    ctx.fillStyle = "gray";
-    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+    ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
   }
 }
 
@@ -479,7 +489,7 @@ let waterDrops = [];
 waterDrops = [
   new WaterDrops({
     position: {
-      x: 4000,
+      x: 4500,
       y: 450,
     },
     velocity: {
