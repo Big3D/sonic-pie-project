@@ -195,7 +195,7 @@ class Player {
         this.frames = 0;
       }
     }
-    if (this.frames > 8) {
+    else if (this.frames > this.currentFrameSheet-1) {
       this.frames = 0;
       console.log(this.frames);
     }
@@ -622,6 +622,7 @@ addEventListener("keydown", ({ keyCode }) => {
     case 32:
       if (!keys.spacebar.pressed && (sonic.currentSprite = sonic.sprites.walk.right)) {
         keys.spacebar.pressed = true;
+        sonic.frames = 0;
         sonic.velocity.y -= 15;
         sonic.currentSprite = sonic.sprites.jump.right
         sonic.currentAnimSpeed = sonic.sprites.jump.animSpeed;
@@ -630,10 +631,12 @@ addEventListener("keydown", ({ keyCode }) => {
       case 30:
       if (!keys.spacebar.pressed && (sonic.currentSprite = sonic.sprites.walk.left)) {
         keys.spacebar.pressed = true;
+        sonic.frames = 0;
         sonic.velocity.y -= 15;
         sonic.currentSprite = sonic.sprites.jump.left
         sonic.currentAnimSpeed = sonic.sprites.jump.animSpeed;
         sonic.currentFrameSheet = sonic.sprites.jump.frameSheet;
+        console.log(sonic.frames)
       }
       break;
   }
