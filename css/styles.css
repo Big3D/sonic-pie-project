@@ -248,6 +248,9 @@ body {
 /* Game Over Screen */
 #gameover_background img{
 object-fit:contain;
+max-width: 100%;
+height: auto;
+margin-top: 20px;
 }
 
 
@@ -261,17 +264,20 @@ z-index: 21000;
 }
 
 #gameover-screen {
-  position: absolute;
-  display: flex;
+  margin-top: 50px;
+ position: absolute; 
+  /* display: flex;
   align-items: center;
-  flex-direction: column;
+  justify-items: right;
+  flex-direction: column; */
   text-align: center;
   font-family: "Butcherman", "cursive";
   outline: none;
   border: 0%;
-
-  top: 0;
-  right: 40%;
+  max-width: 100%;
+  height: auto;
+  right: 15%;
+  left: 10%;
   z-index: 20000;
 }
 h1.gameover {
@@ -294,14 +300,14 @@ h1.gameover {
 }
 #input_background img{
   object-fit: scale-down;
-  width: 60%;
+  max-width: 60%;
   height: 150px;
   position: relative;
 }
 #input_div {
   position: absolute;
   bottom: 25%;
-  right:20%;
+  right:36%;
   z-index: 900;
 }
 
@@ -332,3 +338,35 @@ h1.gameover {
 #player_details {
   color: white;
 }
+
+@media only screen and (max-width: 768px) {
+  #input_div {
+    position: absolute;
+    bottom: 25%;
+    right:25%;
+    z-index: 900;
+  }
+} 
+
+@media only screen and (max-width: 600px) {
+  #input_div {
+    position: absolute;
+    bottom: 20%;
+    right:20%;
+    z-index: 900;
+  }
+
+  #xuit {
+    font-size: 20px;
+    font-family: "Butcherman", "cursive";
+    border-radius: 10px;
+    color: yellow;
+    background-color: transparent;
+    text-decoration: none;
+    outline: none;
+    border: none;
+    margin-top: 20px;
+  }
+}
+
+ 
