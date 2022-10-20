@@ -163,8 +163,8 @@ class Platform {
 			x,
 			y,
 		};
-		this.width = 200;
-		this.height = 55;
+		this.width = 280;
+		this.height = 90;
 		this.platformImage = platformSprite
 	}
 	draw() {
@@ -402,9 +402,18 @@ const sonic = new Player();
 const platforms = [
 
 	new Platform({ x: 300, y: 450 }),
-	new Platform({ x: 500, y: 350 }),
-  new Platform({ x: 300, y: 750 }),
-  new Platform({ x: 500, y: 450 }),
+	new Platform({ x: 800, y: 300 }),
+	new Platform({ x: 1300, y: 250 }),
+	new Platform({ x: 2000, y: 350 }),
+	new Platform({ x: 2500, y: 450 }),
+	new Platform({ x: 3000, y: 350 }),
+	new Platform({ x: 3500, y: 250 }),
+	new Platform({ x: 4200, y: 250 }),
+	new Platform({ x: 4800, y: 350 }),
+	new Platform({ x: 5300, y: 350 }),
+	new Platform({ x: 5700, y: 450 }),
+	new Platform({ x: 6300, y: 400 }),
+  
 ];
 
 // new instance - end score modal
@@ -772,6 +781,7 @@ addEventListener("keydown", ({ keyCode }) => {
         keys.spacebar.pressed = true;
         sonic.velocity.y -= 15;
       }
+      
       break;
   }
 });
