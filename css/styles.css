@@ -17,12 +17,8 @@ body {
 }
 
 
-#container canvas, #leaderBoardMenu {
-  position: absolute;
-}
-
 .canvas-container{
-    position: relative;
+    position:absolute;
 }
 
 #start-button button {
@@ -107,20 +103,22 @@ body {
 /* Leaderboard CSS*/
 
 #leaderBoardMenu {
-  position: absolute; /* Sit on top of the page content */
-  display: none; /* Hidden by default */
-  width: 100%; /* Full width (cover the whole page) */
-  height: 100%; /* Full height (cover the whole page) */
+  position: absolute;
+  display: none; 
+  width: 100%; 
+  height: 100%; 
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,0.5); /* Black background with opacity */
-  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
-  cursor: pointer; /* Add a pointer on hover */
+  background-color: rgba(0,0,0,0.5); 
+  z-index: 2; 
+  cursor: pointer; 
   font-family: 'Butcherman', cursive;
   text-align: center;
-  /* background-image: url("/img/Background-img/Black-module.png"); */
+  background-image: url("/img/UI/Black-module.png");
+  background-position: 50%;
+  background-size: 110%;
 }
 
 #leadGroup{
@@ -128,26 +126,27 @@ body {
   top: 50%;
   left: 50%;
   font-size: 30px;
-  color: orange;
+  color: rgb(255, 255, 255);
   transform: translate(-50%,-50%);
   -ms-transform: translate(-50%,-50%);
-  background-image: url("Black-module.png");
 }
 
 
 .name {
   position: relative;
   display: inline-block;
-  width: 40%;
+  width: 25%;
   font-family: 'Butcherman', cursive;
   text-align: center;
   line-height: 45px;
+  color: rgb(0, 0, 0);
 }
 
 .leadtitle{
   justify-items: center;
   font-family: 'Butcherman', cursive;
   text-align: center;
+  color: orange;
 
 }
 .row {
@@ -155,20 +154,20 @@ body {
   display: inline-block;
   width: 100%;
   height: 50%;
-  border-bottom: 1px solid #AFAFAF;
 }
 
 .placement{
   position: relative;
   display: inline-block;
-  width: 25%;
+  width: 5%;
+  color: rgb(255, 255, 255);
 }
 
 
 .score {
   position: relative;
   display: inline-block;
-  width: 30%;
+  width: 5%;
 }
 
 
@@ -190,7 +189,7 @@ body {
   display: inline-block;
 }
 
-.cyclic_input {
+/* .cyclic_input {
   float: left;
   padding: 1rem;
   font-size: 5rem;
@@ -198,7 +197,7 @@ body {
   display: table-cell;
   vertical-align: middle;
   text-align: center;
-}
+} */
 
 /* .cyclic_input:before,
 .cyclic_input:after {

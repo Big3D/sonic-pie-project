@@ -31,13 +31,7 @@ let x = document.getElementById("leaderBoardMenu");
 }
 }
 
-function on() {
-  document.getElementById("leaderBoardMenu").style.display = "block";
-}
 
-function off() {
-  document.getElementById("leaderBoardMenu").style.display = "none";
-}
 
 
 // Cyclic Input JS
