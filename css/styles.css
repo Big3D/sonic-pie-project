@@ -289,13 +289,13 @@ h1.gameover {
 }
 #xuit {
   font-size: 30px;
-  margin-left: 42%;
+  margin-left: 5%;
   top: 20%;
 }
 #xuit {
-  background-image: url(/img/UI/TextBTN_Medium.png);
+  /* background-image: url(/img/UI/TextBTN_Medium.png);
   width: 17.5rem;
-  height: 6.9vh;
+  height: 6.9vh; */
   font-size: 50px;
   font-family: "Butcherman", "cursive";
   border-radius: 10px;
@@ -332,12 +332,6 @@ h1.gameover {
   transition-duration: 0.2s;
 }
 
-  font-size: 55px;
-  background-color: black;
-  border: none;
-  outline: none;
-  transition-duration: 0.4s;
-}
 #username {
   padding: 12px 3px 12px 5px;
   font-size: 18px;
