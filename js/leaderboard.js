@@ -31,6 +31,14 @@ let x = document.getElementById("leaderBoardMenu");
 }
 }
 
+function on() {
+  document.getElementById("leaderBoardMenu").style.display = "block";
+}
+
+function off() {
+  document.getElementById("leaderBoardMenu").style.display = "none";
+}
+
 
 // Cyclic Input JS
 // KEYCODES = { left: 37, up: 38, right: 39, down: 40 };
