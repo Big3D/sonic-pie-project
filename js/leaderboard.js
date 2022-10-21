@@ -32,6 +32,8 @@ let x = document.getElementById("leaderBoardMenu");
 }
 
 
+
+
 // Cyclic Input JS
 // KEYCODES = { left: 37, up: 38, right: 39, down: 40 };
 
