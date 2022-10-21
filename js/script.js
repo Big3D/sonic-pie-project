@@ -8,6 +8,7 @@ leaderBoardMenu.style.display = "none";
 Menu_Canvas.width = innerWidth;
 Menu_Canvas.height = innerHeight;
 let keepAnimating = true;
+let grounded = false;
 
 //// Audio Testing ////
 let playing = false;
@@ -70,32 +71,40 @@ function StartGame() {
 // Character movement
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
-canvas.width = innerWidth;
-canvas.height = innerHeight;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+// canvas.height = 3 * window.innerWidth/4;
 
 // gravity
-const gravity = .5;
+const gravity = 0.5;
 //SCORE
 let score = 0;
 
 const playerSprite1 = new Image();
 //// Cat animation
 
-const playerWalkRightSpriteRef = "/img/CAT WALK PNGs/WalkRightSpriteSheet.png"
+const playerWalkRightSpriteRef = "/img/CAT WALK PNGs/WalkRightSpriteSheetC.png";
 const playerWalkRightSprite = new Image();
 playerWalkRightSprite.src = playerWalkRightSpriteRef;
-const playerWalkLeftSpriteRef = "/img/CAT WALK PNGs/WalkLeftSpriteSheet.png"
+const playerWalkLeftSpriteRef = "/img/CAT WALK PNGs/WalkLeftSpriteSheet.png";
 const playerWalkLeftSprite = new Image();
 playerWalkLeftSprite.src = playerWalkLeftSpriteRef;
-const playerJumpRightSpriteRef = "/img/CAT_JUMP_PNGs/JumpRightSpriteSheet.png"
+const playerJumpRightSpriteRef = "/img/CAT_JUMP_PNGs/JumpRightSpriteSheet.png";
 const playerJumpRightSprite = new Image();
 playerJumpRightSprite.src = playerJumpRightSpriteRef;
-const playerJumpLeftSpriteRef = "/img/CAT_JUMP_PNGs/JumpLeftSpriteSheet.png"
+const playerJumpLeftSpriteRef = "/img/CAT_JUMP_PNGs/JumpLeftSpriteSheet.png";
 const playerJumpLeftSprite = new Image();
 playerJumpLeftSprite.src = playerJumpLeftSpriteRef;
 
-
 playerSprite1.src = "/img/CAT WALK PNGs/WalkRightSpriteSheet.png";
+let previousPos;
+let jumpUp;
+let jumpDown;
+let jumpMid;
+let finishFrame;
+let standing;
+let walking;
+let jumping;
 
 //// Cat animation
 
@@ -143,26 +152,26 @@ class Player {
 
     //// These are the sprite states that hold values for animations
     this.sprites = {
-      stand:{
-        right: playerSprite1 ,
-        left: playerSprite1, 
+      stand: {
+        right: playerSprite1,
+        left: playerSprite1,
         frameSheet: 7,
-        animSpeed: 18
+        animSpeed: 18,
       },
-      walk:{
+      walk: {
         right: playerWalkRightSprite,
-        left: playerWalkLeftSprite, 
+        left: playerWalkLeftSprite,
         frameSheet: 7,
-        animSpeed: 18
+        animSpeed: 18,
       },
       //// Need to add delay to the first few frames so that Sonic isnt mid way through jump before leaving ground
       jump: {
         right: playerJumpRightSprite,
-        left: playerJumpLeftSprite, 
+        left: playerJumpLeftSprite,
         frameSheet: 8,
-        animSpeed: 10
-      }
-    }
+        animSpeed: 10,
+      },
+    };
 
     this.currentSprite = this.sprites.stand.right;
     this.currentFrameSheet = this.sprites.stand.frameSheet;
@@ -187,18 +196,50 @@ class Player {
   }
 
   update() {
+    //// Animation Update
     this.frameCounter++;
+    previousPos = this.position.y;
+    if(grounded){ jumping = false}
     if (this.frameCounter > this.currentAnimSpeed) {
       this.frames++;
       this.frameCounter = 0;
-      if (this.frames > this.currentFrameSheet) {
+      if (jumpUp) {
+        this.frames = 2;
+        console.log("frame freeze");
+      } 
+      else if (jumpMid) {
+        this.frames++;
+      } 
+      else if (jumpDown) {
+        if (!grounded && this.frames < 6) {
+          this.frames++;
+        } 
+        else if (grounded && !finishFrame) {
+          if (this.frames = this.sprites.jump.frameSheet && !jumping) {
+            console.log("finish frame is true");
+            finishFrame = true;
+            // this.frames;
+          } 
+          else {
+            this.frames++;
+          }
+        }
+      } 
+      else if (this.frames > this.currentFrameSheet) {
         this.frames = 0;
+        if (finishFrame) {
+          finishFrame = false;
+        }
       }
-    }
-    else if (this.frames > this.currentFrameSheet-1) {
+    } else if (this.frames > this.currentFrameSheet - 1) {
       this.frames = 0;
-      console.log(this.frames);
+      if (finishFrame) {
+        finishFrame = false;
+      }
+      // console.log(this.frames);
     }
+    console.log(finishFrame);
+    //// Animation Update
 
     this.draw();
     this.position.x += this.velocity.x;
@@ -210,6 +251,8 @@ class Player {
       this.velocity.y += gravity;
     else {
       this.velocity.y = 0;
+      grounded = true;
+      // console.log('grounded');
     }
   }
 }
@@ -471,8 +514,26 @@ function animate() {
   if (!keepAnimating) {
     return;
   }
+
   requestAnimationFrame(animate);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  if (sonic.position.y < previousPos) {
+    jumpUp = true;
+    jumpDn = false;
+    jumpMid = false;
+    // console.log(jumpUp);
+  } else if (sonic.position.y > previousPos) {
+    jumpDown = true;
+    jumpUp = false;
+    jumpMid = false;
+    // console.log(jumpDown);
+  } else if (sonic.position.y == previousPos && !grounded) {
+    jumpMid;
+    !jumpDown;
+    !jumpUp;
+    // console.log('Jumping');
+  }
 
   //loops through background array
   for (let i = 0; i < backgrounds.length; i++) {
@@ -493,6 +554,10 @@ function animate() {
       sonic.position.x <= platform.position.x + platform.width
     ) {
       sonic.velocity.y = 0;
+      grounded = true;
+      !jumpUp;
+      !jumpDown;
+      // console.log('grounded');
     }
   });
 
@@ -609,34 +674,44 @@ addEventListener("keydown", ({ keyCode }) => {
   switch (keyCode) {
     case 37:
       keys.left.pressed = true;
-      sonic.currentSprite = sonic.sprites.walk.left;
-      sonic.currentAnimSpeed = sonic.sprites.walk.animSpeed;
-      sonic.currentFrameSheet = sonic.sprites.walk.frameSheet;
+      if (grounded) {
+        sonic.currentSprite = sonic.sprites.walk.left;
+        sonic.currentAnimSpeed = sonic.sprites.walk.animSpeed;
+        sonic.currentFrameSheet = sonic.sprites.walk.frameSheet;
+      }
       break;
     case 39:
-      keys.right.pressed = true;
-      sonic.currentSprite = sonic.sprites.walk.right
-      sonic.currentAnimSpeed = sonic.sprites.walk.animSpeed;
-      sonic.currentFrameSheet = sonic.sprites.walk.frameSheet;
+      console.log(grounded);
+      if (grounded) {
+        keys.right.pressed = true;
+        sonic.currentSprite = sonic.sprites.walk.right;
+        sonic.currentAnimSpeed = sonic.sprites.walk.animSpeed;
+        sonic.currentFrameSheet = sonic.sprites.walk.frameSheet;
+      }
       break;
     case 32:
-      if (!keys.spacebar.pressed && (sonic.currentSprite = sonic.sprites.walk.right)) {
+    case 38:
+      if (
+        !keys.spacebar.pressed &&
+        (sonic.currentSprite = sonic.sprites.walk.right)
+      ) {
         keys.spacebar.pressed = true;
         sonic.frames = 0;
         sonic.velocity.y -= 15;
-        sonic.currentSprite = sonic.sprites.jump.right
+        sonic.currentSprite = sonic.sprites.jump.right;
         sonic.currentAnimSpeed = sonic.sprites.jump.animSpeed;
         sonic.currentFrameSheet = sonic.sprites.jump.frameSheet;
-      }
-      case 30:
-      if (!keys.spacebar.pressed && (sonic.currentSprite = sonic.sprites.walk.left)) {
+      } else if (
+        !keys.spacebar.pressed &&
+        (sonic.currentSprite = sonic.sprites.walk.left)
+      ) {
         keys.spacebar.pressed = true;
         sonic.frames = 0;
         sonic.velocity.y -= 15;
-        sonic.currentSprite = sonic.sprites.jump.left
+        sonic.currentSprite = sonic.sprites.jump.left;
         sonic.currentAnimSpeed = sonic.sprites.jump.animSpeed;
         sonic.currentFrameSheet = sonic.sprites.jump.frameSheet;
-        console.log(sonic.frames)
+        console.log(sonic.frames);
       }
       break;
   }
@@ -651,7 +726,7 @@ addEventListener("keyup", ({ keyCode }) => {
     case 39:
       keys.right.pressed = false;
       break;
-    case 32:
+    case (32, 38):
       keys.spacebar.pressed = false;
       if (!keys.spacebar.pressed && sonic.velocity.y != 0) {
         sonic.velocity.y += 15;
@@ -781,7 +856,7 @@ addEventListener("keydown", (e) => {
     clearTimer();
     keepAnimating = false;
   }
-  console.log(`ESC ${keepAnimating}`);
+  // console.log(`ESC ${keepAnimating}`);
 });
 
 paws_Menu.style.display = "none";

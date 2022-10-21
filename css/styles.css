@@ -24,6 +24,9 @@ body {
 .canvas-container{
     position: relative;
 }
+.canvas-container canvas{
+  object-fit: contain;
+}
 
 #start-button button {
   position: absolute;
