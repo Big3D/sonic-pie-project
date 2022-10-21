@@ -5,7 +5,7 @@ let start_button = document.getElementById("start-button");
 let leaderboard_button = document.getElementById("leaderboard-button");
 let gameoverscreen = document.getElementById("gameover_background");
 leaderBoardMenu.style.display = "none";
-Menu_Canvas.width = 1024;
+Menu_Canvas.width = 800;
 Menu_Canvas.height = 576;
 let keepAnimating = true;
 
