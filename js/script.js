@@ -746,7 +746,7 @@ pies = [
   //This pie would be the giant pie. It should be in the last position
   new Pie({
     position: {
-      x: 12200,
+      x: 8100,
       y: 500,
     },
     velocity: {
