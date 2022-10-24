@@ -45,7 +45,7 @@ function muteUnmute() {
 }
 
 playBGM();
-//// Audio Testing ////
+////-- Audio Testing --////
 
 // Using Boolean to stop start countdown
 let countingDown = false;
@@ -67,8 +67,6 @@ function StartGame() {
   leaderBoardMenu.style.display = "none";
   animate();
 }
-
-//// Audio testing ////
 
 // Character movement
 const canvas = document.querySelector("canvas");
@@ -170,7 +168,7 @@ function playerState(val) {
   return val;
 }
 
-//// Cat animation ////
+////-- Cat animation --////
 
 //Background Images Class
 class Background {
