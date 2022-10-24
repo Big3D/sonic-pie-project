@@ -8,6 +8,7 @@ leaderBoardMenu.style.display = "none";
 Menu_Canvas.width = 800;
 Menu_Canvas.height = 576;
 let keepAnimating = true;
+let grounded;
 
 //// Audio Testing ////
 let playing = false;
@@ -44,7 +45,7 @@ function muteUnmute() {
 }
 
 playBGM();
-//// Audio Testing ////
+////-- Audio Testing --////
 
 // Using Boolean to stop start countdown
 let countingDown = false;
@@ -75,14 +76,100 @@ canvas.height = 576;
 
 
 
-
 // gravity
 const gravity = 0.5;
 //SCORE
 let score = 0;
 
+//// Cat animation ////
 const playerSprite1 = new Image();
-playerSprite1.src = "/img/TEST-Catwalk copy.png";
+const playerSprite2 = new Image();
+
+const playerWalkRightSpriteRef = "/img/CAT WALK PNGs/WalkRightSpriteSheetC.png";
+const playerWalkRightSprite = new Image();
+playerWalkRightSprite.src = playerWalkRightSpriteRef;
+const playerWalkLeftSpriteRef = "/img/CAT WALK PNGs/WalkLeftSpriteSheetC.png";
+const playerWalkLeftSprite = new Image();
+playerWalkLeftSprite.src = playerWalkLeftSpriteRef;
+const playerJumpRightSpriteRef = "/img/CAT_JUMP_PNGs/JumpRightSpriteSheetC.png";
+const playerJumpRightSprite = new Image();
+playerJumpRightSprite.src = playerJumpRightSpriteRef;
+const playerJumpLeftSpriteRef = "/img/CAT_JUMP_PNGs/JumpLeftSpriteSheetC.png";
+const playerJumpLeftSprite = new Image();
+playerJumpLeftSprite.src = playerJumpLeftSpriteRef;
+
+playerSprite1.src = "/img/CAT WALK PNGs/Sonic Walk COLOR 8.png";
+playerSprite2.src = "/img/CAT WALK PNGs/Sonic Walk COLOR 8 left.png";
+let previousPos;
+let jumpUp;
+let jumpDown;
+let jumpMid;
+let finishFrame;
+let right;
+let direction;
+
+//// Catanimation states
+function playerState(val) {
+  switch (val) {
+    case "Jump":
+      if (right) {
+        sonic.currentSprite = sonic.sprites.jump.right;
+      } else {
+        sonic.currentSprite = sonic.sprites.jump.left;
+      }
+      sonic.currentAnimSpeed = sonic.sprites.jump.animSpeed;
+      sonic.currentFrameSheet = sonic.sprites.jump.frameSheet;
+      if (jumpUp) {
+        if (sonic.frames < 2) {
+          sonic.frames++;
+          console.log("jumping up");
+        } else sonic.frames = 2;
+      } else if (jumpMid) {
+        if (sonic.frames < 6) {
+          sonic.frames++;
+        }
+      } else if (jumpDown) {
+        if (!grounded && sonic.frames < 6) {
+          sonic.frames++;
+        }else if(!grounded){
+          sonic.frames = 6;
+        } else if (
+          grounded &&
+          sonic.frames == sonic.sprites.jump.frameSheet &&
+          !finishFrame
+        ) {
+          finishFrame = true;
+        } else if (finishFrame && grounded) {
+          sonic.currentSprite = sonic.sprites.walk.right;
+          sonic.frames = 0;
+        }
+      }
+      break;
+    case "Walk":
+      if (!right) {
+        sonic.currentSprite = sonic.sprites.walk.left;
+      } else {
+        sonic.currentSprite = sonic.sprites.walk.right;
+      }
+      sonic.currentAnimSpeed = sonic.sprites.walk.animSpeed;
+      sonic.currentFrameSheet = sonic.sprites.walk.frameSheet;
+      break;
+    case "Stand":
+      sonic.currentFrameSheet = 0;
+      sonic.currentAnimSpeed = 100;
+      if (!right) {
+        sonic.currentSprite = sonic.sprites.stand.left;
+      } else {
+        sonic.currentSprite = sonic.sprites.stand.right;
+      }
+      break;
+    default:
+      console.log("cannot Define state");
+  }
+  return val;
+}
+
+////-- Cat animation --////
 
 //Background Images Class
 class Background {
@@ -121,16 +208,51 @@ class Player {
     // size of player
 
     this.width = 160;
-    this.height = 120;
+    this.height = 160;
     this.image = playerSprite1;
+    this.frames = 0;
+    this.frameCounter = 0;
+
+    //// These are the sprite states that hold values for animations
+    this.sprites = {
+      stand: {
+        right: playerSprite1,
+        left: playerSprite1,
+        frameSheet: 7,
+        animSpeed: 18,
+      },
+      walk: {
+        right: playerWalkRightSprite,
+        left: playerWalkLeftSprite,
+        frameSheet: 7,
+        animSpeed: 18,
+      },
+      //// Need to add delay to the first few frames so that Sonic isnt mid way through jump before leaving ground
+      jump: {
+        right: playerJumpRightSprite,
+        left: playerJumpLeftSprite,
+        frameSheet: 8,
+        animSpeed: 10,
+      },
+    };
+
+    if (!grounded) {
+      this.currentSprite = this.sprites.jump.right;
+    } else {
+      this.currentSprite = this.sprites.stand.right;
+    }
+    this.currentFrameSheet = this.sprites.stand.frameSheet;
+    this.currentAnimSpeed = this.sprites.stand.animSpeed;
   }
 
   // render player
   draw() {
-    // ctx.fillStyle = "blue";
-    // ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
     mtx.drawImage(
-      this.image,
+      this.currentSprite,
+      256 * this.frames,
+      0,
+      256,
+      256,
       this.position.x,
       this.position.y,
       this.width,
@@ -139,15 +261,48 @@ class Player {
   }
 
   update() {
+    //// Animation Update
+    this.frameCounter++;
+    previousPos = this.position.y;
+
+    //// Frame limiter for animations
+    if (this.frameCounter > this.currentAnimSpeed) {
+      this.frames++;
+      this.frameCounter = 0;
+    } else if (this.frames > this.currentFrameSheet - 1) {
+      this.frames = 0;
+      if (finishFrame) {
+        finishFrame = false;
+      }
+    }
+
+    //// Animation Update
+
     this.draw();
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
 
     // makes player position always hit the ground of the canvas
-    if (this.position.y + this.height + this.velocity.y <= canvas.height)
+    //// Added 150 to the height so that the player stand on the actual floor
+    if (this.position.y + this.height + this.velocity.y <= canvas.height - 150)
       this.velocity.y += gravity;
     else {
       this.velocity.y = 0;
+      // console.log('grounded');
+    }
+
+    if (!grounded) {
+      playerState("Jump");
+      // console.log("Jumping");
+    } else if (grounded) {
+      if (keys.right.pressed || keys.left.pressed) {
+        playerState("Walk");
+        // console.log("Walking");
+      }
+       else if (!keys.left.pressed && !keys.right.pressed && !keys.spacebar.pressed) {
+        playerState("Stand");
+        // console.log('Standing')
+      }
     }
   }
 }
@@ -626,8 +781,29 @@ function animate() {
     return;
   }
 
+  //// Setting Jump/Grounded states
+  if (sonic.velocity.y != 0) {
+    grounded = false;
+  } else if(sonic.velocity.y == 0 && !keys.spacebar.pressed){
+    grounded = true;
+  }
   requestAnimationFrame(animate);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  //// Checking jump state
+  if (sonic.position.y < previousPos) {
+    jumpUp = true;
+    jumpDn = false;
+    jumpMid = false;
+  } else if (sonic.position.y > previousPos) {
+    jumpDown = true;
+    jumpUp = false;
+    jumpMid = false;
+  } else if (sonic.position.y == previousPos && !grounded) {
+    jumpMid;
+    !jumpDown;
+    !jumpUp;
+  }
 
   //loops through background array
   for (let i = 0; i < backgrounds.length; i++) {
@@ -648,6 +824,7 @@ function animate() {
       sonic.position.x <= platform.position.x + platform.width
     ) {
       sonic.velocity.y = 0;
+      grounded = true;
     }
   });
 
@@ -837,14 +1014,17 @@ addEventListener("keydown", ({ keyCode }) => {
   switch (keyCode) {
     case 37:
       keys.left.pressed = true;
+      right = false;
       break;
     case 39:
       keys.right.pressed = true;
+      right = true;
       break;
     case 32:
+    case 38:
       if (!keys.spacebar.pressed) {
         keys.spacebar.pressed = true;
-        sonic.velocity.y -= 15;
+        sonic.velocity.y -= 18;
       }
 
       break;
@@ -861,9 +1041,11 @@ addEventListener("keyup", ({ keyCode }) => {
       keys.right.pressed = false;
       break;
     case 32:
-      keys.spacebar.pressed = false;
+    case 38:
+      
+        keys.spacebar.pressed = false;
       if (!keys.spacebar.pressed && sonic.velocity.y != 0) {
-        sonic.velocity.y += 14;
+        sonic.velocity.y += 10;
       }
       break;
   }
