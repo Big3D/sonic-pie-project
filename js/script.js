@@ -5,8 +5,8 @@ let start_button = document.getElementById("start-button");
 let leaderboard_button = document.getElementById("leaderboard-button");
 let gameoverscreen = document.getElementById("gameover_background");
 leaderBoardMenu.style.display = "none";
-Menu_Canvas.width = innerWidth;
-Menu_Canvas.height = innerHeight;
+Menu_Canvas.width = 800;
+Menu_Canvas.height = 576;
 let keepAnimating = true;
 
 //// Audio Testing ////
@@ -70,8 +70,11 @@ function StartGame() {
 // Character movement
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
-canvas.width = innerWidth;
-canvas.height = innerHeight;
+canvas.width = 1024;
+canvas.height = 576;
+
+
+
 
 // gravity
 const gravity = 0.5;
@@ -616,6 +619,9 @@ const keys = {
 };
 
 function animate() {
+
+  console.log(score)
+
   if (!keepAnimating) {
     return;
   }
@@ -823,6 +829,7 @@ function animate() {
 
   TimeUp();
   playBGM();
+  getScore();
 }
 console.log(scrollPosition);
 // character movement on keydown
@@ -1079,3 +1086,15 @@ const showFinal_details = () => {
 };
 
 
+
+/**
+ * 
+ * 
+ */
+
+// get score based on scroll position -- called in animate function
+function getScore() {
+  // set score equal to scrollPosition
+  score = scrollPosition
+  document.getElementById("currentScore").innerHTML = `Score: ${score}`;
+}
