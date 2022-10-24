@@ -82,23 +82,25 @@ const gravity = 0.5;
 //SCORE
 let score = 0;
 
+//// Cat animation ////
 const playerSprite1 = new Image();
-//// Cat animation
+const playerSprite2 = new Image();
 
 const playerWalkRightSpriteRef = "/img/CAT WALK PNGs/WalkRightSpriteSheetC.png";
 const playerWalkRightSprite = new Image();
 playerWalkRightSprite.src = playerWalkRightSpriteRef;
-const playerWalkLeftSpriteRef = "/img/CAT WALK PNGs/WalkLeftSpriteSheet.png";
+const playerWalkLeftSpriteRef = "/img/CAT WALK PNGs/WalkLeftSpriteSheetC.png";
 const playerWalkLeftSprite = new Image();
 playerWalkLeftSprite.src = playerWalkLeftSpriteRef;
-const playerJumpRightSpriteRef = "/img/CAT_JUMP_PNGs/JumpRightSpriteSheet.png";
+const playerJumpRightSpriteRef = "/img/CAT_JUMP_PNGs/JumpRightSpriteSheetC.png";
 const playerJumpRightSprite = new Image();
 playerJumpRightSprite.src = playerJumpRightSpriteRef;
-const playerJumpLeftSpriteRef = "/img/CAT_JUMP_PNGs/JumpLeftSpriteSheet.png";
+const playerJumpLeftSpriteRef = "/img/CAT_JUMP_PNGs/JumpLeftSpriteSheetC.png";
 const playerJumpLeftSprite = new Image();
 playerJumpLeftSprite.src = playerJumpLeftSpriteRef;
 
-playerSprite1.src = "/img/CAT WALK PNGs/WalkRightSpriteSheet.png";
+playerSprite1.src = "/img/CAT WALK PNGs/Sonic Walk COLOR 8.png";
+playerSprite2.src = "/img/CAT WALK PNGs/Sonic Walk COLOR 8 left.png";
 let previousPos;
 let jumpUp;
 let jumpDown;
@@ -107,11 +109,7 @@ let finishFrame;
 let right;
 let direction;
 
-// if(right){
-//   direction = 'right';
-// }
-// else direction = 'left';
-
+//// Catanimation states
 function playerState(val) {
   switch (val) {
     case "Jump":
@@ -132,8 +130,10 @@ function playerState(val) {
           sonic.frames++;
         }
       } else if (jumpDown) {
-        if (grounded && sonic.frames < 6) {
+        if (!grounded && sonic.frames < 6) {
           sonic.frames++;
+        }else if(!grounded){
+          sonic.frames = 6;
         } else if (
           grounded &&
           sonic.frames == sonic.sprites.jump.frameSheet &&
@@ -156,6 +156,8 @@ function playerState(val) {
       sonic.currentFrameSheet = sonic.sprites.walk.frameSheet;
       break;
     case "Stand":
+      sonic.currentFrameSheet = 0;
+      sonic.currentAnimSpeed = 100;
       if (!right) {
         sonic.currentSprite = sonic.sprites.stand.left;
       } else {
@@ -168,7 +170,7 @@ function playerState(val) {
   return val;
 }
 
-//// Cat animation
+//// Cat animation ////
 
 //Background Images Class
 class Background {
@@ -246,8 +248,6 @@ class Player {
 
   // render player
   draw() {
-    // ctx.fillStyle = "blue";
-    // ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
     mtx.drawImage(
       this.currentSprite,
       256 * this.frames,
@@ -294,13 +294,13 @@ class Player {
 
     if (!grounded) {
       playerState("Jump");
-      console.log("Jumping");
+      // console.log("Jumping");
     } else if (grounded) {
       if (keys.right.pressed || keys.left.pressed) {
         playerState("Walk");
-        console.log("Walking");
+        // console.log("Walking");
       }
-      if (!keys.left.pressed && !keys.right.pressed && !keys.spacebar.pressed) {
+       else if (!keys.left.pressed && !keys.right.pressed && !keys.spacebar.pressed) {
         playerState("Stand");
         // console.log('Standing')
       }
@@ -566,37 +566,29 @@ function animate() {
     return;
   }
 
+  //// Setting Jump/Grounded states
   if (sonic.velocity.y != 0) {
     grounded = false;
-  } else {
+  } else if(sonic.velocity.y == 0 && !keys.spacebar.pressed){
     grounded = true;
   }
-  // else if(sonic.velocity.y == 0){
-  //   jumping = false;
-  //   grounded = true;
-  // }
+
   requestAnimationFrame(animate);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  //// Checking for jump state
+  //// Checking jump state
   if (sonic.position.y < previousPos) {
     jumpUp = true;
     jumpDn = false;
     jumpMid = false;
-
-    // console.log(jumpUp);
   } else if (sonic.position.y > previousPos) {
     jumpDown = true;
     jumpUp = false;
     jumpMid = false;
-
-    // console.log(jumpDown);
   } else if (sonic.position.y == previousPos && !grounded) {
     jumpMid;
     !jumpDown;
     !jumpUp;
-
-    // console.log('Jumping');
   }
 
   //loops through background array
@@ -613,13 +605,12 @@ function animate() {
     if (
       sonic.position.y + sonic.height <= platform.position.y &&
       sonic.position.y + sonic.height + sonic.velocity.y >=
-      platform.position.y &&
+        platform.position.y &&
       sonic.position.x + sonic.width >= platform.position.x &&
       sonic.position.x <= platform.position.x + platform.width
     ) {
       sonic.velocity.y = 0;
       grounded = true;
-      // console.log('grounded');
     }
   });
 
@@ -729,6 +720,7 @@ function animate() {
   }
   endGame();
   playBGM();
+  console.log(right);
 }
 
 // character movement on keydown
@@ -763,7 +755,8 @@ addEventListener("keyup", ({ keyCode }) => {
       break;
     case 32:
     case 38:
-      if(grounded){keys.spacebar.pressed = false;}
+      
+        keys.spacebar.pressed = false;
       if (!keys.spacebar.pressed && sonic.velocity.y != 0) {
         sonic.velocity.y += 10;
       }
