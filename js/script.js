@@ -18,29 +18,26 @@ const GameBGM1 = new Audio("/audio/BGM/Game-BGM1.mp3");
 ////Set this to TRUE to stop the music reloading constantly
 let mute = false;
 
-function playBGM(){
+function playBGM() {
   if (!mute && !playing) {
     titleBGM1.onload = titleBGM1.play();
     GameBGM1.pause();
-  }
-  else if (!mute && playing) {
+  } else if (!mute && playing) {
     GameBGM1.onload = GameBGM1.play();
     titleBGM1.pause();
-  }
-  else if (mute){
+  } else if (mute) {
     GameBGM1.pause();
     titleBGM1.pause();
   }
 }
 
 function muteUnmute() {
-  if (!mute){
-    console.log('Mute')
+  if (!mute) {
+    console.log("Mute");
     mute = true;
     playBGM();
-  }
-  else if(mute){
-    console.log('Unmute')
+  } else if (mute) {
+    console.log("Unmute");
     mute = false;
     playBGM();
   }
@@ -53,7 +50,7 @@ playBGM();
 let countingDown = false;
 start_button.addEventListener("click", StartGame);
 function StartGame() {
-  if(!playing){
+  if (!playing) {
     playing = true;
   }
 
@@ -154,27 +151,33 @@ class Player {
 
 // platform sprite
 const platformSprite = new Image();
-platformSprite.src = '/img/Platform-img/Platform 03.png'
+platformSprite.src = "/img/Platform-img/Platform 03.png";
 
 // CLASS CONTRUCTOR FOR PLATFORMS
 class Platform {
-	constructor({ x, y }) {
-		this.position = {
-			x,
-			y,
-		};
-		this.width = 280;
-		this.height = 90;
-		this.platformImage = platformSprite
-	}
-	draw() {
-		ctx.drawImage(this.platformImage,this.position.x, this.position.y, this.width, this.height)
-	}
+  constructor({ x, y }) {
+    this.position = {
+      x,
+      y,
+    };
+    this.width = 280;
+    this.height = 90;
+    this.platformImage = platformSprite;
+  }
+  draw() {
+    ctx.drawImage(
+      this.platformImage,
+      this.position.x,
+      this.position.y,
+      this.width,
+      this.height
+    );
+  }
 }
 
 // saw sprite image
 const sawSprite = new Image();
-sawSprite.src = '/img/Obstacles_img/Saw.png'
+sawSprite.src = "/img/Obstacles_img/Saw.png";
 // horizontal saw obstacle class -- moves left and right
 class HorizontalSaw {
   constructor({ position, velocity, distance }) {
@@ -186,15 +189,20 @@ class HorizontalSaw {
       x: velocity.x,
       y: velocity.y,
     };
-    this.image = sawSprite
+    this.image = sawSprite;
     this.width = 55;
     this.height = 55;
-  
 
     this.distance = distance;
   }
   draw() {
-    ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
+    ctx.drawImage(
+      this.image,
+      this.position.x,
+      this.position.y,
+      this.width,
+      this.height
+    );
   }
   update() {
     this.draw();
@@ -222,15 +230,20 @@ class VerticalSaw {
       x: velocity.x,
       y: velocity.y,
     };
-    this.image = sawSprite
+    this.image = sawSprite;
     this.width = 55;
     this.height = 55;
 
     this.distance = distance;
   }
   draw() {
-    ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
-  
+    ctx.drawImage(
+      this.image,
+      this.position.x,
+      this.position.y,
+      this.width,
+      this.height
+    );
   }
   update() {
     this.draw();
@@ -249,7 +262,7 @@ class VerticalSaw {
 
 // water drop sprite image
 const waterDropSprite = new Image();
-waterDropSprite.src = '/img/Obstacles_img/Dripping_Water.png'
+waterDropSprite.src = "/img/Obstacles_img/Dripping_Water.png";
 // water drops obstacle class -- moves down and repeats
 class WaterDrops {
   constructor({ position, velocity, distance }) {
@@ -261,7 +274,7 @@ class WaterDrops {
       x: velocity.x,
       y: velocity.y,
     };
-    this.image = waterDropSprite
+    this.image = waterDropSprite;
     this.width = waterDropSprite.width;
     this.height = waterDropSprite.height;
 
@@ -269,7 +282,13 @@ class WaterDrops {
     this.alive = true;
   }
   draw() {
-    ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
+    ctx.drawImage(
+      this.image,
+      this.position.x,
+      this.position.y,
+      this.width,
+      this.height
+    );
   }
 
   update() {
@@ -288,9 +307,9 @@ class WaterDrops {
   }
 }
 
-// skeleton hand sprite image 
+// skeleton hand sprite image
 const skeletonHandSprite = new Image();
-skeletonHandSprite.src = '/img/Obstacles_img/Skeleton_Hand.png'
+skeletonHandSprite.src = "/img/Obstacles_img/Skeleton_Hand.png";
 // skeleton hands obstacle class -- static
 class SkeletonHands {
   constructor({ x, y }) {
@@ -298,19 +317,25 @@ class SkeletonHands {
       x,
       y,
     };
-    this.image = skeletonHandSprite
+    this.image = skeletonHandSprite;
     this.width = skeletonHandSprite.width - 50;
     this.height = skeletonHandSprite.height - 50;
   }
 
   draw() {
-    ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
+    ctx.drawImage(
+      this.image,
+      this.position.x,
+      this.position.y,
+      this.width,
+      this.height
+    );
   }
 }
 
 //Tsi
 class Pie {
-  constructor({ position, velocity, distance }) {
+  constructor({ position, velocity, distance }, lastPie) {
     this.position = {
       x: position.x,
       y: position.y,
@@ -324,7 +349,20 @@ class Pie {
 
     this.distance = distance;
     this.alive = true;
+    this.lastPie = lastPie;
   }
+
+  
+ endGame() {
+  showFinal_details()
+  clearTimer()
+  keepAnimating = false;
+  gameoverscreen.classList.remove("hide");
+  gameoverscreen.style.display = "flex";
+  const youWin = document.querySelector('.gameover')
+  youWin.innerHTML = "You Win!!"
+}
+
   //Draw pie
   draw() {
     ctx.fillStyle = "green";
@@ -400,20 +438,18 @@ const sonic = new Player();
 
 //new instance Platforms
 const platforms = [
-
-	new Platform({ x: 300, y: 450 }),
-	new Platform({ x: 800, y: 300 }),
-	new Platform({ x: 1300, y: 250 }),
-	new Platform({ x: 2000, y: 350 }),
-	new Platform({ x: 2500, y: 450 }),
-	new Platform({ x: 3000, y: 350 }),
-	new Platform({ x: 3500, y: 250 }),
-	new Platform({ x: 4200, y: 250 }),
-	new Platform({ x: 4800, y: 350 }),
-	new Platform({ x: 5300, y: 350 }),
-	new Platform({ x: 5700, y: 450 }),
-	new Platform({ x: 6300, y: 400 }),
-  
+  new Platform({ x: 300, y: 450 }),
+  new Platform({ x: 800, y: 300 }),
+  new Platform({ x: 1300, y: 250 }),
+  new Platform({ x: 2000, y: 350 }),
+  new Platform({ x: 2500, y: 450 }),
+  new Platform({ x: 3000, y: 350 }),
+  new Platform({ x: 3500, y: 250 }),
+  new Platform({ x: 4200, y: 250 }),
+  new Platform({ x: 4800, y: 350 }),
+  new Platform({ x: 5300, y: 350 }),
+  new Platform({ x: 5700, y: 450 }),
+  new Platform({ x: 6300, y: 400 }),
 ];
 
 // new instance - end score modal
@@ -548,6 +584,23 @@ pies = [
       traveled: 0,
     },
   }),
+
+  //This pie would be the giant pie. It should be in the last position
+  new Pie({
+    position: {
+      x: 12200,
+      y: 500,
+    },
+    velocity: {
+      x: -0.5,
+      y: 0,
+    },
+    distance: {
+      limit: 100,
+      traveled: 0,
+    },
+  },  true),
+ 
 ];
 
 const keys = {
@@ -687,7 +740,11 @@ function animate() {
         score = score + 100;
       }
       document.getElementById("currentScore").innerHTML = `Score: ${score}`;
+      if (pie.lastPie === true) {
+        pie.endGame();
+      }
     }
+
     pie.update();
   });
 
@@ -763,10 +820,11 @@ function animate() {
       }
     }
   }
+
   TimeUp();
   playBGM();
 }
-
+console.log(scrollPosition);
 // character movement on keydown
 addEventListener("keydown", ({ keyCode }) => {
   switch (keyCode) {
@@ -781,7 +839,7 @@ addEventListener("keydown", ({ keyCode }) => {
         keys.spacebar.pressed = true;
         sonic.velocity.y -= 15;
       }
-      
+
       break;
   }
 });
@@ -925,7 +983,6 @@ addEventListener("keydown", (e) => {
     clearTimer();
     keepAnimating = false;
   }
-  console.log(`ESC ${keepAnimating}`);
 });
 
 paws_Menu.style.display = "none";
@@ -999,30 +1056,26 @@ function Resume() {
 // }
 
 //this tells when the time is up
-function TimeUp(){
+function TimeUp() {
   if (i <= stopTime) {
     keepAnimating = false;
-    showFinal_details()
-    console.log("game over");
+    showFinal_details();
 
     gameoverscreen.classList.remove("hide");
     gameoverscreen.style.display = "flex";
-
-}
+  }
 }
 // select all the needed ids for score display
-let score_endModal =document.getElementById('s_core')
-let timer_bonusModal =document.getElementById('t_imer')
-let f_nalModal =document.getElementById('f_score')
+let score_endModal = document.getElementById("s_core");
+let timer_bonusModal = document.getElementById("t_imer");
+let f_nalModal = document.getElementById("f_score");
 
 // grab Izzy's solutions call them in this function
-const showFinal_details = ()=>{
- score_endModal.innerHTML = `Score: ${score}`;
- timer_bonusModal.innerHTML = `Timer Bonus: ${i} x 100`;
- f_nalModal.innerHTML =  `Final Score: ${Math.floor(score + i * 100)} `;
-}
+const showFinal_details = () => {
+  score_endModal.innerHTML = `Score: ${score}`
+  timer_bonusModal.innerHTML = `Timer Bonus: ${i} x 100`
+  f_nalModal.innerHTML = `Final Score: ${Math.floor(score + i * 100)} `
+  return
+};
 
-/**
- * 
- * 
- */
+

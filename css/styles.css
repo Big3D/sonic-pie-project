@@ -23,7 +23,7 @@ body {
 .canvas-container{
     position:absolute;
 
-
+}
 #start-button button {
   position: absolute;
   top: 50%;
@@ -284,8 +284,9 @@ bottom: 0;
 z-index: 21000;
 }
 
+
 #gameover-screen {
-  margin-top: 50px;
+  /* margin-top: 50px; */
  position: absolute; 
   /* display: flex;
   align-items: center;
@@ -297,9 +298,18 @@ z-index: 21000;
   border: 0%;
   max-width: 100%;
   height: auto;
+  top: 13%;
   right: 15%;
   left: 10%;
   z-index: 20000;
+}
+#youwin-background {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 21000;
 }
 h1.gameover {
   color: yellow;
@@ -310,9 +320,6 @@ h1.gameover {
   top: 20%;
 }
 #xuit {
-  /* background-image: url(/img/UI/TextBTN_Medium.png);
-  width: 17.5rem;
-  height: 6.9vh; */
   font-size: 50px;
   font-family: "Butcherman", "cursive";
   border-radius: 10px;
@@ -344,7 +351,6 @@ h1.gameover {
   visibility: hidden;
 }
 #xuit:hover {
-  font-size: 31.5px;
   background-color: black;
   transition-duration: 0.2s;
 }
@@ -361,8 +367,7 @@ h1.gameover {
   margin-bottom: 20px;
 }
 .gameover {
-  color: black;
-  font-size: 70px;
+  font-size: 50px;
 }
         
 #player_details {
