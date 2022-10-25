@@ -1142,7 +1142,7 @@ function undoDisplay() {
 
 //Countdown to start ends.
 
-let i = 60;
+let i = 5;
 let timeout;
 let stopTime = -1;
 
@@ -1152,10 +1152,10 @@ function onTimer() {
   timeout = setTimeout(onTimer, 1000);
   if (i <= stopTime) {
     clearTimeout(timeout);
-    setTimeout(
-      () => window.open("http://127.0.0.1:5505/game%20over.html"),
-      1000
-    );
+    // setTimeout(
+    //   () => window.open("http://127.0.0.1:5505/game%20over.html"),
+    //   1000
+    // );
   }
 }
 
@@ -1204,6 +1204,20 @@ function Quit() {
   mute = muteState;
   return (current_timer = timeout);
 }
+
+// Handle the submit button
+const submit_btn = document.querySelector('#submit')
+submit_btn.addEventListener('click', function(e) {
+  e.preventDefault()
+  let scoreId = uuidv4()
+  let username = document.querySelector('#username').value
+  let data = { username, score }
+  let ref = firebase.ref(firebase.db, 'scores/' + scoreId)
+  firebase.set(ref, data).then(function() {
+    leaderBoardMenu.style.display = "block";
+    gameoverscreen.style.display = "none";
+  });
+})
 
 // Resume Button
 /**
