@@ -140,27 +140,28 @@ body {
 #leaderBoardMenu {
   position: absolute;
   display: none; 
-  width: 100%; 
-  height: 100%; 
-  top: 0;
-  left: 0;
+  width: auto; 
+  height: auto; 
+  top:  -1%;
+  left: 0%;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,0.5); 
+  /*background-color: rgba(0,0,0,0.5);*/
   z-index: 2; 
   cursor: pointer; 
   font-family: 'Butcherman', cursive;
   text-align: center;
+  background: no-repeat;
   background-image: url("/img/UI/Black-module.png");
   background-position: 50%;
-  background-size: 110%;
+  background-size: 80%;
 }
 
 #leadGroup{
   position: fixed;
   top: 50%;
   left: 50%;
-  font-size: 30px;
+  font-size: 1.5vw;
   color: rgb(255, 255, 255);
   transform: translate(-50%,-50%);
   -ms-transform: translate(-50%,-50%);
