@@ -1279,7 +1279,7 @@ function undoDisplay() {
 
 //Countdown to start ends.
 
-let i = 105;
+let i = 5;
 let timeout;
 let stopTime = -1;
 
