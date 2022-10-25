@@ -1116,6 +1116,9 @@ function animate() {
       for (let i = 0; i < waterDrops.length; i++) {
         waterDrops[i].position.x += 5;
       }
+      for (let i = 0; i < skeletonHands.length; i++) {
+        skeletonHands[i].position.x += 5;
+      }
       for (let i = 0; i < pies.length; i++) {
         pies[i].position.x += 5;
       }
