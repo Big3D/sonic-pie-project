@@ -478,8 +478,6 @@ sawLineSprite.src = "/img/Platform-img/Saw_Line.png";
 const rotatedSawLineSprite = new Image();
 rotatedSawLineSprite.src = "/img/Platform-img/Saw_Line_H.png";
 
-
-
 // obstacle class -- static
 class StaticObstacle {
   constructor({ x, y, width, height, image }) {
@@ -755,10 +753,34 @@ const skeletonHands = [
     width: skeletonHandSprite.width - 20,
     height: skeletonHandSprite.height - 20,
   }),
-  // new StaticObstacle({ x: 4800, y: 840, image: skeletonHandSprite }),
-  // new StaticObstacle({ x: 8300, y: 840, image: skeletonHandSprite }),
-  // new StaticObstacle({ x: 9800, y: 840, image: skeletonHandSprite }),
-  // new StaticObstacle({ x: 13200, y: 840, image: skeletonHandSprite }),
+  new StaticObstacle({
+    x: 4800,
+    y: 840,
+    image: skeletonHandSprite,
+    width: skeletonHandSprite.width - 20,
+    height: skeletonHandSprite.height - 20,
+  }),
+  new StaticObstacle({
+    x: 8300,
+    y: 840,
+    image: skeletonHandSprite,
+    width: skeletonHandSprite.width - 20,
+    height: skeletonHandSprite.height - 20,
+  }),
+  new StaticObstacle({
+    x: 9800,
+    y: 840,
+    image: skeletonHandSprite,
+    width: skeletonHandSprite.width - 20,
+    height: skeletonHandSprite.height - 20,
+  }),
+  new StaticObstacle({
+    x: 13200,
+    y: 840,
+    image: skeletonHandSprite,
+    width: skeletonHandSprite.width - 20,
+    height: skeletonHandSprite.height - 20,
+  }),
 ];
 
 //new instance - saw line
@@ -867,7 +889,7 @@ function animate() {
   if (!keepAnimating) {
     return;
   }
- 
+
   //// Setting Jump/Grounded states
   if (sonic.velocity.y != 0) {
     grounded = false;
