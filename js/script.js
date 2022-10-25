@@ -455,8 +455,8 @@ class WaterDrops {
       y: velocity.y,
     };
     this.image = waterDropSprite;
-    this.width = waterDropSprite.width + 50;
-    this.height = waterDropSprite.height + 50;
+    this.width = waterDropSprite.width + 20;
+    this.height = waterDropSprite.height + 25;
 
     this.distance = distance;
     this.alive = true;
@@ -751,7 +751,7 @@ let waterDrops = [];
 waterDrops = [
   new WaterDrops({
     position: {
-      x: 5950,
+      x: 5960,
       y: 550,
     },
     velocity: {
@@ -765,7 +765,7 @@ waterDrops = [
   }),
   new WaterDrops({
     position: {
-      x: 12040,
+      x: 12050,
       y: 550,
     },
     velocity: {
