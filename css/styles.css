@@ -372,8 +372,8 @@ h1.gameover {
 @media only screen and (max-width: 768px) {
   #input_div {
     position: absolute;
-    bottom: 25%;
-    right:25%;
+    bottom: 20%;
+    right:35%;
     z-index: 900;
   }
 } 
@@ -382,7 +382,7 @@ h1.gameover {
   #input_div {
     position: absolute;
     bottom: 20%;
-    right:20%;
+    right:40%;
     z-index: 900;
   }
 
