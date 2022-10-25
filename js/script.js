@@ -502,21 +502,22 @@ class StaticObstacle {
   }
 }
 
-//Tsi
-class Pie {
-  constructor({ position, velocity, distance }, lastPie) {
-    this.position = {
-      x: position.x,
-      y: position.y,
-    };
-    this.velocity = {
-      x: velocity.x,
-      y: velocity.y,
-    };
-    this.width = 30;
-    this.height = 30;
+// pie sprite image
+const pieSprite = new Image();
+pieSprite.src = "/img/Obstacles_img/pie.png";
 
-    this.distance = distance;
+// pie class
+class Pie {
+  constructor({ x, y, image }, lastPie) {
+    this.position = {
+      x,
+      y,
+    };
+
+    this.image = image;
+    this.width = image.width / Math.PI;
+    this.height = image.height / Math.PI;
+
     this.alive = true;
     this.lastPie = lastPie;
   }
@@ -533,8 +534,13 @@ class Pie {
 
   //Draw pie
   draw() {
-    ctx.fillStyle = "green";
-    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+    ctx.drawImage(
+      this.image,
+      this.position.x,
+      this.position.y,
+      this.width,
+      this.height
+    );
   }
   clear() {
     this.alive = false;
@@ -542,13 +548,6 @@ class Pie {
   update() {
     if (this.alive === true) {
       this.draw();
-      this.position.y += this.velocity.y;
-      //sets obstacle "y" position to bottom of canvas
-      if (this.position.y + this.height + this.velocity.y <= canvas.height) {
-        this.velocity.y += gravity;
-      } else {
-        this.velocity.y = 0;
-      }
     }
   }
 }
@@ -625,8 +624,6 @@ const endScoreModal = new Modal();
 
 // health bar
 let health = 100;
-
-let pies = [];
 
 // scroll position
 let scrollPosition = 0;
@@ -822,52 +819,62 @@ const sawLines = [
   }),
 ];
 
-// tsi
-pies = [
-  new Pie({
-    position: {
-      x: 1300,
-      y: 400,
-    },
-    velocity: {
-      x: -0.5,
-      y: 0,
-    },
-    distance: {
-      limit: 100,
-      traveled: 0,
-    },
-  }),
-  new Pie({
-    position: {
-      x: 1800,
-      y: 400,
-    },
-    velocity: {
-      x: -0.5,
-      y: 0,
-    },
-    distance: {
-      limit: 100,
-      traveled: 0,
-    },
-  }),
-
-  //This pie would be the giant pie. It should be in the last position
+// new instance - pies
+const pies = [
   new Pie(
     {
-      position: {
-        x: 8100,
-        y: 500,
-      },
-      velocity: {
-        x: -0.5,
-        y: 0,
-      },
-      distance: {
-        limit: 100,
-        traveled: 0,
-      },
+      x: 1200,
+      y: 860,
+      image: pieSprite,
+    },
+    false
+  ),
+  new Pie(
+    {
+      x: 3000,
+      y: 860,
+      image: pieSprite,
+    },
+    false
+  ),
+  new Pie(
+    {
+      x: 5000,
+      y: 860,
+      image: pieSprite,
+    },
+    false
+  ),
+  new Pie(
+    {
+      x: 8000,
+      y: 860,
+      image: pieSprite,
+    },
+    false
+  ),
+  new Pie(
+    {
+      x: 9300,
+      y: 860,
+      image: pieSprite,
+    },
+    false
+  ),
+  new Pie(
+    {
+      x: 11000,
+      y: 860,
+      image: pieSprite,
+    },
+    false
+  ),
+  // last pie (ends game)
+  new Pie(
+    {
+      x: 15000,
+      y: 860,
+      image: pieSprite,
     },
     true
   ),
@@ -1019,7 +1026,7 @@ function animate() {
     }
   });
 
-  // tsi
+  // renders each pie in array
   pies.forEach((pie) => {
     // detects for collision between obstacle and player
     if (
@@ -1032,7 +1039,7 @@ function animate() {
       if (health < 0) {
         // startGame();
       } else {
-        // decrements health and pushes player back slightly
+        // clears pie and adds to score
         pie.clear();
         score = score + 100;
       }
@@ -1041,7 +1048,6 @@ function animate() {
         pie.endGame();
       }
     }
-
     pie.update();
   });
 
@@ -1402,8 +1408,8 @@ const showFinal_details = () => {
 };
 
 /**
- *
- *
+ * 
+ * 
  */
 
 // get score based on scroll position -- called in animate function
