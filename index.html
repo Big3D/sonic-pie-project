@@ -31,10 +31,8 @@
       </div>
       <!-- Paws Menu Ends -->
       <div class="canvas-container">
-        <div
-          style="font-size: 30px; text-align: center; color: black"
-          id="countdown"
-        ></div>
+        <div id="countdown"></div>
+        <div id="currentScore">Score:</div>
         <canvas id="menu_canvas"></canvas>
         <div id="start-button">
           <button type="button">Start</button>
@@ -42,25 +40,24 @@
         <div id="leaderboard-button">
           <button onclick="leadDisplay()" type="button">Leaderboard</button>
         </div>
-       
+
         <!-- Game Over Background -->
         <div id="gameover_background" class="hide">
-          <img src="/img/UI/Game-Over.png" alt="">
+          <img src="/img/UI/Game-Over.png" alt="" />
           <div id="gameover-screen">
             <!-- <button onclick="closegameover()">close</button> -->
             <h1 class="gameover">TIME'S UP!!</h1>
             <div id="player_details">
-            <p id="s_core"></p>
-            <p id="t_imer"></p>
-            <p id="f_score"></p>
+              <p id="s_core"></p>
+              <p id="t_imer"></p>
+              <p id="f_score"></p>
             </div>
-            
+
             <div id="input_background">
               <img src="/img/UI/Button-black.png" alt="" />
               <div id="input_div">
                 <input type="text" placeholder="Name" id="username" />
               </div>
-
             </div>
             <div id="game-over-buttons">
               <button id="submit">Submit</button>
@@ -92,29 +89,25 @@
           </div> -->
         <!-- </div> -->
         <!-- You win ends -->
-       
+
         <div class="audioTest">
           <button class="audioMute" onclick="muteUnmute()">Mute/Unmute</button>
         </div>
 
-
-          <div id="leaderBoardMenu">
-              
-
-           <div id="leadGroup">
+        <div id="leaderBoardMenu">
+          <div id="leadGroup">
             <h1 class="leadtitle">Meow Masters</h1>
 
-            
             <!-- <div id="cy-input">
               <div class="cyclic_input" tabindex="0">A</div>
               <div class="cyclic_input" tabindex="0">A</div>
               <div class="cyclic_input" tabindex="0">A</div>
             </div> -->
-          
+
             <div id="1" class="row">
               <div class="placement">1.</div>
               <div class="name">AAA</div>
-              <div class="score">430</div> 
+              <div class="score">430</div>
             </div>
 
             <div id="2" class="row">
@@ -124,29 +117,29 @@
             </div>
 
             <div id="3" class="row">
-                <div class="placement">3.</div>
-                <div class="name">AAA</div>
-                <div class="score">310</div>
+              <div class="placement">3.</div>
+              <div class="name">AAA</div>
+              <div class="score">310</div>
             </div>
 
             <div id="4" class="row">
-                <div class="placement">4.</div>
-                <div class="name">AAA</div>
-                <div class="score">640</div>
+              <div class="placement">4.</div>
+              <div class="name">AAA</div>
+              <div class="score">640</div>
             </div>
 
             <div id="5" class="row">
-                <div class="placement">5.</div>
-                <div class="name">AAA</div>
-                <div class="score">495</div>
+              <div class="placement">5.</div>
+              <div class="name">AAA</div>
+              <div class="score">495</div>
             </div>
-            
+
             <div id="6" class="row">
               <div class="placement">6.</div>
               <div class="name">AAA</div>
               <div class="score">430</div>
-              </div>
-              
+            </div>
+
             <div id="7" class="row">
               <div class="placement">7.</div>
               <div class="name">AAA</div>
@@ -170,18 +163,19 @@
               <div class="name">AAA</div>
               <div class="score">495</div>
             </div>
-           </div>
-
+          </div>
         </div>
-
-        <div id="currentScore">score:</div>
       </div>
     </div>
 
     <script type="module">
       // Import the functions you need from the SDKs you need
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-app.js";
-      import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-database.js"
+      import {
+        getDatabase,
+        ref,
+        set,
+      } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-database.js";
 
       // Your web app's Firebase configuration
       // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -193,16 +187,16 @@
         storageBucket: "sonic-pie.appspot.com",
         messagingSenderId: "310435323704",
         appId: "1:310435323704:web:4136a696bea8c923952bcd",
-        measurementId: "G-X7GS87V26X"
+        measurementId: "G-X7GS87V26X",
       };
-    
+
       // Initialize Firebase
       const app = initializeApp(firebaseConfig);
       const db = getDatabase(app);
       window.firebase = { db, ref, set };
     </script>
     <script type="module">
-      import { v4 as uuidv4 } from 'https://jspm.dev/uuid'
+      import { v4 as uuidv4 } from "https://jspm.dev/uuid";
       window.uuidv4 = uuidv4;
     </script>
     <script src="js/script.js" type="text/javascript" defer></script>

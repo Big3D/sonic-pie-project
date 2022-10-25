@@ -13,6 +13,7 @@ body {
 }
 
 .container {
+  position: relative;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -21,11 +22,32 @@ body {
 }
 
 .canvas-container{
-    position:absolute;
+    position: relative;
 
 }
 .canvas-container canvas{
   object-fit: contain;
+}
+
+/* Timer */
+#countdown {
+  position: absolute;
+  top: 3%;
+  left: 0;
+  right: 0;
+  font-size: 40px;
+  text-align: center;
+  color: #FF9F10;
+}
+
+/* Score */
+#currentScore {
+  position: absolute;
+  top: 5%;
+  right: 10%;
+  font-size: 20px;
+  text-align: center;
+  color: #FF9F10;
 }
 
 #start-button button {
@@ -99,13 +121,6 @@ body {
     width: 700px;
     height: 500px;    
 } */
-
-/* SCORE DIV */
-#currentScore {
-  position: absolute;
-  top: 0%;
-  right: 10%;
-}
 
 /* Leaderboard CSS*/
 
