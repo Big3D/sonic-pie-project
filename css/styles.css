@@ -112,20 +112,20 @@ body {
 #leaderBoardMenu {
   position: absolute;
   display: none; 
-  width: 82%; 
-  height: 86%; 
-  top: 8%;
-  left: 8%;
+  width: 80%; 
+  height: 88%; 
+  top:  7%;
+  left: 19%;
   right: 0;
   bottom: 0;
-  /*background-color: rgba(0,0,0,0.5)*/
+  /*background-color: rgba(0,0,0,0.5);*/
   z-index: 2; 
   cursor: pointer; 
   font-family: 'Butcherman', cursive;
   text-align: center;
   background-image: url("/img/UI/Black-module.png");
   background-position: 150%;
-  background-size: 100%;
+  background-size: 111%;
 }
 
 #leadGroup{
