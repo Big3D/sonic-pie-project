@@ -455,8 +455,8 @@ class WaterDrops {
       y: velocity.y,
     };
     this.image = waterDropSprite;
-    this.width = waterDropSprite.width + 50;
-    this.height = waterDropSprite.height + 50;
+    this.width = waterDropSprite.width + 20;
+    this.height = waterDropSprite.height + 25;
 
     this.distance = distance;
     this.alive = true;
@@ -751,7 +751,7 @@ let waterDrops = [];
 waterDrops = [
   new WaterDrops({
     position: {
-      x: 5950,
+      x: 5960,
       y: 550,
     },
     velocity: {
@@ -765,7 +765,7 @@ waterDrops = [
   }),
   new WaterDrops({
     position: {
-      x: 12040,
+      x: 12050,
       y: 550,
     },
     velocity: {
@@ -783,38 +783,38 @@ waterDrops = [
 const skeletonHands = [
   new StaticObstacle({
     x: 900,
-    y: 840,
+    y: 850,
     image: skeletonHandSprite,
-    width: skeletonHandSprite.width - 20,
-    height: skeletonHandSprite.height - 20,
+    width: skeletonHandSprite.width - 15,
+    height: skeletonHandSprite.height - 25,
   }),
   new StaticObstacle({
     x: 4800,
-    y: 840,
+    y: 850,
     image: skeletonHandSprite,
-    width: skeletonHandSprite.width - 20,
-    height: skeletonHandSprite.height - 20,
+    width: skeletonHandSprite.width - 15,
+    height: skeletonHandSprite.height - 25,
   }),
   new StaticObstacle({
     x: 8300,
-    y: 840,
+    y: 850,
     image: skeletonHandSprite,
-    width: skeletonHandSprite.width - 20,
-    height: skeletonHandSprite.height - 20,
+    width: skeletonHandSprite.width - 15,
+    height: skeletonHandSprite.height - 25,
   }),
   new StaticObstacle({
     x: 9800,
-    y: 840,
+    y: 850,
     image: skeletonHandSprite,
-    width: skeletonHandSprite.width - 20,
-    height: skeletonHandSprite.height - 20,
+    width: skeletonHandSprite.width - 15,
+    height: skeletonHandSprite.height - 25,
   }),
   new StaticObstacle({
     x: 13200,
-    y: 840,
+    y: 850,
     image: skeletonHandSprite,
-    width: skeletonHandSprite.width - 20,
-    height: skeletonHandSprite.height - 20,
+    width: skeletonHandSprite.width - 15,
+    height: skeletonHandSprite.height - 25,
   }),
 ];
 
@@ -1310,7 +1310,7 @@ function undoDisplay() {
 
 //Countdown to start ends.
 
-let i = 5;
+let i = 60;
 let timeout;
 let stopTime = -1;
 
