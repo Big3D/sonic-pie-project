@@ -7,8 +7,6 @@
     <!-- title of game -->
     <title>Super Sonic Meow</title>
     <link rel="stylesheet" href="css/styles.css" />
-    <script src="js/script.js" type="text/javascript" defer></script>
-    <script src="js/leaderboard.js" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -62,10 +60,11 @@
               <div id="input_div">
                 <input type="text" placeholder="Name" id="username" />
               </div>
+
             </div>
-            <a href="index.html">
-              <button id="xuit">Quit</button>
-            </a>
+            <div id="game-over-buttons">
+              <button id="submit">Submit</button>
+            </div>
           </div>
         </div>
         <!-- Game Over Background -->
@@ -178,5 +177,35 @@
         <div id="currentScore">score:</div>
       </div>
     </div>
+
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-app.js";
+      import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-database.js"
+
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+        apiKey: "AIzaSyCxyRnjVr4jMR1QWqG1x5mFo-_TGnVIT-w",
+        authDomain: "sonic-pie.firebaseapp.com",
+        databaseURL: "https://sonic-pie-default-rtdb.firebaseio.com",
+        projectId: "sonic-pie",
+        storageBucket: "sonic-pie.appspot.com",
+        messagingSenderId: "310435323704",
+        appId: "1:310435323704:web:4136a696bea8c923952bcd",
+        measurementId: "G-X7GS87V26X"
+      };
+    
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+      window.firebase = { db, ref, set };
+    </script>
+    <script type="module">
+      import { v4 as uuidv4 } from 'https://jspm.dev/uuid'
+      window.uuidv4 = uuidv4;
+    </script>
+    <script src="js/script.js" type="text/javascript" defer></script>
+    <script src="js/leaderboard.js" defer></script>
   </body>
 </html>

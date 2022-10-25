@@ -308,8 +308,14 @@ h1.gameover {
   margin-bottom: 0;
 }
 
+
 #xuit {
   font-size: 20px;
+#game-over-buttons button {
+  font-size: 30px;
+  margin-left: 5%;
+  top: 20%;
+  font-size: 50px;
   font-family: "Butcherman", "cursive";
   border-radius: 10px;
   color: yellow;
