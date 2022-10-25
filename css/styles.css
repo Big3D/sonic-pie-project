@@ -100,11 +100,17 @@ body {
     height: 500px;    
 } */
 
-/* SCORE DIV */
+/* SCORE DIV  changed  css*/
 #currentScore {
   position: absolute;
-  top: 0%;
-  right: 10%;
+  top: 5%;
+  right: 20%;
+  color: whitesmoke;
+  background-color: darkorange;
+  padding: 5px 20px;
+  border-radius:8px;
+  font-size: 1.3rem;
+  border:1px solid gray;
 }
 
 /* Leaderboard CSS*/
@@ -249,8 +255,21 @@ body {
   height: 10vh;
   border-radius: 10px;
 }
+/* Tsion added  */
+#countdown{
+  position: absolute;
+  top: 5%;
+  right: 50%;
+  color: whitesmoke;
+  background-color: darkorange;
+  padding: 5px 20px;
+  border-radius:8px;
+  font-size: 1.3rem;
+  border:1px solid gray;
+  color:white;
+}
 
-/* Count_down CSS */
+/* Count_down  changed-CSS */
 #count_down {
   display: flex;
   flex-direction: column;
