@@ -314,9 +314,11 @@ body {
 /* Game Over Screen */
 #gameover_background img{
 object-fit:contain;
-max-width: 100%;
+max-width: 80%;
 height: auto;
 margin-top: 20px;
+margin-left: auto;
+margin-right: auto;
 }
 
 
@@ -331,34 +333,23 @@ z-index: 21000;
 
 
 #gameover-screen {
-  /* margin-top: 50px; */
  position: absolute; 
-  /* display: flex;
-  align-items: center;
-  justify-items: right;
-  flex-direction: column; */
   text-align: center;
-  font-family: "Butcherman", "cursive";
   outline: none;
-  border: 0%;
   max-width: 100%;
-  height: auto;
-  top: 13%;
+  top: 20%;
   right: 15%;
   left: 10%;
   z-index: 20000;
 }
-#youwin-background {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  z-index: 21000;
-}
+
 h1.gameover {
   color: yellow;
+  margin-top: 0;
+  margin-bottom: 0;
 }
+
+
 #game-over-buttons button {
   font-size: 30px;
   margin-left: 5%;
@@ -374,21 +365,22 @@ h1.gameover {
 }
 ::placeholder{
   color: yellow;
-  font-size: 30px;
+  font-size: 20px;
   font-family: "Butcherman", "cursive";
 }
 #input_background img{
   object-fit: scale-down;
-  max-width: 60%;
-  height: 150px;
+  max-width: 30%;
   position: relative;
 }
 
 #input_div {
+  max-width: 20%;
   position: absolute;
-  bottom: 25%;
-  right:36%;
+  bottom: 22%;
+  right:40%;
   z-index: 900;
+  border-radius: 5px;
 }
 .hide {
   visibility: hidden;
@@ -399,17 +391,22 @@ h1.gameover {
 }
 
 #username {
-  padding: 12px 3px 12px 5px;
-  font-size: 18px;
+  width: 100%;
+  max-width: 500px;
+  font-size: 15px;
   text-align: center;
   background: #1f1f1f;
-  outline: none;
   color: yellow;
-  width: 50%;
   border: none;
-  margin-bottom: 20px;
+  padding: 10px 11px 11px 11px;
+  border-radius: 3px;
+  box-shadow: none;
+  outline: none;
+  margin: 0;
+  box-sizing: border-box; 
 }
 .gameover {
+  margin-top: 0;
   font-size: 50px;
 }
         
@@ -417,33 +414,210 @@ h1.gameover {
   color: white;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (min-width: 768px)  and (max-width: 959px) {
+  #gameover-screen {
+    position: absolute; 
+     text-align: center;
+     outline: none;
+     max-width: 100%;
+     top: 30%;
+     right: 15%;
+     left: 10%;
+     z-index: 20000;
+   }
+  h1.gameover {
+    color: yellow;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 25px;
+    margin: 0;
+  }
   #input_div {
     position: absolute;
-    bottom: 25%;
-    right:25%;
+    bottom: 25.5%;
+    right:43.5%;
     z-index: 900;
+  }
+  #player_details {
+    color: white;
+    font-size: 10px;
+  }
+  #username {
+    width: 100%;
+    max-width: 500px;
+    font-size: 5px;
+    text-align: center;
+    background: #1f1f1f;
+    color: yellow;
+    border: none;
+    padding: 2px 1px 1px 1px;
+    border-radius: 3px;
+    box-shadow: none;
+    outline: none;
+    margin: 0;
+    box-sizing: border-box; 
   }
 } 
 
-@media only screen and (max-width: 600px) {
+@media only screen and (min-width: 550px) and (max-width: 768px) {
   #input_div {
     position: absolute;
-    bottom: 20%;
-    right:20%;
+    /* bottom: 20%; */
+    right:40%;
     z-index: 900;
+  }
+  h1.gameover {
+    color: yellow;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 15px;
+    margin: 0;
   }
 
   #xuit {
-    font-size: 20px;
-    font-family: "Butcherman", "cursive";
-    border-radius: 10px;
+    font-size: 10px;
+    border-radius: 3px;
     color: yellow;
     background-color: transparent;
     text-decoration: none;
     outline: none;
     border: none;
-    margin-top: 20px;
+    margin:0;
+  }
+  .gameover {
+    font-size: 25px;
+    margin: 0;
+  }
+  #gameover-screen {
+    position: absolute; 
+     text-align: center;
+     outline: none;
+     max-width: 100%;
+     top: 40%;
+     right: 15%;
+     left: 10%;
+     z-index: 20000;
+   }
+
+   #player_details {
+    color: white;
+    font-size: 10px;
+  }
+  #username {
+    width: 100%;
+    max-width: 500px;
+    font-size: 5px;
+    text-align: center;
+    background: #1f1f1f;
+    color: yellow;
+    border: none;
+    padding: 2px 1px 1px 1px;
+    border-radius: 3px;
+    box-shadow: none;
+    outline: none;
+    margin: 0;
+    box-sizing: border-box; 
+  }
+  #input_background img{
+    margin: 0;
+    object-fit: scale-down;
+    max-width: 20%;
+    position: relative;
+  }
+  
+  #input_div {
+    max-width: 19%;
+    position: absolute;
+    bottom: 30%;
+    right:42%;
+    z-index: 900;
+    border-radius: 5px;
+  }
+  ::placeholder{
+    color: yellow;
+    font-size: 10px;
+  }
+}
+
+
+
+@media only screen and (max-width: 550px) {
+  #input_div {
+    position: absolute;
+    /* bottom: 20%; */
+    right:40%;
+    z-index: 900;
+  }
+  h1.gameover {
+    color: yellow;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 15px;
+    margin: 0;
+  }
+
+  #xuit {
+    font-size: 10px;
+    border-radius: 3px;
+    color: yellow;
+    background-color: transparent;
+    text-decoration: none;
+    outline: none;
+    border: none;
+    margin:0;
+  }
+  .gameover {
+    font-size: 5px;
+    margin: 0;
+  }
+  #gameover-screen {
+    position: absolute; 
+     text-align: center;
+     outline: none;
+     max-width: 100%;
+     top: 40%;
+     right: 15%;
+     left: 10%;
+     z-index: 20000;
+   }
+
+   #player_details {
+    color: white;
+    font-size: 5px;
+  }
+  #username {
+    width: 100%;
+    max-width: 500px;
+    font-size: 5px;
+    text-align: center;
+    background: #1f1f1f;
+    color: yellow;
+    border: none;
+    padding: 2px 1px 1px 1px;
+    border-radius: 3px;
+    box-shadow: none;
+    outline: none;
+    margin: 0;
+    box-sizing: border-box; 
+  }
+  #input_background img{
+    margin: 0;
+    object-fit: scale-down;
+    max-width: 20%;
+    position: relative;
+  }
+  
+  #input_div {
+    max-width: 20%;
+    position: absolute;
+    bottom: 33%;
+    right:40%;
+    z-index: 900;
+    border-radius: 5px;
+  }
+  ::placeholder{
+    color: yellow;
+    font-size: 3px;
   }
 }
 
