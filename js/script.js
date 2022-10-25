@@ -56,9 +56,23 @@ function StartGame() {
   }
 
   let removeDisplay = new Promise((resolve) => {
-    resolve = reduceCount();
+    resolve('success')
   });
-  removeDisplay.then(setTimeout(undoDisplay, 4000));
+  removeDisplay.then(()=>{
+   reduceCount();
+  })
+  .then(()=>{
+    setTimeout(()=>{
+      undoDisplay()
+    }, 4000)
+  })
+  .then(()=>{
+    setTimeout(()=>{
+      EscapePaws()
+    }, 4000)
+   })
+    
+  
 
   start_button.style.display = "none";
   leaderboard_button.style.display = "none";
@@ -1162,17 +1176,19 @@ function onTimer() {
 //Paws Menu
 //Open press the ESC it should have resume and quit buttons.
 const paws_Menu = document.querySelector("#paws");
+function EscapePaws(){
+  addEventListener("keydown", (e) => {
+    let name = e.key;
+    let code = e.code;
+  
+    if (code === "Escape" && name === "Escape") {
+      displayPaws();
+      clearTimer();
+      keepAnimating = false;
+    }
+  });
+}
 
-addEventListener("keydown", (e) => {
-  let name = e.key;
-  let code = e.code;
-
-  if (code === "Escape" && name === "Escape") {
-    displayPaws();
-    clearTimer();
-    keepAnimating = false;
-  }
-});
 
 paws_Menu.style.display = "none";
 function displayPaws() {
