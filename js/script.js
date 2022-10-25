@@ -74,8 +74,6 @@ const ctx = canvas.getContext("2d");
 canvas.width = 1920;
 canvas.height = 1080;
 
-
-
 // gravity
 const gravity = 0.5;
 //SCORE
@@ -131,7 +129,7 @@ function playerState(val) {
       } else if (jumpDown) {
         if (!grounded && sonic.frames < 6) {
           sonic.frames++;
-        }else if(!grounded){
+        } else if (!grounded) {
           sonic.frames = 6;
         } else if (
           grounded &&
@@ -298,8 +296,11 @@ class Player {
       if (keys.right.pressed || keys.left.pressed) {
         playerState("Walk");
         // console.log("Walking");
-      }
-       else if (!keys.left.pressed && !keys.right.pressed && !keys.spacebar.pressed) {
+      } else if (
+        !keys.left.pressed &&
+        !keys.right.pressed &&
+        !keys.spacebar.pressed
+      ) {
         playerState("Stand");
         // console.log('Standing')
       }
@@ -491,40 +492,45 @@ class SkeletonHands {
   }
 }
 
-//Tsi
-class Pie {
-  constructor({ position, velocity, distance }, lastPie) {
-    this.position = {
-      x: position.x,
-      y: position.y,
-    };
-    this.velocity = {
-      x: velocity.x,
-      y: velocity.y,
-    };
-    this.width = 30;
-    this.height = 30;
+// pie sprite image
+const pieSprite = new Image();
+pieSprite.src = "/img/Obstacles_img/pie.png";
 
-    this.distance = distance;
+// pie class
+class Pie {
+  constructor({ x, y, image }, lastPie) {
+    this.position = {
+      x,
+      y,
+    };
+
+    this.image = image;
+    this.width = image.width / Math.PI;
+    this.height = image.height / Math.PI;
+
     this.alive = true;
     this.lastPie = lastPie;
   }
 
-  
- endGame() {
-  showFinal_details()
-  clearTimer()
-  keepAnimating = false;
-  gameoverscreen.classList.remove("hide");
-  gameoverscreen.style.display = "flex";
-  const youWin = document.querySelector('.gameover')
-  youWin.innerHTML = "You Win!!"
-}
+  endGame() {
+    showFinal_details();
+    clearTimer();
+    keepAnimating = false;
+    gameoverscreen.classList.remove("hide");
+    gameoverscreen.style.display = "flex";
+    const youWin = document.querySelector(".gameover");
+    youWin.innerHTML = "You Win!!";
+  }
 
   //Draw pie
   draw() {
-    ctx.fillStyle = "green";
-    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+    ctx.drawImage(
+      this.image,
+      this.position.x,
+      this.position.y,
+      this.width,
+      this.height
+    );
   }
   clear() {
     this.alive = false;
@@ -532,13 +538,6 @@ class Pie {
   update() {
     if (this.alive === true) {
       this.draw();
-      this.position.y += this.velocity.y;
-      //sets obstacle "y" position to bottom of canvas
-      if (this.position.y + this.height + this.velocity.y <= canvas.height) {
-        this.velocity.y += gravity;
-      } else {
-        this.velocity.y = 0;
-      }
     }
   }
 }
@@ -615,8 +614,6 @@ const endScoreModal = new Modal();
 
 // health bar
 let health = 100;
-
-let pies = [];
 
 // scroll position
 let scrollPosition = 0;
@@ -712,53 +709,57 @@ const skeletonHands = [
   new SkeletonHands({ x: 1200, y: 400 }),
 ];
 
-// tsi
-pies = [
-  new Pie({
-    position: {
-      x: 1300,
-      y: 400,
+// new instance - pies
+const pies = [
+  new Pie(
+    {
+      x: 1000,
+      y: 860,
+      image: pieSprite,
     },
-    velocity: {
-      x: -0.5,
-      y: 0,
+    false
+  ),
+  new Pie(
+    {
+      x: 3000,
+      y: 860,
+      image: pieSprite,
     },
-    distance: {
-      limit: 100,
-      traveled: 0,
+    false
+  ),
+  new Pie(
+    {
+      x: 5000,
+      y: 860,
+      image: pieSprite,
     },
-  }),
-  new Pie({
-    position: {
-      x: 1800,
-      y: 400,
+    false
+  ),
+  new Pie(
+    {
+      x: 9000,
+      y: 860,
+      image: pieSprite,
     },
-    velocity: {
-      x: -0.5,
-      y: 0,
+    false
+  ),
+  new Pie(
+    {
+      x: 11000,
+      y: 860,
+      image: pieSprite,
     },
-    distance: {
-      limit: 100,
-      traveled: 0,
+    false
+  ),
+  // last pie (ends game)
+  new Pie(
+    {
+      x: 15000,
+      y: 860,
+      image: pieSprite,
     },
-  }),
-
-  //This pie would be the giant pie. It should be in the last position
-  new Pie({
-    position: {
-      x: 8100,
-      y: 500,
-    },
-    velocity: {
-      x: -0.5,
-      y: 0,
-    },
-    distance: {
-      limit: 100,
-      traveled: 0,
-    },
-  },  true),
- 
+    true
+  ),
 ];
 
 const keys = {
@@ -774,8 +775,7 @@ const keys = {
 };
 
 function animate() {
-
-  console.log(score)
+  console.log(score);
 
   if (!keepAnimating) {
     return;
@@ -784,7 +784,7 @@ function animate() {
   //// Setting Jump/Grounded states
   if (sonic.velocity.y != 0) {
     grounded = false;
-  } else if(sonic.velocity.y == 0 && !keys.spacebar.pressed){
+  } else if (sonic.velocity.y == 0 && !keys.spacebar.pressed) {
     grounded = true;
   }
   requestAnimationFrame(animate);
@@ -905,7 +905,7 @@ function animate() {
     }
   });
 
-  // tsi
+  // renders each pie in array
   pies.forEach((pie) => {
     // detects for collision between obstacle and player
     if (
@@ -918,7 +918,7 @@ function animate() {
       if (health < 0) {
         // startGame();
       } else {
-        // decrements health and pushes player back slightly
+        // clears pie and adds to score
         pie.clear();
         score = score + 100;
       }
@@ -927,7 +927,6 @@ function animate() {
         pie.endGame();
       }
     }
-
     pie.update();
   });
 
@@ -1042,8 +1041,7 @@ addEventListener("keyup", ({ keyCode }) => {
       break;
     case 32:
     case 38:
-      
-        keys.spacebar.pressed = false;
+      keys.spacebar.pressed = false;
       if (!keys.spacebar.pressed && sonic.velocity.y != 0) {
         sonic.velocity.y += 10;
       }
@@ -1261,22 +1259,20 @@ let f_nalModal = document.getElementById("f_score");
 
 // grab Izzy's solutions call them in this function
 const showFinal_details = () => {
-  score_endModal.innerHTML = `Score: ${score}`
-  timer_bonusModal.innerHTML = `Timer Bonus: ${i} x 100`
-  f_nalModal.innerHTML = `Final Score: ${Math.floor(score + i * 100)} `
-  return
+  score_endModal.innerHTML = `Score: ${score}`;
+  timer_bonusModal.innerHTML = `Timer Bonus: ${i} x 100`;
+  f_nalModal.innerHTML = `Final Score: ${Math.floor(score + i * 100)} `;
+  return;
 };
 
-
-
 /**
- * 
- * 
+ *
+ *
  */
 
 // get score based on scroll position -- called in animate function
 function getScore() {
   // set score equal to scrollPosition
-  score = scrollPosition
+  score = scrollPosition;
   document.getElementById("currentScore").innerHTML = `Score: ${score}`;
 }
