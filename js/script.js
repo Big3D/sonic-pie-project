@@ -4,6 +4,13 @@ let mtx = Menu_Canvas.getContext("2d");
 let start_button = document.getElementById("start-button");
 let leaderboard_button = document.getElementById("leaderboard-button");
 let gameoverscreen = document.getElementById("gameover_background");
+
+//Added counter and score display none by default
+let currentScore = document.getElementById("currentScore");
+let countdown = document.getElementById("countdown");
+currentScore.style.display = "none";
+countdown.style.display = "none";
+
 leaderBoardMenu.style.display = "none";
 Menu_Canvas.width = 800;
 Menu_Canvas.height = 576;
@@ -1270,6 +1277,10 @@ function reduceCount() {
 
     if (remainingTime <= 0) {
       countdown_num.innerHTML = end_time;
+	// tsi 
+	  currentScore.style.display = "block";
+	  countdown.style.display = "block";
+
       clearInterval(countdown_timer);
       keepAnimating = true;
       requestAnimationFrame(animate);
