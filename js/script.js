@@ -1209,7 +1209,7 @@ addEventListener("keyup", ({ keyCode }) => {
     case 38:
       keys.spacebar.pressed = false;
       if (!keys.spacebar.pressed && sonic.velocity.y != 0) {
-        sonic.velocity.y += 10;
+        sonic.velocity.y += 17.9;
       }
       break;
   }
