@@ -273,9 +273,11 @@ body {
 /* Game Over Screen */
 #gameover_background img{
 object-fit:contain;
-max-width: 100%;
+max-width: 80%;
 height: auto;
 margin-top: 20px;
+margin-left: auto;
+margin-right: auto;
 }
 
 
@@ -290,41 +292,24 @@ z-index: 21000;
 
 
 #gameover-screen {
-  /* margin-top: 50px; */
  position: absolute; 
-  /* display: flex;
-  align-items: center;
-  justify-items: right;
-  flex-direction: column; */
   text-align: center;
-  font-family: "Butcherman", "cursive";
   outline: none;
-  border: 0%;
   max-width: 100%;
-  height: auto;
-  top: 13%;
+  top: 20%;
   right: 15%;
   left: 10%;
   z-index: 20000;
 }
-#youwin-background {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  z-index: 21000;
-}
+
 h1.gameover {
   color: yellow;
+  margin-top: 0;
+  margin-bottom: 0;
 }
+
 #xuit {
-  font-size: 30px;
-  margin-left: 5%;
-  top: 20%;
-}
-#xuit {
-  font-size: 50px;
+  font-size: 20px;
   font-family: "Butcherman", "cursive";
   border-radius: 10px;
   color: yellow;
@@ -335,21 +320,22 @@ h1.gameover {
 }
 ::placeholder{
   color: yellow;
-  font-size: 30px;
+  font-size: 20px;
   font-family: "Butcherman", "cursive";
 }
 #input_background img{
   object-fit: scale-down;
-  max-width: 60%;
-  height: 150px;
+  max-width: 30%;
   position: relative;
 }
 
 #input_div {
+  max-width: 20%;
   position: absolute;
-  bottom: 25%;
-  right:36%;
+  bottom: 22%;
+  right:40%;
   z-index: 900;
+  border-radius: 5px;
 }
 .hide {
   visibility: hidden;
@@ -360,17 +346,22 @@ h1.gameover {
 }
 
 #username {
-  padding: 12px 3px 12px 5px;
-  font-size: 18px;
+  width: 100%;
+  max-width: 500px;
+  font-size: 15px;
   text-align: center;
   background: #1f1f1f;
-  outline: none;
   color: yellow;
-  width: 50%;
   border: none;
-  margin-bottom: 20px;
+  padding: 10px 11px 11px 11px;
+  border-radius: 3px;
+  box-shadow: none;
+  outline: none;
+  margin: 0;
+  box-sizing: border-box; 
 }
 .gameover {
+  margin-top: 0;
   font-size: 50px;
 }
         
