@@ -113,9 +113,9 @@ body {
   position: absolute;
   display: none; 
   width: 80%; 
-  height: 88%; 
-  top:  7%;
-  left: 19%;
+  height: 85%; 
+  top:  8%;
+  left:18%;
   right: 0;
   bottom: 0;
   /*background-color: rgba(0,0,0,0.5);*/
@@ -123,9 +123,10 @@ body {
   cursor: pointer; 
   font-family: 'Butcherman', cursive;
   text-align: center;
+
   background-image: url("/img/UI/Black-module.png");
   background-position: 150%;
-  background-size: 111%;
+  background-size: 110%;
 }
 
 #leadGroup{
