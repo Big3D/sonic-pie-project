@@ -469,16 +469,28 @@ class WaterDrops {
 // skeleton hand sprite image
 const skeletonHandSprite = new Image();
 skeletonHandSprite.src = "/img/Obstacles_img/Skeleton_Hand.png";
-// skeleton hands obstacle class -- static
-class SkeletonHands {
-  constructor({ x, y }) {
+
+// saw line sprite image
+const sawLineSprite = new Image();
+sawLineSprite.src = "/img/Platform-img/Saw_Line.png";
+
+// rotated (horizontal) saw line sprite image
+const rotatedSawLineSprite = new Image();
+rotatedSawLineSprite.src = "/img/Platform-img/Saw_Line_H.png";
+
+
+
+// obstacle class -- static
+class StaticObstacle {
+  constructor({ x, y, width, height, image }) {
     this.position = {
       x,
       y,
     };
-    this.image = skeletonHandSprite;
-    this.width = skeletonHandSprite.width - 40;
-    this.height = skeletonHandSprite.height - 40;
+
+    this.image = image;
+    this.width = width;
+    this.height = height;
   }
 
   draw() {
@@ -655,7 +667,7 @@ horizontalSaws = [
   new HorizontalSaw({
     position: {
       x: 13200,
-      y: 500,
+      y: 400,
     },
     velocity: {
       x: -1,
@@ -666,7 +678,6 @@ horizontalSaws = [
       traveled: 0,
     },
   }),
-  
 ];
 
 // new instance - moving vertical saw obstacles
@@ -675,28 +686,28 @@ verticalSaws = [
   new VerticalSaw({
     position: {
       x: 4200,
-      y: 700,
+      y: 800,
     },
     velocity: {
       x: 0,
       y: -1,
     },
     distance: {
-      limit: 500,
+      limit: 400,
       traveled: 0,
     },
   }),
   new VerticalSaw({
     position: {
-      x: 14600,
-      y: 700,
+      x: 14650,
+      y: 800,
     },
     velocity: {
       x: 0,
       y: -1,
     },
     distance: {
-      limit: 500,
+      limit: 400,
       traveled: 0,
     },
   }),
@@ -737,11 +748,56 @@ waterDrops = [
 
 //new instance - skeleton hands obstacle
 const skeletonHands = [
-  new SkeletonHands({ x: 900, y: 840 }),
-  new SkeletonHands({ x: 4800, y: 840 }),
-  new SkeletonHands({ x: 8300, y: 840 }),
-  new SkeletonHands({ x: 9800, y: 840 }),
-  new SkeletonHands({ x: 13200, y: 840 }),
+  new StaticObstacle({
+    x: 900,
+    y: 840,
+    image: skeletonHandSprite,
+    width: skeletonHandSprite.width - 20,
+    height: skeletonHandSprite.height - 20,
+  }),
+  // new StaticObstacle({ x: 4800, y: 840, image: skeletonHandSprite }),
+  // new StaticObstacle({ x: 8300, y: 840, image: skeletonHandSprite }),
+  // new StaticObstacle({ x: 9800, y: 840, image: skeletonHandSprite }),
+  // new StaticObstacle({ x: 13200, y: 840, image: skeletonHandSprite }),
+];
+
+//new instance - saw line
+const sawLines = [
+  new StaticObstacle({
+    x: 4240,
+    y: 400,
+    image: sawLineSprite,
+    width: sawLineSprite.width,
+    height: sawLineSprite.height,
+  }),
+  new StaticObstacle({
+    x: 14690,
+    y: 400,
+    image: sawLineSprite,
+    width: sawLineSprite.width,
+    height: sawLineSprite.height,
+  }),
+  new StaticObstacle({
+    x: 1800,
+    y: 540,
+    image: rotatedSawLineSprite,
+    width: rotatedSawLineSprite.width,
+    height: rotatedSawLineSprite.height,
+  }),
+  new StaticObstacle({
+    x: 8500,
+    y: 540,
+    image: rotatedSawLineSprite,
+    width: rotatedSawLineSprite.width,
+    height: rotatedSawLineSprite.height,
+  }),
+  new StaticObstacle({
+    x: 12790,
+    y: 440,
+    image: rotatedSawLineSprite,
+    width: rotatedSawLineSprite.width,
+    height: rotatedSawLineSprite.height,
+  }),
 ];
 
 // tsi
@@ -811,7 +867,7 @@ function animate() {
   if (!keepAnimating) {
     return;
   }
-
+ 
   //// Setting Jump/Grounded states
   if (sonic.velocity.y != 0) {
     grounded = false;
@@ -857,6 +913,11 @@ function animate() {
       sonic.velocity.y = 0;
       grounded = true;
     }
+  });
+
+  // renders each skeleton hand in array
+  sawLines.forEach((sawLine) => {
+    sawLine.draw();
   });
 
   // updates each horizontal saw obstacle in the array
@@ -994,6 +1055,9 @@ function animate() {
       for (let i = 0; i < platforms.length; i++) {
         platforms[i].position.x -= 5;
       }
+      for (let i = 0; i < sawLines.length; i++) {
+        sawLines[i].position.x -= 5;
+      }
       for (let i = 0; i < horizontalSaws.length; i++) {
         horizontalSaws[i].position.x -= 5;
       }
@@ -1006,6 +1070,7 @@ function animate() {
       for (let i = 0; i < skeletonHands.length; i++) {
         skeletonHands[i].position.x -= 5;
       }
+
       for (let i = 0; i < pies.length; i++) {
         pies[i].position.x -= 5;
       }
@@ -1017,6 +1082,9 @@ function animate() {
       for (let i = 0; i < platforms.length; i++) {
         platforms[i].position.x += 5;
       }
+      for (let i = 0; i < sawLines.length; i++) {
+        sawLines[i].position.x += 5;
+      }
       for (let i = 0; i < horizontalSaws.length; i++) {
         horizontalSaws[i].position.x += 5;
       }
@@ -1025,9 +1093,6 @@ function animate() {
       }
       for (let i = 0; i < waterDrops.length; i++) {
         waterDrops[i].position.x += 5;
-      }
-      for (let i = 0; i < skeletonHands.length; i++) {
-        skeletonHands[i].position.x += 5;
       }
       for (let i = 0; i < pies.length; i++) {
         pies[i].position.x += 5;
