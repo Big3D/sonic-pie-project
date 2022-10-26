@@ -4,7 +4,10 @@ let mtx = Menu_Canvas.getContext("2d");
 let start_button = document.getElementById("start-button");
 let leaderboard_button = document.getElementById("leaderboard-button");
 let gameoverscreen = document.getElementById("gameover_background");
-
+//Audiocat sounds
+let hungry = new Audio("cat-hungry-meow.wav");
+let angry = new Audio("angry-kitty-meow.wav");
+let pain = new Audio("cat-pain-meow.wav");
 //Added counter and score display none by default
 let currentScore = document.getElementById("currentScore");
 let countdown = document.getElementById("countdown");
@@ -564,6 +567,7 @@ class Pie {
     );
   }
   clear() {
+    hungry.play();//tsi
     this.alive = false;
   }
   update() {
@@ -1000,6 +1004,8 @@ function animate() {
       if (health < 0) {
         // startGame();
       } else {
+        // tsi
+				pain.play();
         // decrements health and pushes player back slightly
         health--;
         sonic.position.y -= 50;
@@ -1022,6 +1028,7 @@ function animate() {
       if (health < 0) {
         // startGame();
       } else {
+        pain.play();//tsi
         // decrements health and pushes player back slightly
         health--;
         sonic.position.y -= 50;
@@ -1041,6 +1048,7 @@ function animate() {
       sonic.position.y <= waterDrop.position.y + waterDrop.height
     ) {
       // decrements health and pushes player back slightly
+      pain.play();//tsi
       health--;
       sonic.position.y -= 50;
       sonic.position.x -= 150;
@@ -1058,6 +1066,7 @@ function animate() {
       sonic.position.y <= skeletonHand.position.y + skeletonHand.height
     ) {
       // decrements health and pushes player back slightly
+      pain.play();//tsi
       health--;
       sonic.position.y -= 50;
       sonic.position.x -= 150;
@@ -1432,6 +1441,7 @@ function Resume() {
 function TimeUp() {
   if (i <= stopTime) {
     keepAnimating = false;
+    // tsi
     showFinal_details();
 
     gameoverscreen.classList.remove("hide");
