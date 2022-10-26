@@ -17,7 +17,6 @@
 
   <body>
     <div class="container">
-      <!-- The width and height here is for aspect ratio of the canvas -->
       <!-- Countdown to Start -->
       <div id="count_down">
         <p class="text_count"></p>
@@ -30,18 +29,19 @@
         <button id="btnQ" class="btn">Quit</button>
       </div>
       <!-- Paws Menu Ends -->
+      <!-- Canvas container -->
       <div class="canvas-container">
-        <!-- remove inline css -->
+        <!-- Timer -->
         <div id="countdown"></div>
+        <!-- Score -->
         <div id="currentScore"></div>
+        <!-- Start button -->
+        <button id="start-button" type="button">Start</button>
+        <!-- Leaderboard button -->
+        <button id="leaderboard-button" onclick="leadDisplay()" type="button">
+          Leaderboard
+        </button>
         <canvas id="menu_canvas"></canvas>
-        <div id="start-button">
-          <button type="button">Start</button>
-        </div>
-        <div id="leaderboard-button">
-          <button onclick="leadDisplay()" type="button">Leaderboard</button>
-        </div>
-
         <!-- Game Over Background -->
         <div id="gameover_background" class="hide">
           <img src="/img/UI/Game-Over.png" alt="" />
