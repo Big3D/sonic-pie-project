@@ -1462,3 +1462,4 @@ function getScore() {
   score = scrollPosition;
   document.getElementById("currentScore").innerHTML = `Score: ${score}`;
 }
+
