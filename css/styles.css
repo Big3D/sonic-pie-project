@@ -21,11 +21,10 @@ body {
   align-items: center;
 }
 
-.canvas-container{
-    position: relative;
-
+.canvas-container {
+  position: relative;
 }
-.canvas-container canvas{
+.canvas-container canvas {
   object-fit: contain;
 }
 
@@ -37,7 +36,7 @@ body {
   right: 0;
   font-size: 40px;
   text-align: center;
-  color: #FF9F10;
+  color: #ff9f10;
 }
 
 /* Score */
@@ -47,109 +46,68 @@ body {
   right: 5%;
   font-size: 20px;
   text-align: center;
-  color: #FF9F10;
+  color: #ff9f10;
 }
 
-#start-button button {
+/* Start button */
+#start-button {
   position: absolute;
   top: 50%;
   left: 50%;
-  background-image: url("/img/UI/TextBTN_Medium.png");
-  background-size: cover;
-  background-color: transparent;
-  border: none;
-  font-size: x-large;
+  margin-top: -20px;
+  margin-left: -100px;
   width: 210px;
   height: 82px;
-  text-align: center;
-  margin: -25px 0 0 -105px;
-}
-
-#leaderboard-button button {
-  position: absolute;
-  margin: 0 -20px;
-  top: 75%;
-  left: 50%;
-  background-image: url("/img/UI/TextBTN_Medium.png");
+  background-image: url("/img/Background-img/Button-black.png");
   background-size: cover;
   background-color: transparent;
   border: none;
-  font-size: larger;
-  width: 140px;
-  height: 55px;
+  font-size: 25px;
   text-align: center;
-  margin: -25px 0 0 -70px;
+  color: #f3ff30;
+  cursor: pointer;
+}
+
+/* Leaderboard button */
+#leaderboard-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: 80px;
+  margin-left: -100px;
+  width: 210px;
+  height: 82px;
+  background-image: url("/img/Background-img/Button-black.png");
+  background-size: cover;
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  text-align: center;
+  color: #f3ff30;
+  cursor: pointer;
 }
 
 #menu_canvas {
   border: 1px solid #000000;
   width: 80vw;
   height: 80vh;
-  /* margin: auto;
-    position: absolute;
-    top: 7%;
-    left:30%; */
 }
-/* #main_logo{
-    border:1px solid #000000;  
-    margin: auto;
-    position: absolute;
-    top: 14%;
-    left:42%;
-}
-#btn_play{
-    border:1px solid #000000;  
-    margin: auto;
-    position: absolute;
-    top: 67%;
-    left:50%;
-}
-#btn_options{
-    border:1px solid #000000;  
-    margin: auto;
-    position: absolute;
-    top: 60%;
-    left:50%;
-} */
-/* tsi */
-/* #canvas{
-    border:5px solid black;
-    position: absolute;
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%);
-    width: 700px;
-    height: 500px;    
-} */
-
-/* SCORE DIV  changed  css*/
-/* #currentScore {
-  position: absolute;
-  top: 5%;
-  right: 20%;
-  color: whitesmoke;
-  background-color: darkorange;
-  padding: 5px 20px;
-  border-radius:8px;
-  font-size: 1.3rem;
-  border:1px solid gray;
-} */
 
 /* Leaderboard CSS*/
 
 #leaderBoardMenu {
   position: absolute;
-  display: none; 
-  width: auto; 
-  height: auto; 
-  top:  -1%;
+  display: none;
+  width: auto;
+  height: auto;
+  top: -1%;
   left: 0%;
   right: 0;
   bottom: 0;
   /*background-color: rgba(0,0,0,0.5);*/
-  z-index: 2; 
-  cursor: pointer; 
-  font-family: 'Butcherman', cursive;
+  z-index: 2;
+  cursor: pointer;
+  font-family: "Butcherman", cursive;
   text-align: center;
   background: no-repeat;
   background-image: url("/img/UI/Black-module.png");
@@ -163,22 +121,21 @@ body {
   color: #ffffff;
 }
 
-#leadGroup{
+#leadGroup {
   position: fixed;
   top: 50%;
   left: 50%;
   font-size: 1.5vw;
   color: rgb(255, 255, 255);
-  transform: translate(-50%,-50%);
-  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
 }
-
 
 .name {
   position: relative;
   display: inline-block;
   width: 25%;
-  font-family: 'Butcherman', cursive;
+  font-family: "Butcherman", cursive;
   text-align: center;
   line-height: 45px;
   color: rgb(0, 0, 0);
@@ -319,28 +276,26 @@ body {
 }
 /* Count_down CSS END */
 /* Game Over Screen */
-#gameover_background img{
-object-fit:contain;
-max-width: 80%;
-height: auto;
-margin-top: 20px;
-margin-left: auto;
-margin-right: auto;
+#gameover_background img {
+  object-fit: contain;
+  max-width: 80%;
+  height: auto;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
 }
-
 
 #gameover_background {
-position: absolute;
-top: 0;
-right: 0;
-left: 0;
-bottom: 0;
-z-index: 21000;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 21000;
 }
 
-
 #gameover-screen {
- position: absolute; 
+  position: absolute;
   text-align: center;
   outline: none;
   max-width: 100%;
@@ -356,7 +311,6 @@ h1.gameover {
   margin-bottom: 0;
 }
 
-
 #game-over-buttons button {
   font-size: 20px;
   border-radius: 10px;
@@ -366,12 +320,12 @@ h1.gameover {
   outline: none;
   border: none;
 }
-::placeholder{
+::placeholder {
   color: yellow;
   font-size: 20px;
   font-family: "Butcherman", "cursive";
 }
-#input_background img{
+#input_background img {
   object-fit: scale-down;
   max-width: 30%;
   position: relative;
@@ -381,7 +335,7 @@ h1.gameover {
   max-width: 20%;
   position: absolute;
   bottom: 22%;
-  right:40%;
+  right: 40%;
   z-index: 900;
   border-radius: 5px;
 }
@@ -406,28 +360,28 @@ h1.gameover {
   box-shadow: none;
   outline: none;
   margin: 0;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
 .gameover {
   margin-top: 0;
   font-size: 50px;
 }
-        
+
 #player_details {
   color: white;
 }
 
-@media only screen and (min-width: 768px)  and (max-width: 959px) {
+@media only screen and (min-width: 768px) and (max-width: 959px) {
   #gameover-screen {
-    position: absolute; 
-     text-align: center;
-     outline: none;
-     max-width: 100%;
-     top: 30%;
-     right: 15%;
-     left: 10%;
-     z-index: 20000;
-   }
+    position: absolute;
+    text-align: center;
+    outline: none;
+    max-width: 100%;
+    top: 30%;
+    right: 15%;
+    left: 10%;
+    z-index: 20000;
+  }
   h1.gameover {
     color: yellow;
     margin-top: 0;
@@ -438,7 +392,7 @@ h1.gameover {
   #input_div {
     position: absolute;
     bottom: 25.5%;
-    right:43.5%;
+    right: 43.5%;
     z-index: 900;
   }
   #player_details {
@@ -458,15 +412,15 @@ h1.gameover {
     box-shadow: none;
     outline: none;
     margin: 0;
-    box-sizing: border-box; 
+    box-sizing: border-box;
   }
-} 
+}
 
 @media only screen and (min-width: 550px) and (max-width: 768px) {
   #input_div {
     position: absolute;
     /* bottom: 20%; */
-    right:40%;
+    right: 40%;
     z-index: 900;
   }
   h1.gameover {
@@ -485,24 +439,24 @@ h1.gameover {
     text-decoration: none;
     outline: none;
     border: none;
-    margin:0;
+    margin: 0;
   }
   .gameover {
     font-size: 25px;
     margin: 0;
   }
   #gameover-screen {
-    position: absolute; 
-     text-align: center;
-     outline: none;
-     max-width: 100%;
-     top: 40%;
-     right: 15%;
-     left: 10%;
-     z-index: 20000;
-   }
+    position: absolute;
+    text-align: center;
+    outline: none;
+    max-width: 100%;
+    top: 40%;
+    right: 15%;
+    left: 10%;
+    z-index: 20000;
+  }
 
-   #player_details {
+  #player_details {
     color: white;
     font-size: 10px;
   }
@@ -519,36 +473,34 @@ h1.gameover {
     box-shadow: none;
     outline: none;
     margin: 0;
-    box-sizing: border-box; 
+    box-sizing: border-box;
   }
-  #input_background img{
+  #input_background img {
     margin: 0;
     object-fit: scale-down;
     max-width: 20%;
     position: relative;
   }
-  
+
   #input_div {
     max-width: 19%;
     position: absolute;
     bottom: 30%;
-    right:42%;
+    right: 42%;
     z-index: 900;
     border-radius: 5px;
   }
-  ::placeholder{
+  ::placeholder {
     color: yellow;
     font-size: 10px;
   }
 }
 
-
-
 @media only screen and (max-width: 550px) {
   #input_div {
     position: absolute;
     /* bottom: 20%; */
-    right:40%;
+    right: 40%;
     z-index: 900;
   }
   h1.gameover {
@@ -567,24 +519,24 @@ h1.gameover {
     text-decoration: none;
     outline: none;
     border: none;
-    margin:0;
+    margin: 0;
   }
   .gameover {
     font-size: 5px;
     margin: 0;
   }
   #gameover-screen {
-    position: absolute; 
-     text-align: center;
-     outline: none;
-     max-width: 100%;
-     top: 40%;
-     right: 15%;
-     left: 10%;
-     z-index: 20000;
-   }
+    position: absolute;
+    text-align: center;
+    outline: none;
+    max-width: 100%;
+    top: 40%;
+    right: 15%;
+    left: 10%;
+    z-index: 20000;
+  }
 
-   #player_details {
+  #player_details {
     color: white;
     font-size: 5px;
   }
@@ -601,27 +553,25 @@ h1.gameover {
     box-shadow: none;
     outline: none;
     margin: 0;
-    box-sizing: border-box; 
+    box-sizing: border-box;
   }
-  #input_background img{
+  #input_background img {
     margin: 0;
     object-fit: scale-down;
     max-width: 20%;
     position: relative;
   }
-  
+
   #input_div {
     max-width: 20%;
     position: absolute;
     bottom: 33%;
-    right:40%;
+    right: 40%;
     z-index: 900;
     border-radius: 5px;
   }
-  ::placeholder{
+  ::placeholder {
     color: yellow;
     font-size: 3px;
   }
 }
-
- 
