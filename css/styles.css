@@ -1,6 +1,10 @@
+/* Butcherman font */
+@import url("https://fonts.googleapis.com/css2?family=Butcherman&display=swap");
+
 * {
   margin: 0;
   padding: 0;
+  font-family: "Butcherman", cursive;
 }
 
 body {
@@ -9,6 +13,7 @@ body {
 }
 
 .container {
+  position: relative;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -16,13 +21,33 @@ body {
   align-items: center;
 }
 
-
-#container canvas, #leaderBoardMenu {
-  position: absolute;
-}
-
 .canvas-container{
     position: relative;
+
+}
+.canvas-container canvas{
+  object-fit: contain;
+}
+
+/* Timer */
+#countdown {
+  position: absolute;
+  top: 3%;
+  left: 0;
+  right: 0;
+  font-size: 40px;
+  text-align: center;
+  color: #FF9F10;
+}
+
+/* Score */
+#currentScore {
+  position: absolute;
+  top: 5%;
+  right: 10%;
+  font-size: 20px;
+  text-align: center;
+  color: #FF9F10;
 }
 
 #start-button button {
@@ -97,81 +122,107 @@ body {
     height: 500px;    
 } */
 
-/* SCORE DIV */
+/* SCORE DIV  changed  css*/
 #currentScore {
   position: absolute;
-  top: 0%;
-  right: 10%;
+  top: 5%;
+  right: 20%;
+  color: whitesmoke;
+  background-color: darkorange;
+  padding: 5px 20px;
+  border-radius:8px;
+  font-size: 1.3rem;
+  border:1px solid gray;
 }
 
 /* Leaderboard CSS*/
 
 #leaderBoardMenu {
-  width: 100%;
-  height: auto;
-  /* float: inherit; */
-  /* top: 300px;
-  left: 300px; */
+  position: absolute;
+  display: none; 
+  width: auto; 
+  height: auto; 
+  top:  -1%;
+  left: 0%;
+  right: 0;
+  bottom: 0;
+  /*background-color: rgba(0,0,0,0.5);*/
+  z-index: 2; 
+  cursor: pointer; 
   font-family: 'Butcherman', cursive;
   text-align: center;
+  background: no-repeat;
+  background-image: url("/img/UI/Black-module.png");
+  background-position: 50%;
+  background-size: 80%;
 }
+
+#leadGroup{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  font-size: 1.5vw;
+  color: rgb(255, 255, 255);
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+}
+
 
 .name {
   position: relative;
   display: inline-block;
-  width: 40%;
+  width: 25%;
   font-family: 'Butcherman', cursive;
   text-align: center;
   line-height: 45px;
+  color: rgb(0, 0, 0);
 }
 
-.leadtitle{
+.leadtitle {
   justify-items: center;
-  font-family: 'Butcherman', cursive;
+  font-family: "Butcherman", cursive;
   text-align: center;
-
+  color: orange;
 }
 .row {
   position: relative;
-  display: block;
+  display: inline-block;
   width: 100%;
   height: 50%;
-  border-bottom: 1px solid #AFAFAF;
 }
 
-.placement{
+.placement {
   position: relative;
   display: inline-block;
-  width: 25%;
+  width: 5%;
+  color: rgb(255, 255, 255);
 }
-
 
 .score {
   position: relative;
   display: inline-block;
-  width: 30%;
+  width: 5%;
 }
 
+.row:nth-child(2) {
+  color: gold;
+  position: relative;
+  display: inline-block;
+}
 
 .row:nth-child(3) {
-  background: gold;
+  color: #c0c0c0;
   position: relative;
   display: inline-block;
 }
 
 .row:nth-child(4) {
-  background: #c0c0c0;
+  color: #cd7f32;
   position: relative;
   display: inline-block;
 }
 
-.row:nth-child(5) {
-  background: #cd7f32;
-  position: relative;
-  display: inline-block;
-}
-
-.cyclic_input {
+/* .cyclic_input {
   float: left;
   padding: 1rem;
   font-size: 5rem;
@@ -179,9 +230,9 @@ body {
   display: table-cell;
   vertical-align: middle;
   text-align: center;
-}
+} */
 
-.cyclic_input:before,
+/* .cyclic_input:before,
 .cyclic_input:after {
   display: block;
   position: absolute;
@@ -191,22 +242,20 @@ body {
 }
 
 .cyclic_input:before {
-  content: '▲';
+  content: "▲";
   top: 0;
 }
 
 .cyclic_input:after {
-  content: '▼';
+  content: "▼";
   bottom: 0;
 }
 
-#cy-input{
+#cy-input {
   visibility: hidden;
-}
-
+} */
 
 /* End of Leaderboard CSS */
-
 
 /* start paws_menu */
 .paws_menu {
@@ -229,8 +278,21 @@ body {
   height: 10vh;
   border-radius: 10px;
 }
+/* Tsion added  */
+#countdown{
+  position: absolute;
+  top: 5%;
+  right: 50%;
+  color: whitesmoke;
+  background-color: darkorange;
+  padding: 5px 20px;
+  border-radius:8px;
+  font-size: 1.3rem;
+  border:1px solid gray;
+  color:white;
+}
 
-/* Count_down CSS */
+/* Count_down  changed-CSS */
 #count_down {
   display: flex;
   flex-direction: column;
@@ -243,11 +305,321 @@ body {
   border-radius: 5px;
   z-index: 99999;
 }
-.text_count{
+.text_count {
   font-size: 70px;
   font-weight: 700;
   text-shadow: 0.3rem 0.3rem rgba(black, 0.7);
   color: red;
 }
 /* Count_down CSS END */
+/* Game Over Screen */
+#gameover_background img{
+object-fit:contain;
+max-width: 80%;
+height: auto;
+margin-top: 20px;
+margin-left: auto;
+margin-right: auto;
+}
 
+
+#gameover_background {
+position: absolute;
+top: 0;
+right: 0;
+left: 0;
+bottom: 0;
+z-index: 21000;
+}
+
+
+#gameover-screen {
+ position: absolute; 
+  text-align: center;
+  outline: none;
+  max-width: 100%;
+  top: 20%;
+  right: 15%;
+  left: 10%;
+  z-index: 20000;
+}
+
+h1.gameover {
+  color: yellow;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+
+#game-over-buttons button {
+  font-size: 30px;
+  margin-left: 5%;
+  top: 20%;
+  font-size: 50px;
+  font-family: "Butcherman", "cursive";
+  border-radius: 10px;
+  color: yellow;
+  background-color: transparent;
+  text-decoration: none;
+  outline: none;
+  border: none;
+}
+::placeholder{
+  color: yellow;
+  font-size: 20px;
+  font-family: "Butcherman", "cursive";
+}
+#input_background img{
+  object-fit: scale-down;
+  max-width: 30%;
+  position: relative;
+}
+
+#input_div {
+  max-width: 20%;
+  position: absolute;
+  bottom: 22%;
+  right:40%;
+  z-index: 900;
+  border-radius: 5px;
+}
+.hide {
+  visibility: hidden;
+}
+#xuit:hover {
+  background-color: black;
+  transition-duration: 0.2s;
+}
+
+#username {
+  width: 100%;
+  max-width: 500px;
+  font-size: 15px;
+  text-align: center;
+  background: #1f1f1f;
+  color: yellow;
+  border: none;
+  padding: 10px 11px 11px 11px;
+  border-radius: 3px;
+  box-shadow: none;
+  outline: none;
+  margin: 0;
+  box-sizing: border-box; 
+}
+.gameover {
+  margin-top: 0;
+  font-size: 50px;
+}
+        
+#player_details {
+  color: white;
+}
+
+@media only screen and (min-width: 768px)  and (max-width: 959px) {
+  #gameover-screen {
+    position: absolute; 
+     text-align: center;
+     outline: none;
+     max-width: 100%;
+     top: 30%;
+     right: 15%;
+     left: 10%;
+     z-index: 20000;
+   }
+  h1.gameover {
+    color: yellow;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 25px;
+    margin: 0;
+  }
+  #input_div {
+    position: absolute;
+    bottom: 25.5%;
+    right:43.5%;
+    z-index: 900;
+  }
+  #player_details {
+    color: white;
+    font-size: 10px;
+  }
+  #username {
+    width: 100%;
+    max-width: 500px;
+    font-size: 5px;
+    text-align: center;
+    background: #1f1f1f;
+    color: yellow;
+    border: none;
+    padding: 2px 1px 1px 1px;
+    border-radius: 3px;
+    box-shadow: none;
+    outline: none;
+    margin: 0;
+    box-sizing: border-box; 
+  }
+} 
+
+@media only screen and (min-width: 550px) and (max-width: 768px) {
+  #input_div {
+    position: absolute;
+    /* bottom: 20%; */
+    right:40%;
+    z-index: 900;
+  }
+  h1.gameover {
+    color: yellow;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 15px;
+    margin: 0;
+  }
+
+  #xuit {
+    font-size: 10px;
+    border-radius: 3px;
+    color: yellow;
+    background-color: transparent;
+    text-decoration: none;
+    outline: none;
+    border: none;
+    margin:0;
+  }
+  .gameover {
+    font-size: 25px;
+    margin: 0;
+  }
+  #gameover-screen {
+    position: absolute; 
+     text-align: center;
+     outline: none;
+     max-width: 100%;
+     top: 40%;
+     right: 15%;
+     left: 10%;
+     z-index: 20000;
+   }
+
+   #player_details {
+    color: white;
+    font-size: 10px;
+  }
+  #username {
+    width: 100%;
+    max-width: 500px;
+    font-size: 5px;
+    text-align: center;
+    background: #1f1f1f;
+    color: yellow;
+    border: none;
+    padding: 2px 1px 1px 1px;
+    border-radius: 3px;
+    box-shadow: none;
+    outline: none;
+    margin: 0;
+    box-sizing: border-box; 
+  }
+  #input_background img{
+    margin: 0;
+    object-fit: scale-down;
+    max-width: 20%;
+    position: relative;
+  }
+  
+  #input_div {
+    max-width: 19%;
+    position: absolute;
+    bottom: 30%;
+    right:42%;
+    z-index: 900;
+    border-radius: 5px;
+  }
+  ::placeholder{
+    color: yellow;
+    font-size: 10px;
+  }
+}
+
+
+
+@media only screen and (max-width: 550px) {
+  #input_div {
+    position: absolute;
+    /* bottom: 20%; */
+    right:40%;
+    z-index: 900;
+  }
+  h1.gameover {
+    color: yellow;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 15px;
+    margin: 0;
+  }
+
+  #xuit {
+    font-size: 10px;
+    border-radius: 3px;
+    color: yellow;
+    background-color: transparent;
+    text-decoration: none;
+    outline: none;
+    border: none;
+    margin:0;
+  }
+  .gameover {
+    font-size: 5px;
+    margin: 0;
+  }
+  #gameover-screen {
+    position: absolute; 
+     text-align: center;
+     outline: none;
+     max-width: 100%;
+     top: 40%;
+     right: 15%;
+     left: 10%;
+     z-index: 20000;
+   }
+
+   #player_details {
+    color: white;
+    font-size: 5px;
+  }
+  #username {
+    width: 100%;
+    max-width: 500px;
+    font-size: 5px;
+    text-align: center;
+    background: #1f1f1f;
+    color: yellow;
+    border: none;
+    padding: 2px 1px 1px 1px;
+    border-radius: 3px;
+    box-shadow: none;
+    outline: none;
+    margin: 0;
+    box-sizing: border-box; 
+  }
+  #input_background img{
+    margin: 0;
+    object-fit: scale-down;
+    max-width: 20%;
+    position: relative;
+  }
+  
+  #input_div {
+    max-width: 20%;
+    position: absolute;
+    bottom: 33%;
+    right:40%;
+    z-index: 900;
+    border-radius: 5px;
+  }
+  ::placeholder{
+    color: yellow;
+    font-size: 3px;
+  }
+}
+
+ 
