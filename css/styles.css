@@ -352,11 +352,7 @@ h1.gameover {
 
 
 #game-over-buttons button {
-  font-size: 30px;
-  margin-left: 5%;
-  top: 20%;
-  font-size: 50px;
-  font-family: "Butcherman", "cursive";
+  font-size: 20px;
   border-radius: 10px;
   color: yellow;
   background-color: transparent;
