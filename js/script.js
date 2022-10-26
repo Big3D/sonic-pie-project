@@ -12,8 +12,8 @@ currentScore.style.display = "none";
 countdown.style.display = "none";
 
 leaderBoardMenu.style.display = "none";
-Menu_Canvas.width = 800;
-Menu_Canvas.height = 576;
+Menu_Canvas.width = 1920;
+Menu_Canvas.height = 1080;
 let keepAnimating = true;
 let grounded;
 
@@ -63,23 +63,22 @@ function StartGame() {
   }
 
   let removeDisplay = new Promise((resolve) => {
-    resolve('success')
+    resolve("success");
   });
-  removeDisplay.then(()=>{
-   reduceCount();
-  })
-  .then(()=>{
-    setTimeout(()=>{
-      undoDisplay()
-    }, 4000)
-  })
-  .then(()=>{
-    setTimeout(()=>{
-      EscapePaws()
-    }, 4000)
-   })
-    
-  
+  removeDisplay
+    .then(() => {
+      reduceCount();
+    })
+    .then(() => {
+      setTimeout(() => {
+        undoDisplay();
+      }, 4000);
+    })
+    .then(() => {
+      setTimeout(() => {
+        EscapePaws();
+      }, 4000);
+    });
 
   start_button.style.display = "none";
   leaderboard_button.style.display = "none";
@@ -1225,18 +1224,17 @@ function startGame() {
 //// Title page ////
 
 const titleBG = new Image();
-titleBG.src = "/img/Background-img/TitleBG1.png";
+titleBG.src = "/img/Background-img/Home-page-no-logo.png";
 const titleLogo = new Image();
-titleLogo.src = "/img/UI/Logo notfinal.png";
+titleLogo.src = "/img/Background-img/Official_LOGO.png";
 
 class TitleBackground {
-  constructor({ x, y, titleImage }) {
+  constructor({ x, y, titleBG }) {
     this.position = { x, y };
 
-    this.image = titleImage;
-    this.width = 1920;
-    this.height = 1080;
-    console.log(this.image);
+    this.image = titleBG;
+    this.width = mtx.width;
+    this.height = mtx.height;
   }
 
   draw() {
@@ -1244,35 +1242,38 @@ class TitleBackground {
   }
 }
 class TitleLogo {
-  constructor({ x, y, logoImage }) {
+  constructor({ x, y, titleLogo }) {
     this.position = { x, y };
 
-    this.image = logoImage;
-    this.width = 200;
-    this.height = 200;
+    this.image = titleLogo;
+    this.width = titleLogo.width / 3;
+    this.height = titleLogo.height / 3;
   }
 
   draw() {
-    mtx.drawImage(this.image, this.position.x, this.position.y);
+    mtx.drawImage(
+      this.image,
+      this.position.x,
+      this.position.y,
+      this.width,
+      this.height
+    );
   }
 }
 
-let titleImage = new Image();
-titleImage = titleBG;
-const titleScreen = new TitleBackground({ x: 0, y: -10, titleImage });
-let logoImage = new Image();
-logoImage = titleLogo;
+// new instance - title background
+const titleScreen = new TitleBackground({ x: 0, y: 0, titleBG });
+
+// new instance - logo
 const titleLogoBig = new TitleLogo({
-  x: Menu_Canvas.width / 2 - logoImage.width / 2.1,
-  y: 10,
-  logoImage,
+  x: Menu_Canvas.width / 2 - 300,
+  y: 0,
+  titleLogo,
 });
 
 // Loads the title image
-titleImage.onload = function () {
+window.onload = () => {
   titleScreen.draw();
-};
-logoImage.onload = function () {
   titleLogoBig.draw();
 };
 
@@ -1291,9 +1292,9 @@ function reduceCount() {
 
     if (remainingTime <= 0) {
       countdown_num.innerHTML = end_time;
-	// tsi 
-	  currentScore.style.display = "block";
-	  countdown.style.display = "block";
+      // tsi
+      currentScore.style.display = "block";
+      countdown.style.display = "block";
 
       clearInterval(countdown_timer);
       keepAnimating = true;
@@ -1330,11 +1331,11 @@ function onTimer() {
 //Paws Menu
 //Open press the ESC it should have resume and quit buttons.
 const paws_Menu = document.querySelector("#paws");
-function EscapePaws(){
+function EscapePaws() {
   addEventListener("keydown", (e) => {
     let name = e.key;
     let code = e.code;
-  
+
     if (code === "Escape" && name === "Escape") {
       displayPaws();
       clearTimer();
@@ -1342,7 +1343,6 @@ function EscapePaws(){
     }
   });
 }
-
 
 paws_Menu.style.display = "none";
 function displayPaws() {
@@ -1376,18 +1376,18 @@ function Quit() {
 }
 
 // Handle the submit button
-const submit_btn = document.querySelector('#submit')
-submit_btn.addEventListener('click', function(e) {
-  e.preventDefault()
-  let scoreId = uuidv4()
-  let username = document.querySelector('#username').value
-  let data = { username, score }
-  let ref = firebase.ref(firebase.db, 'scores/' + scoreId)
-  firebase.set(ref, data).then(function() {
+const submit_btn = document.querySelector("#submit");
+submit_btn.addEventListener("click", function (e) {
+  e.preventDefault();
+  let scoreId = uuidv4();
+  let username = document.querySelector("#username").value;
+  let data = { username, score };
+  let ref = firebase.ref(firebase.db, "scores/" + scoreId);
+  firebase.set(ref, data).then(function () {
     leaderBoardMenu.style.display = "block";
     gameoverscreen.style.display = "none";
   });
-})
+});
 
 // Resume Button
 /**
@@ -1452,8 +1452,8 @@ const showFinal_details = () => {
 };
 
 /**
- * 
- * 
+ *
+ *
  */
 
 // get score based on scroll position -- called in animate function
@@ -1462,4 +1462,3 @@ function getScore() {
   score = scrollPosition;
   document.getElementById("currentScore").innerHTML = `Score: ${score}`;
 }
-
