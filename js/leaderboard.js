@@ -31,7 +31,12 @@ let x = document.getElementById("leaderBoardMenu");
 }
 }
 
-
+document.addEventListener('mouseup', function(e) {
+  let container = document.getElementById('leaderBoardMenu');
+  if (!container.contains(e.target)) {
+      container.style.display = 'none';
+  }
+});
 
 
 // Cyclic Input JS
