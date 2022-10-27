@@ -864,6 +864,14 @@ const sawLines = [
 const pies = [
   new Pie(
     {
+      x: 800,
+      y: 470,
+      image: pieSprite,
+    },
+    false
+  ),
+  new Pie(
+    {
       x: 1200,
       y: 860,
       image: pieSprite,
@@ -880,8 +888,32 @@ const pies = [
   ),
   new Pie(
     {
-      x: 5000,
+      x: 3400,
+      y: 220,
+      image: pieSprite,
+    },
+    false
+  ),
+  new Pie(
+    {
+      x: 4200,
+      y: 220,
+      image: pieSprite,
+    },
+    false
+  ),
+  new Pie(
+    {
+      x: 5400,
       y: 860,
+      image: pieSprite,
+    },
+    false
+  ),
+  new Pie(
+    {
+      x: 5800,
+      y: 720,
       image: pieSprite,
     },
     false
@@ -890,6 +922,14 @@ const pies = [
     {
       x: 8000,
       y: 860,
+      image: pieSprite,
+    },
+    false
+  ),
+  new Pie(
+    {
+      x: 8700,
+      y: 360,
       image: pieSprite,
     },
     false
@@ -905,7 +945,31 @@ const pies = [
   new Pie(
     {
       x: 11000,
-      y: 860,
+      y: 720,
+      image: pieSprite,
+    },
+    false
+  ),
+  new Pie(
+    {
+      x: 11900,
+      y: 460,
+      image: pieSprite,
+    },
+    false
+  ),
+  new Pie(
+    {
+      x: 13300,
+      y: 720,
+      image: pieSprite,
+    },
+    false
+  ),
+  new Pie(
+    {
+      x: 14100,
+      y: 720,
       image: pieSprite,
     },
     false
