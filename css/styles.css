@@ -371,6 +371,19 @@ h1.gameover {
   color: white;
 }
 
+#can_cel {
+  position: absolute;
+  top: 5%;
+  right: 13%;
+  font-size: 30px;
+  text-align: center;
+  color: yellow;
+  z-index: 50000;
+}
+#can_cel:hover{
+  color:red;
+}
+
 @media only screen and (min-width: 768px) and (max-width: 959px) {
   #gameover-screen {
     position: absolute;
@@ -413,6 +426,16 @@ h1.gameover {
     outline: none;
     margin: 0;
     box-sizing: border-box;
+  }
+
+  #can_cel {
+    position: absolute;
+    top: 5%;
+    right: 13%;
+    font-size: 20px;
+    text-align: center;
+    color: yellow;
+    z-index: 1000;
   }
 }
 
@@ -494,6 +517,15 @@ h1.gameover {
     color: yellow;
     font-size: 10px;
   }
+  #can_cel {
+    position: absolute;
+    top: 5%;
+    right: 13%;
+    font-size: 15px;
+    text-align: center;
+    color: yellow;
+    z-index: 1000;
+  }
 }
 
 @media only screen and (max-width: 550px) {
@@ -574,4 +606,15 @@ h1.gameover {
     color: yellow;
     font-size: 3px;
   }
+
+  #can_cel {
+    position: absolute;
+    top: 5%;
+    right: 13%;
+    font-size: 10px;
+    text-align: center;
+    color: yellow;
+    z-index: 1000;
+  }
+  
 }

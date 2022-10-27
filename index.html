@@ -13,6 +13,7 @@
       href="https://fonts.googleapis.com/css2?family=Butcherman&display=swap"
       rel="stylesheet"
     />
+      <script src="js/script.js" type="text/javascript" defer></script>
   </head>
 
   <body>
@@ -43,9 +44,11 @@
         </button>
         <canvas id="menu_canvas"></canvas>
         <!-- Game Over Background -->
+      
         <div id="gameover_background" class="hide">
           <img src="/img/UI/Game-Over.png" alt="" />
           <div id="gameover-screen">
+            <div id="can_cel">x</div>
             <!-- <button onclick="closegameover()">close</button> -->
             <h1 class="gameover">TIME'S UP!!</h1>
             <div id="player_details">
@@ -179,7 +182,7 @@
       import { v4 as uuidv4 } from "https://jspm.dev/uuid";
       window.uuidv4 = uuidv4;
     </script>
-    <script src="js/script.js" type="text/javascript" defer></script>
+    
     <script src="js/leaderboard.js" defer></script>
   </body>
 </html>

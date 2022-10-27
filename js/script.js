@@ -1449,8 +1449,9 @@ function Quit() {
   paws_Menu.style.display = "none";
   timeout = setTimeout(onTimer, 1000);
   mute = muteState;
-  return (current_timer = timeout);
+  current_timer = timeout
 }
+
 
 // Handle the submit button
 const submit_btn = document.querySelector("#submit");
@@ -1529,6 +1530,12 @@ const showFinal_details = () => {
   f_nalModal.innerHTML = `Final Score: ${Math.floor(score + i * 100)} `;
   return;
 };
+
+// Cancel - Quit Button from the modal
+const cancelQuit = document.getElementById('can_cel')
+cancelQuit.addEventListener("click", Quit);
+
+
 
 /**
  *
