@@ -278,6 +278,16 @@ class Player {
       this.height
     );
   }
+  stopSonic(){
+    if(this.position.x === 500 ){
+      this.position.x = -5
+    }
+  
+     else{
+      this.velocity.x = 0;
+     }
+    
+  }
 
   update() {
     //// Animation Update
@@ -1107,9 +1117,11 @@ function animate() {
 
   if (keys.right.pressed && sonic.position.x < 500) {
     sonic.velocity.x = 5;
+    
   } else if (keys.left.pressed && sonic.position.x > 50) {
     sonic.velocity.x = -5;
-  } else {
+  } 
+  else {
     sonic.velocity.x = 0;
 
     // handles background image scrolling
@@ -1169,11 +1181,11 @@ function animate() {
     }
   }
 
+ 
   TimeUp();
   playBGM();
   getScore();
 }
-console.log(scrollPosition);
 // character movement on keydown
 addEventListener("keydown", ({ keyCode }) => {
   switch (keyCode) {
@@ -1310,7 +1322,7 @@ function undoDisplay() {
 
 //Countdown to start ends.
 
-let i = 60;
+let i = 160;
 let timeout;
 let stopTime = -1;
 
@@ -1358,7 +1370,6 @@ function displayPaws() {
 current_timer = document.getElementById("countdown").innerHTML;
 // stop the current on the click of esacpe key
 function clearTimer() {
-  console.log(timeout);
   clearTimeout(timeout);
 }
 
@@ -1462,3 +1473,7 @@ function getScore() {
   score = scrollPosition;
   document.getElementById("currentScore").innerHTML = `Score: ${score}`;
 }
+
+let fina_pie = pies.slice(-1);
+
+ 
