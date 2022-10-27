@@ -1384,7 +1384,7 @@ function undoDisplay() {
 
 //Countdown to start ends.
 
-let i = 60;
+let i = 1;
 let timeout;
 let stopTime = -1;
 
@@ -1424,6 +1424,10 @@ function displayPaws() {
   } else {
     paws_Menu.style.display = "none";
   }
+
+  if( leaderBoardMenu.style.display ==="block"){
+    paws_Menu.style.display = "none";
+  }
 }
 
 // Clear Timer
@@ -1459,6 +1463,7 @@ submit_btn.addEventListener("click", function (e) {
   firebase.set(ref, data).then(function () {
     leaderBoardMenu.style.display = "block";
     gameoverscreen.style.display = "none";
+    paws_Menu.style.display = "none"
   });
 });
 
