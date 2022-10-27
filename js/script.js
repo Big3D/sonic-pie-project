@@ -1384,7 +1384,7 @@ function undoDisplay() {
 
 //Countdown to start ends.
 
-let i = 1;
+let i = 60;
 let timeout;
 let stopTime = -1;
 
