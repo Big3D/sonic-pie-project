@@ -1046,8 +1046,8 @@ function animate() {
       sonic.position.y + sonic.height <= platform.position.y &&
       sonic.position.y + sonic.height + sonic.velocity.y >=
         platform.position.y &&
-      sonic.position.x + sonic.width >= platform.position.x &&
-      sonic.position.x <= platform.position.x + platform.width
+      sonic.position.x + (sonic.width / 2) >= platform.position.x &&
+      sonic.position.x <= platform.position.x + platform.width - 50
     ) {
       sonic.velocity.y = 0;
       grounded = true;
