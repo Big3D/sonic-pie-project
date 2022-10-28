@@ -389,7 +389,7 @@ h1.gameover {
   z-index: 50000;
   font-family: Arial;
   font-weight: bolder;
-  font-size: 60%;
+  font-size: 150%;
 }
 #can_cel:hover{
   color:red;
