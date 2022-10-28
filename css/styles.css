@@ -390,6 +390,7 @@ h1.gameover {
   font-family: Arial;
   font-weight: bolder;
   font-size: 150%;
+  cursor: pointer;
 }
 #can_cel:hover{
   color:red;
