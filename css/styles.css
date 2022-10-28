@@ -379,6 +379,9 @@ h1.gameover {
   text-align: center;
   color: yellow;
   z-index: 50000;
+  font-family: Arial;
+  font-weight: bolder;
+  font-size: 60%;
 }
 #can_cel:hover{
   color:red;
