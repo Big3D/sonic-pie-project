@@ -564,7 +564,7 @@ class Pie {
 		gameoverscreen.style.display = "flex";
 		const youWin = document.querySelector(".gameover");
 		youWin.innerHTML = "You Win!!";
-    sonic.currentSprite = sonic.sprites.win;
+    sonic.currentSprite = sonic.sprites.win.sprite;
 	}
 
 	//Draw pie
