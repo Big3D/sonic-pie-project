@@ -97,6 +97,10 @@ const ctx = canvas.getContext("2d");
 canvas.width = 1920;
 canvas.height = 1080;
 
+//// Used for the end game scroll pause
+let endScroll = 13400;
+let endScrollCheck = false;
+
 // gravity
 const gravity = 0.5;
 //SCORE
@@ -997,6 +1001,7 @@ const keys = {
   },
 };
 
+
 function animate() {
   if (!keepAnimating) {
     return;
@@ -1177,12 +1182,20 @@ function animate() {
   // updates player
   sonic.update();
 
-  if (keys.right.pressed && sonic.position.x < 500) {
+  //// Stop scrolling after last frame
+  if (scrollPosition >= endScroll){
+    endScrollCheck = true;
+  }
+  else{endScrollCheck = false;}
+
+
+  if (keys.right.pressed && sonic.position.x < 500 || keys.right.pressed && endScrollCheck) {
     sonic.velocity.x = 5;
   } else if (keys.left.pressed && sonic.position.x > 50) {
     sonic.velocity.x = -5;
   } else {
     sonic.velocity.x = 0;
+
 
     // handles background image scrolling
     if (keys.right.pressed) {
@@ -1245,7 +1258,7 @@ function animate() {
   playBGM();
   getScore();
 }
-console.log(scrollPosition);
+
 // character movement on keydown
 addEventListener("keydown", ({ keyCode }) => {
   switch (keyCode) {
@@ -1287,12 +1300,6 @@ addEventListener("keyup", ({ keyCode }) => {
   }
 });
 
-// });
-
-//function that will start the canvas game
-function startGame() {
-  console.log("start");
-}
 
 //// Title page ////
 
@@ -1435,7 +1442,6 @@ function displayPaws() {
 current_timer = document.getElementById("countdown").innerHTML;
 // stop the current on the click of esacpe key
 function clearTimer() {
-  console.log(timeout);
   clearTimeout(timeout);
 }
 
@@ -1484,7 +1490,6 @@ function Resume() {
   keepAnimating = true;
   animate();
   requestAnimationFrame(animate);
-  console.log("i have resumed");
 }
 
 // This that can be improved on(getting escape to pause and play)
