@@ -1539,6 +1539,8 @@ const showFinal_details = () => {
 // Cancel - Quit Button from the modal
 const cancelQuit = document.getElementById('can_cel')
 cancelQuit.addEventListener("click", Quit);
+const LeaderBoardQuit = document.getElementById('leaderBoardMenu')
+LeaderBoardQuit.addEventListener("click", Quit);
 
 
 
