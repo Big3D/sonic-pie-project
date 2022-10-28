@@ -1004,76 +1004,76 @@ const keys = {
 };
 
 function animate() {
-	if (!keepAnimating) {
-		return;
-	}
+  if (!keepAnimating) {
+    return;
+  }
 
-	//// Setting Jump/Grounded states
-	if (sonic.velocity.y != 0) {
-		grounded = false;
-	} else if (sonic.velocity.y == 0 && !keys.spacebar.pressed) {
-		grounded = true;
-	}
-	requestAnimationFrame(animate);
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
+  //// Setting Jump/Grounded states
+  if (sonic.velocity.y != 0) {
+    grounded = false;
+  } else if (sonic.velocity.y == 0 && !keys.spacebar.pressed) {
+    grounded = true;
+  }
+  requestAnimationFrame(animate);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-	//// Checking jump state
-	if (sonic.position.y < previousPos) {
-		jumpUp = true;
-		jumpDn = false;
-		jumpMid = false;
-	} else if (sonic.position.y > previousPos) {
-		jumpDown = true;
-		jumpUp = false;
-		jumpMid = false;
-	} else if (sonic.position.y == previousPos && !grounded) {
-		jumpMid;
-		!jumpDown;
-		!jumpUp;
-	}
+  //// Checking jump state
+  if (sonic.position.y < previousPos) {
+    jumpUp = true;
+    jumpDn = false;
+    jumpMid = false;
+  } else if (sonic.position.y > previousPos) {
+    jumpDown = true;
+    jumpUp = false;
+    jumpMid = false;
+  } else if (sonic.position.y == previousPos && !grounded) {
+    jumpMid;
+    !jumpDown;
+    !jumpUp;
+  }
 
-	//loops through background array
-	for (let i = 0; i < backgrounds.length; i++) {
-		backgrounds[i].draw();
-	}
+  //loops through background array
+  for (let i = 0; i < backgrounds.length; i++) {
+    backgrounds[i].draw();
+  }
 
-	//loops through platforms arrray
-	platforms.forEach((platform) => {
-		platform.draw();
-	});
-	//platform collision
-	platforms.forEach((platform) => {
-		if (
-			sonic.position.y + sonic.height <= platform.position.y &&
-			sonic.position.y + sonic.height + sonic.velocity.y >=
-				platform.position.y &&
-			sonic.position.x + sonic.width >= platform.position.x &&
-			sonic.position.x <= platform.position.x + platform.width
-		) {
-			sonic.velocity.y = 0;
-			grounded = true;
-		}
-	});
+  //loops through platforms arrray
+  platforms.forEach((platform) => {
+    platform.draw();
+  });
+  //platform collision
+  platforms.forEach((platform) => {
+    if (
+      sonic.position.y + sonic.height <= platform.position.y &&
+      sonic.position.y + sonic.height + sonic.velocity.y >=
+        platform.position.y &&
+      sonic.position.x + (sonic.width / 2) >= platform.position.x &&
+      sonic.position.x <= platform.position.x + platform.width - 50
+    ) {
+      sonic.velocity.y = 0;
+      grounded = true;
+    }
+  });
 
-	// renders each skeleton hand in array
-	sawLines.forEach((sawLine) => {
-		sawLine.draw();
-	});
+  // renders each skeleton hand in array
+  sawLines.forEach((sawLine) => {
+    sawLine.draw();
+  });
 
-	// updates each horizontal saw obstacle in the array
-	horizontalSaws.forEach((horizontalSaw) => {
-		// detects for collision between obstacle and player
-		if (
-			sonic.position.x + sonic.width >= horizontalSaw.position.x &&
-			sonic.position.x <= horizontalSaw.position.x + horizontalSaw.width &&
-			sonic.position.y + sonic.height >= horizontalSaw.position.y &&
-			sonic.position.y <= horizontalSaw.position.y + horizontalSaw.height
-		) {
-			// damage - restart game when player has no lives left
-			if (health < 0) {
-				// startGame();
-			} else {
-				// tsi
+  // updates each horizontal saw obstacle in the array
+  horizontalSaws.forEach((horizontalSaw) => {
+    // detects for collision between obstacle and player
+    if (
+      sonic.position.x + sonic.width >= horizontalSaw.position.x &&
+      sonic.position.x <= horizontalSaw.position.x + horizontalSaw.width &&
+      sonic.position.y + sonic.height >= horizontalSaw.position.y &&
+      sonic.position.y <= horizontalSaw.position.y + horizontalSaw.height
+    ) {
+      // damage - restart game when player has no lives left
+      if (health < 0) {
+        // startGame();
+      } else {
+        // tsi
 				pain.play();
 				// decrements health and pushes player back slightly
 				health--;
@@ -1540,6 +1540,8 @@ const showFinal_details = () => {
 // Cancel - Quit Button from the modal
 const cancelQuit = document.getElementById("can_cel");
 cancelQuit.addEventListener("click", Quit);
+const LeaderBoardQuit = document.getElementById('leaderBoardMenu')
+LeaderBoardQuit.addEventListener("click", Quit);
 
 /**
  *
