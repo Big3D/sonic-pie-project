@@ -1253,7 +1253,7 @@ function animate() {
       }
     }
   }
-
+  setVolume()
   TimeUp();
   playBGM();
   getScore();
@@ -1552,4 +1552,10 @@ function getScore() {
   // set score equal to scrollPosition
   score = scrollPosition;
   document.getElementById("currentScore").innerHTML = `Score: ${score}`;
+}
+
+function setVolume(){
+  hungry.volume = 0.5
+  pain.volume = 0.5
+  angry.volume = 0.5;
 }
