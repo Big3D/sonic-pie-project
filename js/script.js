@@ -107,8 +107,6 @@ const gravity = 0.5;
 let score = 0;
 
 //// Cat animation ////
-const playerSprite1 = new Image();
-const playerSprite2 = new Image();
 
 const playerWalkRightSpriteRef = "/img/CAT WALK PNGs/WalkRightSpriteSheetC.png";
 const playerWalkRightSprite = new Image();
@@ -122,9 +120,13 @@ playerJumpRightSprite.src = playerJumpRightSpriteRef;
 const playerJumpLeftSpriteRef = "/img/CAT_JUMP_PNGs/JumpLeftSpriteSheetC.png";
 const playerJumpLeftSprite = new Image();
 playerJumpLeftSprite.src = playerJumpLeftSpriteRef;
+const playerIdleRef = "/img/Idle-Cat.png";
+const playerIdle = new Image();
+playerIdle.src = playerIdleRef;
+const playerWinRef = "/img/win-dance-Cat.png";
+const playerWin = new Image();
+playerWin.src = playerWinRef;
 
-playerSprite1.src = "/img/CAT WALK PNGs/Sonic Walk COLOR 8.png";
-playerSprite2.src = "/img/CAT WALK PNGs/Sonic Walk COLOR 8 left.png";
 let previousPos;
 let jumpUp;
 let jumpDown;
@@ -234,15 +236,15 @@ class Player {
 
 		this.width = 160;
 		this.height = 160;
-		this.image = playerSprite1;
+		this.image = playerIdle;
 		this.frames = 0;
 		this.frameCounter = 0;
 
 		//// These are the sprite states that hold values for animations
 		this.sprites = {
 			stand: {
-				right: playerSprite1,
-				left: playerSprite1,
+				right: playerIdle,
+				left: playerIdle,
 				frameSheet: 7,
 				animSpeed: 18,
 			},
@@ -259,6 +261,11 @@ class Player {
 				frameSheet: 8,
 				animSpeed: 10,
 			},
+      win: {
+        sprite: playerWin,
+        frameSheet: 6,
+        animSpeed: 10,
+      }
 		};
 
 		if (!grounded) {
@@ -557,6 +564,7 @@ class Pie {
 		gameoverscreen.style.display = "flex";
 		const youWin = document.querySelector(".gameover");
 		youWin.innerHTML = "You Win!!";
+    sonic.currentSprite = sonic.sprites.win;
 	}
 
 	//Draw pie
