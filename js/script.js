@@ -1271,7 +1271,7 @@ pain.play();
 	TimeUp();
 	playBGM();
 	getScore();
-
+	setVolume();
 }
 
 // character movement on keydown
