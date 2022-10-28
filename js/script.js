@@ -1489,7 +1489,6 @@ function Resume() {
 	onTimer();
 	paws_Menu.style.display = "none";
 	keepAnimating = true;
-	animate();
 	requestAnimationFrame(animate);
 }
 
