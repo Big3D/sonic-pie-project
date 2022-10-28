@@ -1074,8 +1074,11 @@ function animate() {
         // startGame();
       } else {
         // tsi
-				pain.play();
-				// decrements health and pushes player back slightly
+	
+pain.play();
+     
+
+// decrements health and pushes player back slightly
 				health--;
 				sonic.position.y -= 50;
 				sonic.position.x -= 150;
@@ -1260,6 +1263,7 @@ function animate() {
 	TimeUp();
 	playBGM();
 	getScore();
+
 }
 
 // character movement on keydown
@@ -1553,4 +1557,10 @@ function getScore() {
 	// set score equal to scrollPosition
 	score = scrollPosition;
 	document.getElementById("currentScore").innerHTML = `Score: ${score}`;
+}
+
+function setVolume(){
+  hungry.volume = 0.5
+  pain.volume = 0.5
+  angry.volume = 0.5;
 }
