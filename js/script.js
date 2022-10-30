@@ -588,6 +588,10 @@ class Pie {
 			this.draw();
 		}
 	}
+	//Create pie score method
+	pieScore(){
+		score = score+ 500
+	}
 }
 
 // end score modal class
@@ -609,23 +613,20 @@ class Modal {
 		ctx.fillStyle = "black";
 		ctx.font = "20pt Arial";
 		ctx.textAlign = "center";
-		// End score modal title heading
-		ctx.fillText(`FINAL SCORE`, this.position.x * 1.55, this.position.y + 100);
+		
 		// Score from game play
 		ctx.fillText(
-			`Score: ${score}`,
 			this.position.x * 1.55,
 			this.position.y + 200
 		);
 		// Remaining time in game * 100
 		ctx.fillText(
-			`Timer Bonus = ${i} x 100`,
 			this.position.x * 1.55,
 			this.position.y + 250
 		);
 		// Totals final score (score + timer bonus)
 		ctx.fillText(
-			`Final Score = ${Math.floor(score + i * 100)} `,
+
 			this.position.x * 1.55,
 			this.position.y + 300
 		);
@@ -1168,9 +1169,11 @@ pain.play();
 			} else {
 				// clears pie and adds to score
 				pie.clear();
-				score = score + 100;
+				//Call the method
+				pie.pieScore()
 			}
-			document.getElementById("currentScore").innerHTML = `Score: ${score}`;
+			//Add scroll position to score
+			currentScore.textContent = `Score: ${score + scrollPosition}`;
 			if (pie.lastPie === true) {
 				pie.endGame();
 			}
@@ -1270,7 +1273,7 @@ pain.play();
 
 	TimeUp();
 	playBGM();
-	getScore();
+	// getScore();
 	setVolume();
 }
 
@@ -1405,9 +1408,9 @@ function undoDisplay() {
 
 //Countdown to start ends.
 
-let i = 60;
+let i = Math.max(60);
 let timeout;
-let stopTime = -1;
+let stopTime = Math.min(0);
 
 function onTimer() {
 	document.getElementById("countdown").innerHTML = i;
@@ -1453,7 +1456,7 @@ function displayPaws() {
 
 // Clear Timer
 //get the current timer
-current_timer = document.getElementById("countdown").innerHTML;
+let current_timer = document.getElementById("countdown").innerHTML;
 // stop the current on the click of esacpe key
 function clearTimer() {
 	clearTimeout(timeout);
@@ -1535,18 +1538,25 @@ function TimeUp() {
 		gameoverscreen.style.display = "flex";
 	}
 }
+
 // select all the needed ids for score display
 let score_endModal = document.getElementById("s_core");
 let timer_bonusModal = document.getElementById("t_imer");
 let f_nalModal = document.getElementById("f_score");
 
-// grab Izzy's solutions call them in this function
+// Update the scores and set the total score
+
 const showFinal_details = () => {
-	score_endModal.innerHTML = `Score: ${score}`;
-	timer_bonusModal.innerHTML = `Timer Bonus: ${i} x 100`;
-	f_nalModal.innerHTML = `Final Score: ${Math.floor(score + i * 100)} `;
+	onTimer()
+	score_endModal.innerHTML = currentScore.innerHTML;
+	timer_bonusModal.innerHTML = "Timer Bonus:  " + `${ i + 1 * 100}`
+	let removedScore = currentScore.innerHTML.slice(7)
+     let TotalScore =  parseInt(removedScore) + parseInt(`${ i + 1 * 100}`)
+	f_nalModal.innerHTML = "Final score:  " + TotalScore;
 	return;
 };
+
+
 
 // Cancel - Quit Button from the modal
 const cancelQuit = document.getElementById("can_cel");
@@ -1559,12 +1569,13 @@ LeaderBoardQuit.addEventListener("click", Quit);
  *
  */
 
+
 // get score based on scroll position -- called in animate function
-function getScore() {
-	// set score equal to scrollPosition
-	score = scrollPosition;
-	document.getElementById("currentScore").innerHTML = `Score: ${score}`;
-}
+// function getScore() {
+// 	// set score equal to scrollPosition
+// 	score = score + scrollPosition;
+	
+// }
 
 function setVolume(){
   hungry.volume = 0.5
