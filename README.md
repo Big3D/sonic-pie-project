@@ -52,7 +52,7 @@ Each member took on a specific role in the project for those interested to gain 
 ### Engineering
 
 [Dustin Daves](https://www.linkedin.com/in/dustin-daves-0aab1118b/), Lead Engineer     
-[Taofeek Abiola](https://www.linkedin.com/in/taofeek-badmus/)     
+[Taofeek Badmus](https://www.linkedin.com/in/taofeek-badmus/)     
 [Kendall Fuller](https://www.linkedin.com/in/kendall-fuller-linked/)     
 [Tsion Gebrehiwot](https://www.linkedin.com/in/tsion-gebrehiwot-97b1b3218/)     
 [Christopher Landeros](https://www.linkedin.com/in/christopher-landeros-17a27b232/)     
