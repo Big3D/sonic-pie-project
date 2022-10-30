@@ -1,6 +1,6 @@
 # Super Sonic Meow
 
-A side-scrolling, web-based game developed by Ice Code--an apprentice team of web developers for AlphaWorks Tech--where Sonic the cat is on a mission to eat all the pies while avoiding the dangers that lie in the path ahead.
+A side-scrolling, web-based game developed by Ice Code--an apprentice team of web developers--where Sonic the cat is on a mission to eat all the pies while avoiding the dangers that lie in the path ahead.
 
 ## Motivation
 
