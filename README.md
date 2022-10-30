@@ -13,9 +13,9 @@ A project challenging us to expand our roles in tech as engineers, project manag
 
 ## How to Play (Player Controls)
 
-`RIGHT ARROW` - Forward
-`LEFT ARROW` - Backward
-`UP ARROW` or `SPACE` - Jump
+`RIGHT ARROW` - Forward    
+`LEFT ARROW` - Backward     
+`UP ARROW` or `SPACE` - Jump     
 `ESC` - Pause
 
 ## Game Objective
@@ -32,27 +32,27 @@ Each member took on a specific role in the project for those interested to gain 
 
 ### Project Management
 
-[Dustin Daves](https://www.linkedin.com/in/dustin-daves-0aab1118b/)
-[Eddie Moreno](https://www.linkedin.com/in/eddiemoreno007/)
+[Dustin Daves](https://www.linkedin.com/in/dustin-daves-0aab1118b/)     
+[Eddie Moreno](https://www.linkedin.com/in/eddiemoreno007/)     
 [Moon Zurowski](https://www.linkedin.com/in/moonzurowski/)
 
 ### UI/UX Research & Design Team
 
-[Trishawna Brown](https://www.linkedin.com/in/trishawna-brown-5924a6235/)
-[Yadi Getachew](https://www.linkedin.com/in/yadeta-getachew/)
+[Trishawna Brown](https://www.linkedin.com/in/trishawna-brown-5924a6235/)      
+[Yadi Getachew](https://www.linkedin.com/in/yadeta-getachew/)      
 [Jacqueline Martinez](https://www.linkedin.com/in/jacqueline-martinez-546208133/)
 
 ### Development Team
 
-Dustin Daves, Lead Developer
-[Taofeek Abiola](https://www.linkedin.com/in/taofeek-badmus/)
-[Kendall Fuller](https://www.linkedin.com/in/kendall-fuller-linked/)
-[Tsion Gebrehiwot](https://www.linkedin.com/in/tsion-gebrehiwot-97b1b3218/)
-[Christopher Landeros](https://www.linkedin.com/in/christopher-landeros-17a27b232/)
-[Ivan Piceno](https://www.linkedin.com/in/ivan-piceno-939274204/)
+Dustin Daves, Lead Developer     
+[Taofeek Abiola](https://www.linkedin.com/in/taofeek-badmus/)     
+[Kendall Fuller](https://www.linkedin.com/in/kendall-fuller-linked/)     
+[Tsion Gebrehiwot](https://www.linkedin.com/in/tsion-gebrehiwot-97b1b3218/)     
+[Christopher Landeros](https://www.linkedin.com/in/christopher-landeros-17a27b232/)     
+[Ivan Piceno](https://www.linkedin.com/in/ivan-piceno-939274204/)     
 [Isabella Tannady](https://www.linkedin.com/in/isabellatannady/)
 
 ### Marketing/PR Team
 
-Jacqueline Martinez
+Jacqueline Martinez     
 Moon Zurowski
