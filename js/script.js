@@ -1405,9 +1405,9 @@ function undoDisplay() {
 
 //Countdown to start ends.
 
-let i = 60;
+let i = 61;
 let timeout;
-let stopTime = -1;
+let stopTime = 0;
 
 function onTimer() {
 	document.getElementById("countdown").innerHTML = i;
@@ -1415,11 +1415,9 @@ function onTimer() {
 	timeout = setTimeout(onTimer, 1000);
 	if (i <= stopTime) {
 		clearTimeout(timeout);
-		// setTimeout(
-		//   () => window.open("http://127.0.0.1:5505/game%20over.html"),
-		//   1000
-		// );
+
 	}
+	document.getElementById("countdown").innerHTML = i;
 }
 
 //Paws Menu
