@@ -603,7 +603,9 @@ class Pie {
     hungry.play();
     this.position.x = undefined;
     this.position.y = undefined;
-	pieScore += 500;
+	if (!lastPie){
+	    pieScore += 500;
+	}
   }
   update() {
     if (this.alive === true) {
