@@ -1549,9 +1549,9 @@ let f_nalModal = document.getElementById("f_score");
 const showFinal_details = () => {
 	onTimer()
 	score_endModal.innerHTML = currentScore.innerHTML;
-	timer_bonusModal.innerHTML = "Timer Bonus:  " + `${ i + 1 * 100}`
+	timer_bonusModal.innerHTML = "Timer Bonus:  " + `${ Math.abs(i) * 100}`
 	let removedScore = currentScore.innerHTML.slice(7)
-     let TotalScore =  parseInt(removedScore) + parseInt(`${ i + 1 * 100}`)
+     let TotalScore =  parseInt(removedScore) + parseInt(`${ Math.abs(i) * 100}`)
 	f_nalModal.innerHTML = "Final score:  " + TotalScore;
 	return;
 };
