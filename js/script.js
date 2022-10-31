@@ -1473,9 +1473,9 @@ function getScore() {
 }
 
 function setVolume() {
-  hungry.volume = 0.5;
-  pain.volume = 0.5;
-  angry.volume = 0.5;
+  hungry.volume = 0.2;
+  pain.volume = 0.2;
+  angry.volume = 0.2;
 }
 
 function Hurt() {
