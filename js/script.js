@@ -1454,6 +1454,7 @@ const showFinal_details = () => {
 
   let TotalScore = score + parseInt(`${Math.abs(i) * 100}`);
   f_nalModal.innerHTML = "Final score:  " + TotalScore;
+  score = TotalScore;
   return;
 };
 
