@@ -1408,19 +1408,18 @@ function undoDisplay() {
 
 //Countdown to start ends.
 
-let i = Math.max(60);
+let i = 60
 let timeout;
 let stopTime = 0;
 
 function onTimer() {
 	document.getElementById("countdown").innerHTML = i;
-	i--;
 	timeout = setTimeout(onTimer, 1000);
-	if (i <= stopTime && stopTime === 0) {
-		clearTimeout(timeout);
-		return
-	}
 	
+	if (i <= stopTime ) {
+		clearTimeout(timeout);
+	}
+	i--;	
 }
 
 //Paws Menu
@@ -1529,9 +1528,7 @@ function Resume() {
 function TimeUp() {
 	if (i <= stopTime) {
 		keepAnimating = false;
-		// tsi
 		showFinal_details();
-
 		gameoverscreen.classList.remove("hide");
 		gameoverscreen.style.display = "flex";
 	}
