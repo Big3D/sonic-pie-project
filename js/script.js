@@ -1441,9 +1441,9 @@ submit_btn.addEventListener("click", function (e) {
   let data = { username, score };
   let ref = firebase.ref(firebase.db, "scores/" + scoreId);
   firebase.set(ref, data).then(function () {
-    leaderBoardMenu.style.display = "block";
     gameoverscreen.style.display = "none";
     paws_Menu.style.display = "none";
+    leadDisplay();
   });
 });
 
