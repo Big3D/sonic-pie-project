@@ -1540,7 +1540,6 @@ const showFinal_details = () => {
   } else {
     timer_bonusModal.innerHTML = "Timer Bonus:  " + `0`;
   }
-
   let removedScore = currentScore.innerHTML.slice(7);
   let TotalScore = parseInt(removedScore) + parseInt(`${Math.abs(i) * 100}`);
   f_nalModal.innerHTML = "Final score:  " + TotalScore;
