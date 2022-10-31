@@ -10,6 +10,7 @@ let angry = new Audio("angry-kitty-meow.wav");
 let pain = new Audio("cat-pain-meow.wav");
 //Added counter and score display none by default
 let currentScore = document.getElementById("currentScore");
+let pieScore = 0;
 let countdown = document.getElementById("countdown");
 currentScore.style.display = "none";
 countdown.style.display = "none";
@@ -588,10 +589,10 @@ class Pie {
       this.draw();
     }
   }
-  //Create pie score method
-  pieScore() {
-    score = score + 500;
-  }
+//   //Create pie score method
+//   pieScore() {
+//     score = score + 500;
+//   }
 }
 
 // end score modal class
@@ -1158,19 +1159,18 @@ function animate() {
       } else {
         // clears pie and adds to score
         pie.clear();
-        //Call the method
-        pie.pieScore();
+		if(!pie.lastPie){
+			pieScore = pieScore + 500
+		}
       }
       if (pie.lastPie === true) {
         pie.endGame();
       }
     }
-
     //Add scroll position to score
-    currentScore.textContent = `Score: ${score}`;
+    // currentScore.textContent = `Score: ${score}`;
     pie.update();
   });
-
   // SHOW SCORE
   //refactor made here to ensure when a player reverses they don't get points taken away
   // score = Math.max(score, sonic.position.x / 2);
@@ -1186,7 +1186,6 @@ function animate() {
 
   // updates player
   sonic.update();
-
   //// Stop scrolling after last frame
   if (scrollPosition >= endScroll) {
     endScrollCheck = true;
@@ -1261,10 +1260,10 @@ function animate() {
     }
   }
 
-  scrollNum();
+//   scrollNum();
   TimeUp();
   playBGM();
-  // getScore();
+  getScore();
   setVolume();
 }
 
@@ -1310,7 +1309,6 @@ addEventListener("keyup", ({ keyCode }) => {
 });
 
 //// Title page ////
-
 const titleBG = new Image();
 titleBG.src = "/img/Background-img/Home-page-no-logo.png";
 const titleLogo = new Image();
@@ -1399,7 +1397,7 @@ function undoDisplay() {
 
 //Countdown to start ends.
 
-let i = 60;
+let i = 80;
 let timeout;
 let stopTime = 0;
 
@@ -1540,8 +1538,8 @@ const showFinal_details = () => {
   } else {
     timer_bonusModal.innerHTML = "Timer Bonus:  " + `0`;
   }
-  let removedScore = currentScore.innerHTML.slice(7);
-  let TotalScore = parseInt(removedScore) + parseInt(`${Math.abs(i) * 100}`);
+
+  let TotalScore = score + parseInt(`${Math.abs(i) * 100}`);
   f_nalModal.innerHTML = "Final score:  " + TotalScore;
   return;
 };
@@ -1558,19 +1556,18 @@ LeaderBoardQuit.addEventListener("click", Quit);
  */
 
 // get score based on scroll position -- called in animate function
-// function getScore() {
-// 	// set score equal to scrollPosition
-// 	score = score + scrollPosition;
-
-// }
-
-function scrollNum() {
-  // e.preventDefault()
-  let TScore = currentScore.innerText.slice(7);
-  let Total = Number(TScore) + scrollPosition;
-  currentScore.textContent = `Score: ${Total}`;
+function getScore() {
+	// set score equal to scrollPosition
+	score = pieScore + scrollPosition;
+	currentScore.innerHTML = `Score: ${score}`
 }
 
+// function scrollNum() {
+//   // e.preventDefault()
+//   let TScore = currentScore.innerText.slice(7);
+//   let Total = Number(TScore) + scrollPosition;
+//   currentScore.textContent = `Score: ${Total}`;
+// }
 function setVolume() {
   hungry.volume = 0.5;
   pain.volume = 0.5;
