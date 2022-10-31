@@ -154,6 +154,10 @@ body {
   cursor: pointer;
 }
 
+#leaderBoardMenu #can_cel {
+  left: 67%;
+}
+
 #can_cel:hover {
   color: red;
 }
