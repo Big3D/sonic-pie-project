@@ -27,7 +27,6 @@ const titleBG = new Image();
 titleBG.src = "/img/Background-img/Home-page-no-logo.png";
 const titleLogo = new Image();
 titleLogo.src = "/img/Background-img/Official_LOGO.png";
-console.log(titleLogo);
 
 // Loads the title image
 window.onload = () => {
@@ -41,7 +40,7 @@ window.onload = () => {
   );
 };
 
-//// Audio Testing ////
+//// Audio ////
 let playing = false;
 
 const titleBGM1 = new Audio("/audio/BGM/Title-theme1.mp3");
@@ -65,18 +64,16 @@ function playBGM() {
 
 function muteUnmute() {
   if (!mute) {
-    console.log("Mute");
     mute = true;
     playBGM();
   } else if (mute) {
-    console.log("Unmute");
     mute = false;
     playBGM();
   }
 }
 
 playBGM();
-////-- Audio Testing --////
+////-- Audio --////
 
 // Using Boolean to stop start countdown
 let countingDown = false;
@@ -107,7 +104,6 @@ function StartGame() {
   start_button.style.display = "none";
   leaderboard_button.style.display = "none";
   gameoverscreen.style.display = "none";
-  // leaderBoardMenu.style.display = "block";
   leaderBoardMenu.style.display = "none";
   animate();
 }
@@ -170,7 +166,6 @@ function playerState(val) {
       if (jumpUp) {
         if (sonic.frames < 2) {
           sonic.frames++;
-          console.log("jumping up");
         } else sonic.frames = 2;
       } else if (jumpMid) {
         if (sonic.frames < 6) {
@@ -253,10 +248,12 @@ class Player {
       x: 0,
       y: 0,
     };
-    // size of player
 
+    // size of player
     this.width = 160;
     this.height = 160;
+
+    //// framerate of animations
     this.image = playerIdle;
     this.frames = 0;
     this.frameCounter = 0;
@@ -275,7 +272,6 @@ class Player {
         frameSheet: 7,
         animSpeed: 18,
       },
-      //// Need to add delay to the first few frames so that Sonic isnt mid way through jump before leaving ground
       jump: {
         right: playerJumpRightSprite,
         left: playerJumpLeftSprite,
@@ -341,23 +337,19 @@ class Player {
       this.velocity.y += gravity;
     else {
       this.velocity.y = 0;
-      // console.log('grounded');
     }
 
     if (!grounded) {
       playerState("Jump");
-      // console.log("Jumping");
     } else if (grounded) {
       if (keys.right.pressed || keys.left.pressed) {
         playerState("Walk");
-        // console.log("Walking");
       } else if (
         !keys.left.pressed &&
         !keys.right.pressed &&
         !keys.spacebar.pressed
       ) {
         playerState("Stand");
-        // console.log('Standing')
       }
     }
   }
@@ -631,7 +623,7 @@ class Modal {
     ctx.fillStyle = "black";
     ctx.font = "20pt Arial";
     ctx.textAlign = "center";
-    
+
     // End score modal title heading
     ctx.fillText(`FINAL SCORE`, this.position.x * 1.55, this.position.y + 100);
     // Score from game play
@@ -1102,7 +1094,6 @@ function animate() {
     ) {
       // damage - restart game when player has no lives left
       if (health < 0) {
-        // startGame();
       } else {
         Hurt();
       }
@@ -1121,7 +1112,6 @@ function animate() {
     ) {
       // damage - restart game when player has no lives left
       if (health < 0) {
-        // startGame();
       } else {
         Hurt();
       }
@@ -1138,7 +1128,6 @@ function animate() {
       sonic.position.y + sonic.height >= waterDrop.position.y &&
       sonic.position.y <= waterDrop.position.y + waterDrop.height
     ) {
-      // decrements health and pushes player back slightly
       Hurt();
     }
     waterDrop.update();
@@ -1153,7 +1142,6 @@ function animate() {
       sonic.position.y + sonic.height >= skeletonHand.position.y &&
       sonic.position.y <= skeletonHand.position.y + skeletonHand.height
     ) {
-      // decrements health and pushes player back slightly
       Hurt();
     }
   });
@@ -1167,9 +1155,7 @@ function animate() {
       sonic.position.y + sonic.height >= pie.position.y &&
       sonic.position.y <= pie.position.y + pie.height
     ) {
-      // damage - restart game when player has no lives left
       if (health < 0) {
-        // startGame();
       } else {
         // clears pie and adds to score
         pie.clear();
@@ -1182,19 +1168,6 @@ function animate() {
     }
     pie.update();
   });
-
-  // SHOW SCORE
-  //refactor made here to ensure when a player reverses they don't get points taken away
-  // score = Math.max(score, sonic.position.x / 2);
-  // if (score === 100) {
-  // 	document.getElementById("currentScore").innerHTML = `Score: ${score}`;
-  // }
-  // if (score === 300) {
-  // 	document.getElementById("currentScore").innerHTML = `Score: ${score}`;
-  // }
-  // if (score === 500) {
-  // 	document.getElementById("currentScore").innerHTML = `Score: ${score}`;
-  // }
 
   // updates player
   sonic.update();
@@ -1321,7 +1294,7 @@ addEventListener("keyup", ({ keyCode }) => {
 });
 
 // Countdown to start
-//Grab the count down
+// Grab the count down
 let countdown_num = document.querySelector(".text_count");
 let countdown_num_wrapper = document.getElementById("count_down");
 let remainingTime = 3;
@@ -1359,14 +1332,13 @@ let timeout;
 let stopTime = 0;
 
 function onTimer() {
-	document.getElementById("countdown").innerHTML = i;
-	i--;
-	timeout = setTimeout(onTimer, 1000);
-	if (i <= stopTime) {
-		clearTimeout(timeout);
-
-	}
-	document.getElementById("countdown").innerHTML = i;
+  document.getElementById("countdown").innerHTML = i;
+  i--;
+  timeout = setTimeout(onTimer, 1000);
+  if (i <= stopTime) {
+    clearTimeout(timeout);
+  }
+  document.getElementById("countdown").innerHTML = i;
 }
 
 //Paws Menu
@@ -1451,25 +1423,6 @@ function Resume() {
   requestAnimationFrame(animate);
 }
 
-// This that can be improved on(getting escape to pause and play)
-
-// prompts end score modal if time <= 0 or if player reaches end of level
-// end of level is currently based on scroll position
-// function endGame() {
-//   if (i <= stopTime || scrollPosition == 5800) {
-//     keepAnimating = false;
-//     //endScoreModal.draw();
-//     showFinal_details()
-//     console.log("game over");
-
-//     gameoverscreen.classList.remove("hide");
-//     gameoverscreen.style.display = "flex";
-//   }
-//   //gameoverscreen.classList.remove('hide')
-// }
-// function closegameover() {
-//   gameoverscreen.classList.add("hide");
-// }
 
 //this tells when the time is up
 function TimeUp() {
@@ -1477,7 +1430,7 @@ function TimeUp() {
     keepAnimating = false;
     // tsi
     showFinal_details();
-    
+
     gameoverscreen.classList.remove("hide");
     gameoverscreen.style.display = "flex";
   }
@@ -1510,18 +1463,13 @@ cancelQuit.addEventListener("click", Quit);
 const LeaderBoardQuit = document.getElementById("leaderBoardMenu");
 LeaderBoardQuit.addEventListener("click", Quit);
 
-/**
- *
- *
- */
 
 // get score based on scroll position -- called in animate function
 function getScore() {
-	// set score equal to scrollPosition
-	score = pieScore + scrollPosition;
-	currentScore.innerHTML = `Score: ${score}`
+  // set score equal to scrollPosition
+  score = pieScore + scrollPosition;
+  currentScore.innerHTML = `Score: ${score}`;
 }
-
 
 function setVolume() {
   hungry.volume = 0.5;
@@ -1529,34 +1477,30 @@ function setVolume() {
   angry.volume = 0.5;
 }
 
-function Hurt(){
-	pain.play(); //tsi
-	hurt = true;
-	// sonic.position = 
-	sonic.position.y -= 10;
-	sonic.position.x -= 10;
-	// console.log(sonic.position.x)
-	if(sonic.position.x < 50){
-		sonic.position.x = 50;
-	}
+function Hurt() {
+  pain.play(); //tsi
+  hurt = true;
+  sonic.position.y -= 10;
+  sonic.position.x -= 10;
+  if (sonic.position.x < 50) {
+    sonic.position.x = 50;
+  }
 }
 
-function HurtAnim(){
-	let lastPos = sonic.position.y;
-	if (hurt  && !grounded){
-		if(sonic.position.y > lastPos){
-			sonic.position.y = lastPos - 10;
-		}
-			lastPos = sonic.position.y;
-			sonic.position.y -= 5;
-		if (right){
-			sonic.position.x -= 10;
-		}
-		else if (!right){
-			sonic.position.x += 10;
-		}
-		keys.spacebar.pressed = true;
-	}
-	else hurt = false;
-	keys.spacebar.pressed = false;
+function HurtAnim() {
+  let lastPos = sonic.position.y;
+  if (hurt && !grounded) {
+    if (sonic.position.y > lastPos) {
+      sonic.position.y = lastPos - 10;
+    }
+    lastPos = sonic.position.y;
+    sonic.position.y -= 5;
+    if (right) {
+      sonic.position.x -= 10;
+    } else if (!right) {
+      sonic.position.x += 10;
+    }
+    keys.spacebar.pressed = true;
+  } else hurt = false;
+  keys.spacebar.pressed = false;
 }
