@@ -13,7 +13,6 @@
       href="https://fonts.googleapis.com/css2?family=Butcherman&display=swap"
       rel="stylesheet"
     />
-    <script src="js/script.js" type="text/javascript" defer></script>
   </head>
 
   <body>
@@ -38,7 +37,7 @@
         <!-- Start button -->
         <button id="start-button" type="button">Start</button>
         <!-- Leaderboard button -->
-        <button id="leaderboard-button" onclick="leadDisplay()" type="button">
+        <button id="leaderboard-button" type="button">
           Leaderboard
         </button>
         <canvas id="menu_canvas"></canvas>
@@ -140,6 +139,7 @@
       import {
         getDatabase,
         ref,
+        get,
         set,
       } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-database.js";
 
@@ -159,13 +159,14 @@
       // Initialize Firebase
       const app = initializeApp(firebaseConfig);
       const db = getDatabase(app);
-      window.firebase = { db, ref, set };
+      window.firebase = { db, ref, get, set };
     </script>
     <script type="module">
       import { v4 as uuidv4 } from "https://jspm.dev/uuid";
       window.uuidv4 = uuidv4;
     </script>
 
+    <script src="js/script.js" type="text/javascript" defer></script>
     <script src="js/leaderboard.js" defer></script>
   </body>
 </html>

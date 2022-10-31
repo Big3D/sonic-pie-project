@@ -145,13 +145,17 @@ body {
 #can_cel {
   position: absolute;
   top: 5%;
-  left: 67%;
+  left: 80%;
   color: #f3ff30;
   z-index: 50000;
   font-family: Arial;
   font-weight: 700;
   font-size: 4vw;
   cursor: pointer;
+}
+
+#leaderBoardMenu #can_cel {
+  left: 67%;
 }
 
 #can_cel:hover {
@@ -225,7 +229,7 @@ body {
   z-index: 99999;
 }
 .text_count {
-  font-size: 70px;
+  font-size: 4vw;
   font-weight: 700;
   text-shadow: 0.3rem 0.3rem rgba(black, 0.7);
   color: red;
@@ -383,7 +387,7 @@ h1.gameover {
     color: yellow;
     margin-top: 0;
     margin-bottom: 0;
-    font-size: 15px;
+    font-size: 2.5vw;
     margin: 0;
   }
 
@@ -406,7 +410,7 @@ h1.gameover {
     text-align: center;
     outline: none;
     max-width: 100%;
-    top: 40%;
+    top: 30%;
     right: 15%;
     left: 10%;
     z-index: 20000;
@@ -456,7 +460,7 @@ h1.gameover {
   #input_div {
     position: absolute;
     /* bottom: 20%; */
-    right: 40%;
+    right: 50%;
     z-index: 900;
   }
   h1.gameover {
@@ -486,7 +490,7 @@ h1.gameover {
     text-align: center;
     outline: none;
     max-width: 100%;
-    top: 40%;
+    top: 30%;
     right: 15%;
     left: 10%;
     z-index: 20000;

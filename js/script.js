@@ -21,6 +21,25 @@ Menu_Canvas.height = 1080;
 let keepAnimating = true;
 let grounded;
 
+//// Title page ////
+const titleBG = new Image();
+titleBG.src = "/img/Background-img/Home-page-no-logo.png";
+const titleLogo = new Image();
+titleLogo.src = "/img/Background-img/Official_LOGO.png";
+console.log(titleLogo);
+
+// Loads the title image
+window.onload = () => {
+  mtx.drawImage(titleBG, 0, 0);
+  mtx.drawImage(
+    titleLogo,
+    Menu_Canvas.width / 2 - 300,
+    0,
+    titleLogo.width / 3,
+    titleLogo.height / 3
+  );
+};
+
 //// Audio Testing ////
 let playing = false;
 
@@ -589,10 +608,6 @@ class Pie {
       this.draw();
     }
   }
-//   //Create pie score method
-//   pieScore() {
-//     score = score + 500;
-//   }
 }
 
 // end score modal class
@@ -614,13 +629,27 @@ class Modal {
     ctx.fillStyle = "black";
     ctx.font = "20pt Arial";
     ctx.textAlign = "center";
-
+    
+    // End score modal title heading
+    ctx.fillText(`FINAL SCORE`, this.position.x * 1.55, this.position.y + 100);
     // Score from game play
-    ctx.fillText(this.position.x * 1.55, this.position.y + 200);
+    ctx.fillText(
+      `Score: ${score}`,
+      this.position.x * 1.55,
+      this.position.y + 200
+    );
     // Remaining time in game * 100
-    ctx.fillText(this.position.x * 1.55, this.position.y + 250);
+    ctx.fillText(
+      `Timer Bonus = ${i} x 100`,
+      this.position.x * 1.55,
+      this.position.y + 250
+    );
     // Totals final score (score + timer bonus)
-    ctx.fillText(this.position.x * 1.55, this.position.y + 300);
+    ctx.fillText(
+      `Final Score = ${Math.floor(score + i * 100)} `,
+      this.position.x * 1.55,
+      this.position.y + 300
+    );
   }
 }
 
@@ -1159,18 +1188,16 @@ function animate() {
       } else {
         // clears pie and adds to score
         pie.clear();
-		if(!pie.lastPie){
-			pieScore = pieScore + 500
-		}
+        score = score + 100;
       }
+      document.getElementById("currentScore").innerHTML = `Score: ${score}`;
       if (pie.lastPie === true) {
         pie.endGame();
       }
     }
-    //Add scroll position to score
-    // currentScore.textContent = `Score: ${score}`;
     pie.update();
   });
+
   // SHOW SCORE
   //refactor made here to ensure when a player reverses they don't get points taken away
   // score = Math.max(score, sonic.position.x / 2);
@@ -1186,6 +1213,7 @@ function animate() {
 
   // updates player
   sonic.update();
+
   //// Stop scrolling after last frame
   if (scrollPosition >= endScroll) {
     endScrollCheck = true;
@@ -1260,7 +1288,6 @@ function animate() {
     }
   }
 
-//   scrollNum();
   TimeUp();
   playBGM();
   getScore();
@@ -1284,7 +1311,6 @@ addEventListener("keydown", ({ keyCode }) => {
         keys.spacebar.pressed = true;
         sonic.velocity.y -= 18;
       }
-
       break;
   }
 });
@@ -1307,61 +1333,6 @@ addEventListener("keyup", ({ keyCode }) => {
       break;
   }
 });
-
-//// Title page ////
-const titleBG = new Image();
-titleBG.src = "/img/Background-img/Home-page-no-logo.png";
-const titleLogo = new Image();
-titleLogo.src = "/img/Background-img/Official_LOGO.png";
-
-class TitleBackground {
-  constructor({ x, y, titleBG }) {
-    this.position = { x, y };
-
-    this.image = titleBG;
-    this.width = mtx.width;
-    this.height = mtx.height;
-  }
-
-  draw() {
-    mtx.drawImage(this.image, this.position.x, this.position.y);
-  }
-}
-class TitleLogo {
-  constructor({ x, y, titleLogo }) {
-    this.position = { x, y };
-
-    this.image = titleLogo;
-    this.width = titleLogo.width / 3;
-    this.height = titleLogo.height / 3;
-  }
-
-  draw() {
-    mtx.drawImage(
-      this.image,
-      this.position.x,
-      this.position.y,
-      this.width,
-      this.height
-    );
-  }
-}
-
-// new instance - title background
-const titleScreen = new TitleBackground({ x: 0, y: 0, titleBG });
-
-// new instance - logo
-const titleLogoBig = new TitleLogo({
-  x: Menu_Canvas.width / 2 - 300,
-  y: 0,
-  titleLogo,
-});
-
-// Loads the title image
-window.onload = () => {
-  titleScreen.draw();
-  titleLogoBig.draw();
-};
 
 // Countdown to start
 //Grab the count down
@@ -1397,18 +1368,19 @@ function undoDisplay() {
 
 //Countdown to start ends.
 
-let i = 80;
+let i = 61;
 let timeout;
 let stopTime = 0;
 
 function onTimer() {
-  document.getElementById("countdown").innerHTML = i;
-  timeout = setTimeout(onTimer, 1000);
+	document.getElementById("countdown").innerHTML = i;
+	i--;
+	timeout = setTimeout(onTimer, 1000);
+	if (i <= stopTime) {
+		clearTimeout(timeout);
 
-  if (i <= stopTime) {
-    clearTimeout(timeout);
-  }
-  i--;
+	}
+	document.getElementById("countdown").innerHTML = i;
 }
 
 //Paws Menu
@@ -1470,9 +1442,9 @@ submit_btn.addEventListener("click", function (e) {
   let data = { username, score };
   let ref = firebase.ref(firebase.db, "scores/" + scoreId);
   firebase.set(ref, data).then(function () {
-    leaderBoardMenu.style.display = "block";
     gameoverscreen.style.display = "none";
     paws_Menu.style.display = "none";
+    leadDisplay();
   });
 });
 
@@ -1517,7 +1489,9 @@ function Resume() {
 function TimeUp() {
   if (i <= stopTime) {
     keepAnimating = false;
+    // tsi
     showFinal_details();
+    
     gameoverscreen.classList.remove("hide");
     gameoverscreen.style.display = "flex";
   }
@@ -1562,12 +1536,7 @@ function getScore() {
 	currentScore.innerHTML = `Score: ${score}`
 }
 
-// function scrollNum() {
-//   // e.preventDefault()
-//   let TScore = currentScore.innerText.slice(7);
-//   let Total = Number(TScore) + scrollPosition;
-//   currentScore.textContent = `Score: ${Total}`;
-// }
+
 function setVolume() {
   hungry.volume = 0.5;
   pain.volume = 0.5;
