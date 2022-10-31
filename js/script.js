@@ -4,20 +4,43 @@ let mtx = Menu_Canvas.getContext("2d");
 let start_button = document.getElementById("start-button");
 let leaderboard_button = document.getElementById("leaderboard-button");
 let gameoverscreen = document.getElementById("gameover_background");
-
+//Audiocat sounds
+let hungry = new Audio("cat-hungry-meow.wav");
+let angry = new Audio("angry-kitty-meow.wav");
+let pain = new Audio("cat-pain-meow.wav");
 //Added counter and score display none by default
 let currentScore = document.getElementById("currentScore");
+let pieScore = 0;
 let countdown = document.getElementById("countdown");
 currentScore.style.display = "none";
 countdown.style.display = "none";
 
 leaderBoardMenu.style.display = "none";
-Menu_Canvas.width = 800;
-Menu_Canvas.height = 576;
+Menu_Canvas.width = 1920;
+Menu_Canvas.height = 1080;
 let keepAnimating = true;
 let grounded;
+let hurt;
 
-//// Audio Testing ////
+//// Title page ////
+const titleBG = new Image();
+titleBG.src = "/img/Background-img/Home-page-no-logo.png";
+const titleLogo = new Image();
+titleLogo.src = "/img/Background-img/Official_LOGO.png";
+
+// Loads the title image
+window.onload = () => {
+  mtx.drawImage(titleBG, 0, 0);
+  mtx.drawImage(
+    titleLogo,
+    Menu_Canvas.width / 2 - 300,
+    0,
+    titleLogo.width / 3,
+    titleLogo.height / 3
+  );
+};
+
+//// Audio ////
 let playing = false;
 
 const titleBGM1 = new Audio("/audio/BGM/Title-theme1.mp3");
@@ -41,18 +64,16 @@ function playBGM() {
 
 function muteUnmute() {
   if (!mute) {
-    console.log("Mute");
     mute = true;
     playBGM();
   } else if (mute) {
-    console.log("Unmute");
     mute = false;
     playBGM();
   }
 }
 
 playBGM();
-////-- Audio Testing --////
+////-- Audio --////
 
 // Using Boolean to stop start countdown
 let countingDown = false;
@@ -63,28 +84,26 @@ function StartGame() {
   }
 
   let removeDisplay = new Promise((resolve) => {
-    resolve('success')
+    resolve("success");
   });
-  removeDisplay.then(()=>{
-   reduceCount();
-  })
-  .then(()=>{
-    setTimeout(()=>{
-      undoDisplay()
-    }, 4000)
-  })
-  .then(()=>{
-    setTimeout(()=>{
-      EscapePaws()
-    }, 4000)
-   })
-    
-  
+  removeDisplay
+    .then(() => {
+      reduceCount();
+    })
+    .then(() => {
+      setTimeout(() => {
+        undoDisplay();
+      }, 4000);
+    })
+    .then(() => {
+      setTimeout(() => {
+        EscapePaws();
+      }, 4000);
+    });
 
   start_button.style.display = "none";
   leaderboard_button.style.display = "none";
   gameoverscreen.style.display = "none";
-  // leaderBoardMenu.style.display = "block";
   leaderBoardMenu.style.display = "none";
   animate();
 }
@@ -95,14 +114,16 @@ const ctx = canvas.getContext("2d");
 canvas.width = 1920;
 canvas.height = 1080;
 
+//// Used for the end game scroll pause
+let endScroll = 13400;
+let endScrollCheck = false;
+
 // gravity
 const gravity = 0.5;
 //SCORE
 let score = 0;
 
 //// Cat animation ////
-const playerSprite1 = new Image();
-const playerSprite2 = new Image();
 
 const playerWalkRightSpriteRef = "/img/CAT WALK PNGs/WalkRightSpriteSheetC.png";
 const playerWalkRightSprite = new Image();
@@ -116,9 +137,13 @@ playerJumpRightSprite.src = playerJumpRightSpriteRef;
 const playerJumpLeftSpriteRef = "/img/CAT_JUMP_PNGs/JumpLeftSpriteSheetC.png";
 const playerJumpLeftSprite = new Image();
 playerJumpLeftSprite.src = playerJumpLeftSpriteRef;
+const playerIdleRef = "/img/Idle-Cat.png";
+const playerIdle = new Image();
+playerIdle.src = playerIdleRef;
+const playerWinRef = "/img/win-dance-Cat.png";
+const playerWin = new Image();
+playerWin.src = playerWinRef;
 
-playerSprite1.src = "/img/CAT WALK PNGs/Sonic Walk COLOR 8.png";
-playerSprite2.src = "/img/CAT WALK PNGs/Sonic Walk COLOR 8 left.png";
 let previousPos;
 let jumpUp;
 let jumpDown;
@@ -141,7 +166,6 @@ function playerState(val) {
       if (jumpUp) {
         if (sonic.frames < 2) {
           sonic.frames++;
-          console.log("jumping up");
         } else sonic.frames = 2;
       } else if (jumpMid) {
         if (sonic.frames < 6) {
@@ -224,19 +248,21 @@ class Player {
       x: 0,
       y: 0,
     };
-    // size of player
 
+    // size of player
     this.width = 160;
     this.height = 160;
-    this.image = playerSprite1;
+
+    //// framerate of animations
+    this.image = playerIdle;
     this.frames = 0;
     this.frameCounter = 0;
 
     //// These are the sprite states that hold values for animations
     this.sprites = {
       stand: {
-        right: playerSprite1,
-        left: playerSprite1,
+        right: playerIdle,
+        left: playerIdle,
         frameSheet: 7,
         animSpeed: 18,
       },
@@ -246,11 +272,15 @@ class Player {
         frameSheet: 7,
         animSpeed: 18,
       },
-      //// Need to add delay to the first few frames so that Sonic isnt mid way through jump before leaving ground
       jump: {
         right: playerJumpRightSprite,
         left: playerJumpLeftSprite,
         frameSheet: 8,
+        animSpeed: 10,
+      },
+      win: {
+        sprite: playerWin,
+        frameSheet: 6,
         animSpeed: 10,
       },
     };
@@ -307,23 +337,19 @@ class Player {
       this.velocity.y += gravity;
     else {
       this.velocity.y = 0;
-      // console.log('grounded');
     }
 
     if (!grounded) {
       playerState("Jump");
-      // console.log("Jumping");
     } else if (grounded) {
       if (keys.right.pressed || keys.left.pressed) {
         playerState("Walk");
-        // console.log("Walking");
       } else if (
         !keys.left.pressed &&
         !keys.right.pressed &&
         !keys.spacebar.pressed
       ) {
         playerState("Stand");
-        // console.log('Standing')
       }
     }
   }
@@ -551,6 +577,7 @@ class Pie {
     gameoverscreen.style.display = "flex";
     const youWin = document.querySelector(".gameover");
     youWin.innerHTML = "You Win!!";
+    sonic.currentSprite = sonic.sprites.win.sprite;
   }
 
   //Draw pie
@@ -563,8 +590,12 @@ class Pie {
       this.height
     );
   }
+  //pie-undefined(disappear)
   clear() {
-    this.alive = false;
+    hungry.play();
+    this.position.x = undefined;
+    this.position.y = undefined;
+    pieScore += 500;
   }
   update() {
     if (this.alive === true) {
@@ -592,6 +623,7 @@ class Modal {
     ctx.fillStyle = "black";
     ctx.font = "20pt Arial";
     ctx.textAlign = "center";
+
     // End score modal title heading
     ctx.fillText(`FINAL SCORE`, this.position.x * 1.55, this.position.y + 100);
     // Score from game play
@@ -861,6 +893,14 @@ const sawLines = [
 const pies = [
   new Pie(
     {
+      x: 800,
+      y: 470,
+      image: pieSprite,
+    },
+    false
+  ),
+  new Pie(
+    {
       x: 1200,
       y: 860,
       image: pieSprite,
@@ -877,8 +917,32 @@ const pies = [
   ),
   new Pie(
     {
-      x: 5000,
+      x: 3400,
+      y: 220,
+      image: pieSprite,
+    },
+    false
+  ),
+  new Pie(
+    {
+      x: 4200,
+      y: 220,
+      image: pieSprite,
+    },
+    false
+  ),
+  new Pie(
+    {
+      x: 5400,
       y: 860,
+      image: pieSprite,
+    },
+    false
+  ),
+  new Pie(
+    {
+      x: 5800,
+      y: 720,
       image: pieSprite,
     },
     false
@@ -887,6 +951,14 @@ const pies = [
     {
       x: 8000,
       y: 860,
+      image: pieSprite,
+    },
+    false
+  ),
+  new Pie(
+    {
+      x: 8700,
+      y: 360,
       image: pieSprite,
     },
     false
@@ -902,7 +974,31 @@ const pies = [
   new Pie(
     {
       x: 11000,
-      y: 860,
+      y: 720,
+      image: pieSprite,
+    },
+    false
+  ),
+  new Pie(
+    {
+      x: 11900,
+      y: 460,
+      image: pieSprite,
+    },
+    false
+  ),
+  new Pie(
+    {
+      x: 13300,
+      y: 720,
+      image: pieSprite,
+    },
+    false
+  ),
+  new Pie(
+    {
+      x: 14100,
+      y: 720,
       image: pieSprite,
     },
     false
@@ -974,8 +1070,8 @@ function animate() {
       sonic.position.y + sonic.height <= platform.position.y &&
       sonic.position.y + sonic.height + sonic.velocity.y >=
         platform.position.y &&
-      sonic.position.x + sonic.width >= platform.position.x &&
-      sonic.position.x <= platform.position.x + platform.width
+      sonic.position.x + sonic.width / 2 >= platform.position.x &&
+      sonic.position.x <= platform.position.x + platform.width - 50
     ) {
       sonic.velocity.y = 0;
       grounded = true;
@@ -998,12 +1094,8 @@ function animate() {
     ) {
       // damage - restart game when player has no lives left
       if (health < 0) {
-        // startGame();
       } else {
-        // decrements health and pushes player back slightly
-        health--;
-        sonic.position.y -= 50;
-        sonic.position.x -= 150;
+        Hurt();
       }
     }
     horizontalSaw.update();
@@ -1020,12 +1112,8 @@ function animate() {
     ) {
       // damage - restart game when player has no lives left
       if (health < 0) {
-        // startGame();
       } else {
-        // decrements health and pushes player back slightly
-        health--;
-        sonic.position.y -= 50;
-        sonic.position.x -= 150;
+        Hurt();
       }
     }
     verticalSaw.update();
@@ -1040,10 +1128,7 @@ function animate() {
       sonic.position.y + sonic.height >= waterDrop.position.y &&
       sonic.position.y <= waterDrop.position.y + waterDrop.height
     ) {
-      // decrements health and pushes player back slightly
-      health--;
-      sonic.position.y -= 50;
-      sonic.position.x -= 150;
+      Hurt();
     }
     waterDrop.update();
   });
@@ -1057,10 +1142,7 @@ function animate() {
       sonic.position.y + sonic.height >= skeletonHand.position.y &&
       sonic.position.y <= skeletonHand.position.y + skeletonHand.height
     ) {
-      // decrements health and pushes player back slightly
-      health--;
-      sonic.position.y -= 50;
-      sonic.position.x -= 150;
+      Hurt();
     }
   });
 
@@ -1073,9 +1155,7 @@ function animate() {
       sonic.position.y + sonic.height >= pie.position.y &&
       sonic.position.y <= pie.position.y + pie.height
     ) {
-      // damage - restart game when player has no lives left
       if (health < 0) {
-        // startGame();
       } else {
         // clears pie and adds to score
         pie.clear();
@@ -1089,23 +1169,20 @@ function animate() {
     pie.update();
   });
 
-  // SHOW SCORE
-  //refactor made here to ensure when a player reverses they don't get points taken away
-  // score = Math.max(score, sonic.position.x / 2);
-  // if (score === 100) {
-  // 	document.getElementById("currentScore").innerHTML = `Score: ${score}`;
-  // }
-  // if (score === 300) {
-  // 	document.getElementById("currentScore").innerHTML = `Score: ${score}`;
-  // }
-  // if (score === 500) {
-  // 	document.getElementById("currentScore").innerHTML = `Score: ${score}`;
-  // }
-
   // updates player
   sonic.update();
 
-  if (keys.right.pressed && sonic.position.x < 500) {
+  //// Stop scrolling after last frame
+  if (scrollPosition >= endScroll) {
+    endScrollCheck = true;
+  } else {
+    endScrollCheck = false;
+  }
+
+  if (
+    (keys.right.pressed && sonic.position.x < 500) ||
+    (keys.right.pressed && endScrollCheck)
+  ) {
     sonic.velocity.x = 5;
   } else if (keys.left.pressed && sonic.position.x > 50) {
     sonic.velocity.x = -5;
@@ -1172,8 +1249,10 @@ function animate() {
   TimeUp();
   playBGM();
   getScore();
+  setVolume();
+  HurtAnim();
 }
-console.log(scrollPosition);
+
 // character movement on keydown
 addEventListener("keydown", ({ keyCode }) => {
   switch (keyCode) {
@@ -1187,11 +1266,10 @@ addEventListener("keydown", ({ keyCode }) => {
       break;
     case 32:
     case 38:
-      if (!keys.spacebar.pressed) {
+      if (!keys.spacebar.pressed && grounded) {
         keys.spacebar.pressed = true;
         sonic.velocity.y -= 18;
       }
-
       break;
   }
 });
@@ -1215,69 +1293,8 @@ addEventListener("keyup", ({ keyCode }) => {
   }
 });
 
-// });
-
-//function that will start the canvas game
-function startGame() {
-  console.log("start");
-}
-
-//// Title page ////
-
-const titleBG = new Image();
-titleBG.src = "/img/Background-img/TitleBG1.png";
-const titleLogo = new Image();
-titleLogo.src = "/img/UI/Logo notfinal.png";
-
-class TitleBackground {
-  constructor({ x, y, titleImage }) {
-    this.position = { x, y };
-
-    this.image = titleImage;
-    this.width = 1920;
-    this.height = 1080;
-    console.log(this.image);
-  }
-
-  draw() {
-    mtx.drawImage(this.image, this.position.x, this.position.y);
-  }
-}
-class TitleLogo {
-  constructor({ x, y, logoImage }) {
-    this.position = { x, y };
-
-    this.image = logoImage;
-    this.width = 200;
-    this.height = 200;
-  }
-
-  draw() {
-    mtx.drawImage(this.image, this.position.x, this.position.y);
-  }
-}
-
-let titleImage = new Image();
-titleImage = titleBG;
-const titleScreen = new TitleBackground({ x: 0, y: -10, titleImage });
-let logoImage = new Image();
-logoImage = titleLogo;
-const titleLogoBig = new TitleLogo({
-  x: Menu_Canvas.width / 2 - logoImage.width / 2.1,
-  y: 10,
-  logoImage,
-});
-
-// Loads the title image
-titleImage.onload = function () {
-  titleScreen.draw();
-};
-logoImage.onload = function () {
-  titleLogoBig.draw();
-};
-
 // Countdown to start
-//Grab the count down
+// Grab the count down
 let countdown_num = document.querySelector(".text_count");
 let countdown_num_wrapper = document.getElementById("count_down");
 let remainingTime = 3;
@@ -1291,9 +1308,9 @@ function reduceCount() {
 
     if (remainingTime <= 0) {
       countdown_num.innerHTML = end_time;
-	// tsi 
-	  currentScore.style.display = "block";
-	  countdown.style.display = "block";
+      // tsi
+      currentScore.style.display = "block";
+      countdown.style.display = "block";
 
       clearInterval(countdown_timer);
       keepAnimating = true;
@@ -1310,9 +1327,9 @@ function undoDisplay() {
 
 //Countdown to start ends.
 
-let i = 60;
+let i = 61;
 let timeout;
-let stopTime = -1;
+let stopTime = 0;
 
 function onTimer() {
   document.getElementById("countdown").innerHTML = i;
@@ -1320,21 +1337,18 @@ function onTimer() {
   timeout = setTimeout(onTimer, 1000);
   if (i <= stopTime) {
     clearTimeout(timeout);
-    // setTimeout(
-    //   () => window.open("http://127.0.0.1:5505/game%20over.html"),
-    //   1000
-    // );
   }
+  document.getElementById("countdown").innerHTML = i;
 }
 
 //Paws Menu
 //Open press the ESC it should have resume and quit buttons.
 const paws_Menu = document.querySelector("#paws");
-function EscapePaws(){
+function EscapePaws() {
   addEventListener("keydown", (e) => {
     let name = e.key;
     let code = e.code;
-  
+
     if (code === "Escape" && name === "Escape") {
       displayPaws();
       clearTimer();
@@ -1343,7 +1357,6 @@ function EscapePaws(){
   });
 }
 
-
 paws_Menu.style.display = "none";
 function displayPaws() {
   if (paws_Menu.style.display === "none") {
@@ -1351,14 +1364,17 @@ function displayPaws() {
   } else {
     paws_Menu.style.display = "none";
   }
+
+  if (leaderBoardMenu.style.display === "block") {
+    paws_Menu.style.display = "none";
+  }
 }
 
 // Clear Timer
 //get the current timer
-current_timer = document.getElementById("countdown").innerHTML;
+let current_timer = document.getElementById("countdown").innerHTML;
 // stop the current on the click of esacpe key
 function clearTimer() {
-  console.log(timeout);
   clearTimeout(timeout);
 }
 
@@ -1372,22 +1388,23 @@ function Quit() {
   paws_Menu.style.display = "none";
   timeout = setTimeout(onTimer, 1000);
   mute = muteState;
-  return (current_timer = timeout);
+  current_timer = timeout;
 }
 
 // Handle the submit button
-const submit_btn = document.querySelector('#submit')
-submit_btn.addEventListener('click', function(e) {
-  e.preventDefault()
-  let scoreId = uuidv4()
-  let username = document.querySelector('#username').value
-  let data = { username, score }
-  let ref = firebase.ref(firebase.db, 'scores/' + scoreId)
-  firebase.set(ref, data).then(function() {
-    leaderBoardMenu.style.display = "block";
+const submit_btn = document.querySelector("#submit");
+submit_btn.addEventListener("click", function (e) {
+  e.preventDefault();
+  let scoreId = uuidv4();
+  let username = document.querySelector("#username").value;
+  let data = { username, score };
+  let ref = firebase.ref(firebase.db, "scores/" + scoreId);
+  firebase.set(ref, data).then(function () {
     gameoverscreen.style.display = "none";
+    paws_Menu.style.display = "none";
+    leadDisplay();
   });
-})
+});
 
 // Resume Button
 /**
@@ -1403,62 +1420,88 @@ function Resume() {
   onTimer();
   paws_Menu.style.display = "none";
   keepAnimating = true;
-  animate();
   requestAnimationFrame(animate);
-  console.log("i have resumed");
 }
 
-// This that can be improved on(getting escape to pause and play)
-
-// prompts end score modal if time <= 0 or if player reaches end of level
-// end of level is currently based on scroll position
-// function endGame() {
-//   if (i <= stopTime || scrollPosition == 5800) {
-//     keepAnimating = false;
-//     //endScoreModal.draw();
-//     showFinal_details()
-//     console.log("game over");
-
-//     gameoverscreen.classList.remove("hide");
-//     gameoverscreen.style.display = "flex";
-//   }
-//   //gameoverscreen.classList.remove('hide')
-// }
-// function closegameover() {
-//   gameoverscreen.classList.add("hide");
-// }
 
 //this tells when the time is up
 function TimeUp() {
   if (i <= stopTime) {
     keepAnimating = false;
+    // tsi
     showFinal_details();
 
     gameoverscreen.classList.remove("hide");
     gameoverscreen.style.display = "flex";
   }
 }
+
 // select all the needed ids for score display
 let score_endModal = document.getElementById("s_core");
 let timer_bonusModal = document.getElementById("t_imer");
 let f_nalModal = document.getElementById("f_score");
 
-// grab Izzy's solutions call them in this function
+// Update the scores and set the total score
+
 const showFinal_details = () => {
-  score_endModal.innerHTML = `Score: ${score}`;
-  timer_bonusModal.innerHTML = `Timer Bonus: ${i} x 100`;
-  f_nalModal.innerHTML = `Final Score: ${Math.floor(score + i * 100)} `;
+  score_endModal.innerHTML = currentScore.innerHTML;
+
+  if (i > 0) {
+    timer_bonusModal.innerHTML = "Timer Bonus:  " + `${Math.abs(i) * 100}`;
+  } else {
+    timer_bonusModal.innerHTML = "Timer Bonus:  " + `0`;
+  }
+
+  let TotalScore = score + parseInt(`${Math.abs(i) * 100}`);
+  f_nalModal.innerHTML = "Final score:  " + TotalScore;
+  score = TotalScore;
   return;
 };
 
-/**
- * 
- * 
- */
+// Cancel - Quit Button from the modal
+const cancelQuit = document.getElementById("can_cel");
+cancelQuit.addEventListener("click", Quit);
+const LeaderBoardQuit = document.getElementById("leaderBoardMenu");
+LeaderBoardQuit.addEventListener("click", Quit);
+
 
 // get score based on scroll position -- called in animate function
 function getScore() {
   // set score equal to scrollPosition
-  score = scrollPosition;
-  document.getElementById("currentScore").innerHTML = `Score: ${score}`;
+  score = pieScore + scrollPosition;
+  currentScore.innerHTML = `Score: ${score}`;
+}
+
+function setVolume() {
+  hungry.volume = 0.5;
+  pain.volume = 0.5;
+  angry.volume = 0.5;
+}
+
+function Hurt() {
+  pain.play(); //tsi
+  hurt = true;
+  sonic.position.y -= 10;
+  sonic.position.x -= 10;
+  if (sonic.position.x < 50) {
+    sonic.position.x = 50;
+  }
+}
+
+function HurtAnim() {
+  let lastPos = sonic.position.y;
+  if (hurt && !grounded) {
+    if (sonic.position.y > lastPos) {
+      sonic.position.y = lastPos - 10;
+    }
+    lastPos = sonic.position.y;
+    sonic.position.y -= 5;
+    if (right) {
+      sonic.position.x -= 10;
+    } else if (!right) {
+      sonic.position.x += 10;
+    }
+    keys.spacebar.pressed = true;
+  } else hurt = false;
+  keys.spacebar.pressed = false;
 }

@@ -8,25 +8,29 @@
 }
 
 body {
-  width: 100vw;
-  height: 100vh;
+  background-color: black;
+  overflow: hidden;
 }
 
 .container {
   position: relative;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.canvas-container{
-    position: relative;
-
+.canvas-container {
+  position: relative;
+  max-width: 100vw;
 }
-.canvas-container canvas{
-  object-fit: contain;
+
+/* resize on large screen */
+@media (min-width: 1250px) {
+  .canvas-container {
+    max-width: 80vw;
+  }
 }
 
 /* Timer */
@@ -37,223 +41,155 @@ body {
   right: 0;
   font-size: 40px;
   text-align: center;
-  color: #FF9F10;
+  color: #ff9f10;
 }
 
 /* Score */
 #currentScore {
   position: absolute;
   top: 5%;
-  right: 10%;
+  right: 5%;
   font-size: 20px;
   text-align: center;
-  color: #FF9F10;
+  color: #ff9f10;
 }
 
-#start-button button {
+/* Start button */
+#start-button {
   position: absolute;
   top: 50%;
-  left: 50%;
-  background-image: url("/img/UI/TextBTN_Medium.png");
-  background-size: cover;
+  width: 100%;
+  height: 15%;
+  background-image: url("/img/Background-img/Button-black.png");
+  background-size: contain;
+  background-repeat: no-repeat;
   background-color: transparent;
+  background-position: center;
   border: none;
-  font-size: x-large;
-  width: 210px;
-  height: 82px;
+  font-size: 3vw;
   text-align: center;
-  margin: -25px 0 0 -105px;
+  color: #f3ff30;
+  cursor: pointer;
 }
 
-#leaderboard-button button {
+/* Leaderboard button */
+#leaderboard-button {
   position: absolute;
-  margin: 0 -20px;
-  top: 75%;
-  left: 50%;
-  background-image: url("/img/UI/TextBTN_Medium.png");
-  background-size: cover;
+  top: 50%;
+  margin-top: 10%;
+  width: 100%;
+  height: 15%;
+  background-image: url("/img/Background-img/Button-black.png");
+  background-size: contain;
+  background-repeat: no-repeat;
   background-color: transparent;
+  background-position: center;
   border: none;
-  font-size: larger;
-  width: 140px;
-  height: 55px;
+  font-size: 2.5vw;
   text-align: center;
-  margin: -25px 0 0 -70px;
+  color: #f3ff30;
+  cursor: pointer;
+}
+
+@media (min-width: 1250px) {
+  #leaderboard-button {
+    font-size: 2vw;
+  }
 }
 
 #menu_canvas {
+  object-fit: contain;
   border: 1px solid #000000;
-  width: 80vw;
-  height: 80vh;
-  /* margin: auto;
-    position: absolute;
-    top: 7%;
-    left:30%; */
-}
-/* #main_logo{
-    border:1px solid #000000;  
-    margin: auto;
-    position: absolute;
-    top: 14%;
-    left:42%;
-}
-#btn_play{
-    border:1px solid #000000;  
-    margin: auto;
-    position: absolute;
-    top: 67%;
-    left:50%;
-}
-#btn_options{
-    border:1px solid #000000;  
-    margin: auto;
-    position: absolute;
-    top: 60%;
-    left:50%;
-} */
-/* tsi */
-/* #canvas{
-    border:5px solid black;
-    position: absolute;
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%);
-    width: 700px;
-    height: 500px;    
-} */
-
-/* SCORE DIV  changed  css*/
-#currentScore {
-  position: absolute;
-  top: 5%;
-  right: 20%;
-  color: whitesmoke;
-  background-color: darkorange;
-  padding: 5px 20px;
-  border-radius:8px;
-  font-size: 1.3rem;
-  border:1px solid gray;
+  max-width: 100%;
 }
 
 /* Leaderboard CSS*/
-
 #leaderBoardMenu {
   position: absolute;
-  display: none; 
-  width: auto; 
-  height: auto; 
-  top:  -1%;
-  left: 0%;
+  display: none;
+  top: 0;
+  left: 0;
   right: 0;
   bottom: 0;
-  /*background-color: rgba(0,0,0,0.5);*/
-  z-index: 2; 
-  cursor: pointer; 
-  font-family: 'Butcherman', cursive;
-  text-align: center;
-  background: no-repeat;
+  z-index: 5;
   background-image: url("/img/UI/Black-module.png");
-  background-position: 50%;
-  background-size: 80%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
-#leadGroup{
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  font-size: 1.5vw;
-  color: rgb(255, 255, 255);
-  transform: translate(-50%,-50%);
-  -ms-transform: translate(-50%,-50%);
-}
-
-
-.name {
+#leadGroup {
   position: relative;
-  display: inline-block;
-  width: 25%;
-  font-family: 'Butcherman', cursive;
-  text-align: center;
-  line-height: 45px;
-  color: rgb(0, 0, 0);
+  top: 10%;
+  left: 25%;
+  width: 50%;
+  font-size: 1.5vw;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .leadtitle {
-  justify-items: center;
-  font-family: "Butcherman", cursive;
   text-align: center;
-  color: orange;
+  color: #f3ff30;
+  font-size: 4vw;
 }
+
+.leaderboard-content {
+  width: 50%;
+  text-align: center;
+}
+
+#can_cel {
+  position: absolute;
+  top: 5%;
+  left: 80%;
+  color: #f3ff30;
+  z-index: 50000;
+  font-family: Arial;
+  font-weight: 700;
+  font-size: 4vw;
+  cursor: pointer;
+}
+
+#leaderBoardMenu #can_cel {
+  left: 67%;
+}
+
+#can_cel:hover {
+  color: red;
+}
+
 .row {
-  position: relative;
-  display: inline-block;
   width: 100%;
-  height: 50%;
+  display: flex;
+  justify-content: space-around;
 }
 
 .placement {
-  position: relative;
-  display: inline-block;
-  width: 5%;
-  color: rgb(255, 255, 255);
+  font-size: 2vw;
 }
 
 .score {
-  position: relative;
-  display: inline-block;
-  width: 5%;
+  color: #ffc122;
+  font-size: 2vw;
 }
 
-.row:nth-child(2) {
-  color: gold;
-  position: relative;
-  display: inline-block;
+/* Leaderboard sizing for large screens */
+@media (min-width: 1250px) {
+  .leadtitle {
+    font-size: 3vw;
+  }
+  .placement,
+  .score {
+    font-size: 1.5vw;
+  }
+  #can_cel {
+    font-size: 3vw;
+  }
 }
-
-.row:nth-child(3) {
-  color: #c0c0c0;
-  position: relative;
-  display: inline-block;
-}
-
-.row:nth-child(4) {
-  color: #cd7f32;
-  position: relative;
-  display: inline-block;
-}
-
-/* .cyclic_input {
-  float: left;
-  padding: 1rem;
-  font-size: 5rem;
-  position: relative;
-  display: table-cell;
-  vertical-align: middle;
-  text-align: center;
-} */
-
-/* .cyclic_input:before,
-.cyclic_input:after {
-  display: block;
-  position: absolute;
-  left: 50%;
-  font-size: 1rem;
-  transform: translateX(-50%);
-}
-
-.cyclic_input:before {
-  content: "▲";
-  top: 0;
-}
-
-.cyclic_input:after {
-  content: "▼";
-  bottom: 0;
-}
-
-#cy-input {
-  visibility: hidden;
-} */
 
 /* End of Leaderboard CSS */
 
@@ -278,19 +214,6 @@ body {
   height: 10vh;
   border-radius: 10px;
 }
-/* Tsion added  */
-#countdown{
-  position: absolute;
-  top: 5%;
-  right: 50%;
-  color: whitesmoke;
-  background-color: darkorange;
-  padding: 5px 20px;
-  border-radius:8px;
-  font-size: 1.3rem;
-  border:1px solid gray;
-  color:white;
-}
 
 /* Count_down  changed-CSS */
 #count_down {
@@ -306,35 +229,33 @@ body {
   z-index: 99999;
 }
 .text_count {
-  font-size: 70px;
+  font-size: 4vw;
   font-weight: 700;
   text-shadow: 0.3rem 0.3rem rgba(black, 0.7);
   color: red;
 }
 /* Count_down CSS END */
 /* Game Over Screen */
-#gameover_background img{
-object-fit:contain;
-max-width: 80%;
-height: auto;
-margin-top: 20px;
-margin-left: auto;
-margin-right: auto;
+#gameover_background img {
+  object-fit: contain;
+  max-width: 80%;
+  height: auto;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
 }
-
 
 #gameover_background {
-position: absolute;
-top: 0;
-right: 0;
-left: 0;
-bottom: 0;
-z-index: 21000;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 21000;
 }
 
-
 #gameover-screen {
- position: absolute; 
+  position: absolute;
   text-align: center;
   outline: none;
   max-width: 100%;
@@ -350,13 +271,8 @@ h1.gameover {
   margin-bottom: 0;
 }
 
-
 #game-over-buttons button {
-  font-size: 30px;
-  margin-left: 5%;
-  top: 20%;
-  font-size: 50px;
-  font-family: "Butcherman", "cursive";
+  font-size: 20px;
   border-radius: 10px;
   color: yellow;
   background-color: transparent;
@@ -364,12 +280,12 @@ h1.gameover {
   outline: none;
   border: none;
 }
-::placeholder{
+::placeholder {
   color: yellow;
   font-size: 20px;
   font-family: "Butcherman", "cursive";
 }
-#input_background img{
+#input_background img {
   object-fit: scale-down;
   max-width: 30%;
   position: relative;
@@ -379,7 +295,7 @@ h1.gameover {
   max-width: 20%;
   position: absolute;
   bottom: 22%;
-  right:40%;
+  right: 40%;
   z-index: 900;
   border-radius: 5px;
 }
@@ -404,28 +320,28 @@ h1.gameover {
   box-shadow: none;
   outline: none;
   margin: 0;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
 .gameover {
   margin-top: 0;
   font-size: 50px;
 }
-        
+
 #player_details {
   color: white;
 }
 
-@media only screen and (min-width: 768px)  and (max-width: 959px) {
+@media only screen and (min-width: 768px) and (max-width: 959px) {
   #gameover-screen {
-    position: absolute; 
-     text-align: center;
-     outline: none;
-     max-width: 100%;
-     top: 30%;
-     right: 15%;
-     left: 10%;
-     z-index: 20000;
-   }
+    position: absolute;
+    text-align: center;
+    outline: none;
+    max-width: 100%;
+    top: 30%;
+    right: 15%;
+    left: 10%;
+    z-index: 20000;
+  }
   h1.gameover {
     color: yellow;
     margin-top: 0;
@@ -436,7 +352,7 @@ h1.gameover {
   #input_div {
     position: absolute;
     bottom: 25.5%;
-    right:43.5%;
+    right: 43.5%;
     z-index: 900;
   }
   #player_details {
@@ -456,22 +372,22 @@ h1.gameover {
     box-shadow: none;
     outline: none;
     margin: 0;
-    box-sizing: border-box; 
+    box-sizing: border-box;
   }
-} 
+}
 
 @media only screen and (min-width: 550px) and (max-width: 768px) {
   #input_div {
     position: absolute;
     /* bottom: 20%; */
-    right:40%;
+    right: 40%;
     z-index: 900;
   }
   h1.gameover {
     color: yellow;
     margin-top: 0;
     margin-bottom: 0;
-    font-size: 15px;
+    font-size: 2.5vw;
     margin: 0;
   }
 
@@ -483,24 +399,24 @@ h1.gameover {
     text-decoration: none;
     outline: none;
     border: none;
-    margin:0;
+    margin: 0;
   }
   .gameover {
     font-size: 25px;
     margin: 0;
   }
   #gameover-screen {
-    position: absolute; 
-     text-align: center;
-     outline: none;
-     max-width: 100%;
-     top: 40%;
-     right: 15%;
-     left: 10%;
-     z-index: 20000;
-   }
+    position: absolute;
+    text-align: center;
+    outline: none;
+    max-width: 100%;
+    top: 30%;
+    right: 15%;
+    left: 10%;
+    z-index: 20000;
+  }
 
-   #player_details {
+  #player_details {
     color: white;
     font-size: 10px;
   }
@@ -517,36 +433,34 @@ h1.gameover {
     box-shadow: none;
     outline: none;
     margin: 0;
-    box-sizing: border-box; 
+    box-sizing: border-box;
   }
-  #input_background img{
+  #input_background img {
     margin: 0;
     object-fit: scale-down;
     max-width: 20%;
     position: relative;
   }
-  
+
   #input_div {
     max-width: 19%;
     position: absolute;
     bottom: 30%;
-    right:42%;
+    right: 42%;
     z-index: 900;
     border-radius: 5px;
   }
-  ::placeholder{
+  ::placeholder {
     color: yellow;
     font-size: 10px;
   }
 }
 
-
-
 @media only screen and (max-width: 550px) {
   #input_div {
     position: absolute;
     /* bottom: 20%; */
-    right:40%;
+    right: 50%;
     z-index: 900;
   }
   h1.gameover {
@@ -565,24 +479,24 @@ h1.gameover {
     text-decoration: none;
     outline: none;
     border: none;
-    margin:0;
+    margin: 0;
   }
   .gameover {
     font-size: 5px;
     margin: 0;
   }
   #gameover-screen {
-    position: absolute; 
-     text-align: center;
-     outline: none;
-     max-width: 100%;
-     top: 40%;
-     right: 15%;
-     left: 10%;
-     z-index: 20000;
-   }
+    position: absolute;
+    text-align: center;
+    outline: none;
+    max-width: 100%;
+    top: 30%;
+    right: 15%;
+    left: 10%;
+    z-index: 20000;
+  }
 
-   #player_details {
+  #player_details {
     color: white;
     font-size: 5px;
   }
@@ -599,27 +513,30 @@ h1.gameover {
     box-shadow: none;
     outline: none;
     margin: 0;
-    box-sizing: border-box; 
+    box-sizing: border-box;
   }
-  #input_background img{
+  #input_background img {
     margin: 0;
     object-fit: scale-down;
     max-width: 20%;
     position: relative;
   }
-  
+
   #input_div {
     max-width: 20%;
     position: absolute;
     bottom: 33%;
-    right:40%;
+    right: 40%;
     z-index: 900;
     border-radius: 5px;
   }
-  ::placeholder{
+  ::placeholder {
     color: yellow;
     font-size: 3px;
   }
 }
 
- 
+.audioTest {
+  position: absolute;
+  bottom: 2%;
+}
