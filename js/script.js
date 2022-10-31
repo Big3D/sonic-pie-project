@@ -10,6 +10,7 @@ let angry = new Audio("angry-kitty-meow.wav");
 let pain = new Audio("cat-pain-meow.wav");
 //Added counter and score display none by default
 let currentScore = document.getElementById("currentScore");
+let pieScore = 0;
 let countdown = document.getElementById("countdown");
 currentScore.style.display = "none";
 countdown.style.display = "none";
@@ -601,6 +602,7 @@ class Pie {
     hungry.play();
     this.position.x = undefined;
     this.position.y = undefined;
+	pieScore += 500;
   }
   update() {
     if (this.alive === true) {
@@ -628,6 +630,7 @@ class Modal {
     ctx.fillStyle = "black";
     ctx.font = "20pt Arial";
     ctx.textAlign = "center";
+    
     // End score modal title heading
     ctx.fillText(`FINAL SCORE`, this.position.x * 1.55, this.position.y + 100);
     // Score from game play
@@ -1309,7 +1312,6 @@ addEventListener("keydown", ({ keyCode }) => {
         keys.spacebar.pressed = true;
         sonic.velocity.y -= 18;
       }
-
       break;
   }
 });
@@ -1413,7 +1415,7 @@ function displayPaws() {
 
 // Clear Timer
 //get the current timer
-current_timer = document.getElementById("countdown").innerHTML;
+let current_timer = document.getElementById("countdown").innerHTML;
 // stop the current on the click of esacpe key
 function clearTimer() {
   clearTimeout(timeout);
@@ -1490,21 +1492,30 @@ function TimeUp() {
     keepAnimating = false;
     // tsi
     showFinal_details();
-
+    
     gameoverscreen.classList.remove("hide");
     gameoverscreen.style.display = "flex";
   }
 }
+
 // select all the needed ids for score display
 let score_endModal = document.getElementById("s_core");
 let timer_bonusModal = document.getElementById("t_imer");
 let f_nalModal = document.getElementById("f_score");
 
-// grab Izzy's solutions call them in this function
+// Update the scores and set the total score
+
 const showFinal_details = () => {
-  score_endModal.innerHTML = `Score: ${score}`;
-  timer_bonusModal.innerHTML = `Timer Bonus: ${i} x 100`;
-  f_nalModal.innerHTML = `Final Score: ${Math.floor(score + i * 100)} `;
+  score_endModal.innerHTML = currentScore.innerHTML;
+
+  if (i > 0) {
+    timer_bonusModal.innerHTML = "Timer Bonus:  " + `${Math.abs(i) * 100}`;
+  } else {
+    timer_bonusModal.innerHTML = "Timer Bonus:  " + `0`;
+  }
+
+  let TotalScore = score + parseInt(`${Math.abs(i) * 100}`);
+  f_nalModal.innerHTML = "Final score:  " + TotalScore;
   return;
 };
 
@@ -1521,10 +1532,11 @@ LeaderBoardQuit.addEventListener("click", Quit);
 
 // get score based on scroll position -- called in animate function
 function getScore() {
-  // set score equal to scrollPosition
-  score = scrollPosition;
-  document.getElementById("currentScore").innerHTML = `Score: ${score}`;
+	// set score equal to scrollPosition
+	score = pieScore + scrollPosition;
+	currentScore.innerHTML = `Score: ${score}`
 }
+
 
 function setVolume() {
   hungry.volume = 0.5;
