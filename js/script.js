@@ -1410,19 +1410,17 @@ function undoDisplay() {
 
 let i = Math.max(60);
 let timeout;
-let stopTime = Math.min(0);
+let stopTime = 0;
 
 function onTimer() {
 	document.getElementById("countdown").innerHTML = i;
 	i--;
 	timeout = setTimeout(onTimer, 1000);
-	if (i <= stopTime) {
+	if (i <= stopTime && stopTime === 0) {
 		clearTimeout(timeout);
-		// setTimeout(
-		//   () => window.open("http://127.0.0.1:5505/game%20over.html"),
-		//   1000
-		// );
+		return
 	}
+	
 }
 
 //Paws Menu
@@ -1547,7 +1545,6 @@ let f_nalModal = document.getElementById("f_score");
 // Update the scores and set the total score
 
 const showFinal_details = () => {
-	onTimer()
 	score_endModal.innerHTML = currentScore.innerHTML;
 
 	if(i>0){
