@@ -20,6 +20,7 @@ Menu_Canvas.width = 1920;
 Menu_Canvas.height = 1080;
 let keepAnimating = true;
 let grounded;
+let hurt;
 
 //// Title page ////
 const titleBG = new Image();
@@ -1103,14 +1104,7 @@ function animate() {
       if (health < 0) {
         // startGame();
       } else {
-        // tsi
-
-        pain.play();
-
-        // decrements health and pushes player back slightly
-        health--;
-        sonic.position.y -= 50;
-        sonic.position.x -= 150;
+        Hurt();
       }
     }
     horizontalSaw.update();
@@ -1129,11 +1123,7 @@ function animate() {
       if (health < 0) {
         // startGame();
       } else {
-        pain.play(); //tsi
-        // decrements health and pushes player back slightly
-        health--;
-        sonic.position.y -= 50;
-        sonic.position.x -= 150;
+        Hurt();
       }
     }
     verticalSaw.update();
@@ -1149,10 +1139,7 @@ function animate() {
       sonic.position.y <= waterDrop.position.y + waterDrop.height
     ) {
       // decrements health and pushes player back slightly
-      pain.play(); //tsi
-      health--;
-      sonic.position.y -= 50;
-      sonic.position.x -= 150;
+      Hurt();
     }
     waterDrop.update();
   });
@@ -1167,10 +1154,7 @@ function animate() {
       sonic.position.y <= skeletonHand.position.y + skeletonHand.height
     ) {
       // decrements health and pushes player back slightly
-      pain.play(); //tsi
-      health--;
-      sonic.position.y -= 50;
-      sonic.position.x -= 150;
+      Hurt();
     }
   });
 
@@ -1293,6 +1277,7 @@ function animate() {
   playBGM();
   getScore();
   setVolume();
+  HurtAnim();
 }
 
 // character movement on keydown
@@ -1308,7 +1293,7 @@ addEventListener("keydown", ({ keyCode }) => {
       break;
     case 32:
     case 38:
-      if (!keys.spacebar.pressed) {
+      if (!keys.spacebar.pressed && grounded) {
         keys.spacebar.pressed = true;
         sonic.velocity.y -= 18;
       }
@@ -1542,4 +1527,36 @@ function setVolume() {
   hungry.volume = 0.5;
   pain.volume = 0.5;
   angry.volume = 0.5;
+}
+
+function Hurt(){
+	pain.play(); //tsi
+	hurt = true;
+	// sonic.position = 
+	sonic.position.y -= 10;
+	sonic.position.x -= 10;
+	// console.log(sonic.position.x)
+	if(sonic.position.x < 50){
+		sonic.position.x = 50;
+	}
+}
+
+function HurtAnim(){
+	let lastPos = sonic.position.y;
+	if (hurt  && !grounded){
+		if(sonic.position.y > lastPos){
+			sonic.position.y = lastPos - 10;
+		}
+			lastPos = sonic.position.y;
+			sonic.position.y -= 5;
+		if (right){
+			sonic.position.x -= 10;
+		}
+		else if (!right){
+			sonic.position.x += 10;
+		}
+		keys.spacebar.pressed = true;
+	}
+	else hurt = false;
+	keys.spacebar.pressed = false;
 }
