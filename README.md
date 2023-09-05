@@ -4,7 +4,7 @@ A side-scrolling, web-based game developed by Ice Code--an apprentice team of we
 
 ## Motivation
 
-A project challenging us to expand our roles in tech as engineers, project managers, UI/UX desiginers and researchers, and digital marketers.
+A project challenging us to expand our roles in tech as engineers, project managers, UI/UX designers and researchers, and digital marketers.
 
 ## Requirements to Run
 
